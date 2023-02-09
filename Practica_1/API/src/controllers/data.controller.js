@@ -12,6 +12,12 @@ export const getData = async (req, res) => {
     // });
 };
 
+export const getAllData = async (req, res) => {
+    const [rows] = await pool.query("SELECT * FROM datos");
+    res.send(rows);
+    console.log(rows);
+};
+
 export const createData = async (req, res) => 
 {
     const { sensor, dato } = req.body;
