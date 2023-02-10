@@ -27,3 +27,13 @@ export const createData = async (req, res) =>
         dato
     });
 };
+
+export const pushData = async (req, res) => 
+{
+    let temp = req.body;
+    let sensor = temp.map((item) => item.sensor);
+    let dato = temp.map((item) => item.dato);
+    console.log(sensor, dato);
+    const [rows] = await pool.query("INSERT INTO datos (sensor, dato) VALUES (?, ?), (?, ?), (?, ?), (?, ?), (?, ?), (?, ?)", [sensor[0], dato[0], sensor[1], dato[1], sensor[2], dato[2], sensor[3], dato[3], sensor[4], dato[4], sensor[5], dato[5]]);
+    res.send("OK");
+};
