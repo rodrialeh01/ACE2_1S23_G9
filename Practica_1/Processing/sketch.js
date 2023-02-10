@@ -2,7 +2,7 @@ let img, img2, img3, img4;
 let button;
 function setup() {
     // put setup code here
-    createCanvas(windowWidth,windowHeight);
+    createCanvas(windowWidth,windowHeight, P2D);
     background(0,204,204);
     img = createImg('./3534501.png','temperature');
     img2 = createImg('./humedad.png','humedad');
@@ -15,7 +15,7 @@ function draw() {
   textSize(30);
   textAlign(LEFT);
   fill(255,255,255);
-  text("Estación Meteorológica IOT - Grupo 9",50,50)
+  text("Estación Meteorológica IOT - Grupo 9", 50, 50)
 
   //TEMPERATURA
   //-RECTANGULO
