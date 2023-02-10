@@ -18,10 +18,10 @@ function setup() {
     // put setup code here
     createCanvas(windowWidth,windowHeight);
     background(0,204,204);
-    img = createImg('./3534501.png','temperature');
-    img2 = createImg('./humedad.png','humedad');
-    img3 = createImg('./aire.png','aire');
-    img4 = createImg('./presion.png','presion');
+    img = createImg('../images/3534501.png','temperature');
+    img2 = createImg('../images/humedad.png','humedad');
+    img3 = createImg('../images/aire.png','aire');
+    img4 = createImg('../images/presion.png','presion');
 }
 
 function draw() {
