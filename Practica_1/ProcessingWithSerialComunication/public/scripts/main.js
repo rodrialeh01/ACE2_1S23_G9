@@ -3,11 +3,44 @@ const display = document.querySelector('#display');
 const socket = io();
 
 let txtPrueba = ""
+let temp = "";
+let temperatura="";
+let humedadR="";
+let presion="";
+let direccion="";
+
 
 socket.on('data', (data) => {
-    console.log("hola"+data);
+  //  console.log("hola"+data);
     // display.innerHTML = data;
     txtPrueba = data;
+    temp = txtPrueba.split("/");
+    //temp = temp.replace("\r", "");
+    if(temp[0] == "T"){
+        temperatura = temp[1];
+    }
+    if(temp[0] == "H"){
+        humedadR = temp[1];
+    }
+    if(temp[0] == "P"){
+      direccion = temp[1];
+      if(direccion == "n"){
+        direccion = "Norte";
+      }
+      if(direccion == "s"){
+        direccion = "Sur";
+      }
+      if(direccion == "e"){
+        direccion = "Este";
+      }
+      if(direccion == "o"){
+        direccion = "Oeste";
+      }
+      else{
+        direccion = temp[1];
+      }
+    }
+    console.log(temperatura);
 });
 
 // ACA EMPIEZA EL CODIGO DE P5.JS TUYO RAIDRI
@@ -48,10 +81,10 @@ function draw() {
   textSize(30);
   fill(255,255,255);
   text("Temperatura",220,150);
-  textSize(50);
+  textSize(35);
   fill(255,255,255);
-  text(txtPrueba,250,220);
-
+  //text(txtPrueba,250,220);
+  text(temperatura+"ºC",250,220);
   //HUMEDAD RELATIVA
   //-RECTANGULO
   fill('#063564');
@@ -69,9 +102,9 @@ function draw() {
   textSize(30);
   fill(255,255,255);
   text("Humedad relativa",640,150);
-  textSize(50);
+  textSize(35);
   fill(255,255,255);
-  text("25ºC",710,220);
+  text(humedadR+" ºC",710,220);
 
   //HUMEDAD ABSOLUTA
   //-RECTANGULO
@@ -90,7 +123,7 @@ function draw() {
   textSize(27);
   fill(255,255,255);
   text("Humedad Absoluta",1090,150);
-  textSize(50);
+  textSize(35);
   fill(255,255,255);
   text("25g/m",1110,220);
   textSize(20);
@@ -113,7 +146,7 @@ function draw() {
   textSize(25);
   fill(255,255,255);
   text("Velocidad del Viento",200,350);
-  textSize(50);
+  textSize(35);
   fill(255,255,255);
   text("25km/h",250,420);
 
@@ -134,9 +167,9 @@ function draw() {
   textSize(25);
   fill(255,255,255);
   text("Dirección del Viento",650,350);
-  textSize(50);
+  textSize(35);
   fill(255,255,255);
-  text("Sur",700,420);
+  text(direccion,700,420);
 
   //PRESIÓN BAROMÉTRICA
   //-RECTANGULO
@@ -155,7 +188,7 @@ function draw() {
   textSize(27);
   fill(255,255,255);
   text("Presión Barométrica",1090,350);
-  textSize(50);
+  textSize(35);
   fill(255,255,255);
   text("25mmHg",1110,420);
   textSize(20);
