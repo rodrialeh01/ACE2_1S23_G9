@@ -4,42 +4,56 @@ const socket = io();
 
 let txtPrueba = ""
 let temp = "";
+
 let temperatura="";
 let humedadR="";
+let humedadA="";
 let presion="";
 let direccion="";
-
+let velocidad="";
 
 socket.on('data', (data) => {
   //  console.log("hola"+data);
     // display.innerHTML = data;
     txtPrueba = data;
     temp = txtPrueba.split("/");
-    //temp = temp.replace("\r", "");
     if(temp[0] == "T"){
         temperatura = temp[1];
     }
-    if(temp[0] == "H"){
+    if(temp[0] == "HR"){
         humedadR = temp[1];
     }
-    if(temp[0] == "P"){
+    if(temp[0] == "HA"){
+      humedadR = temp[1];
+    }
+    if(temp[0] == "D"){
       direccion = temp[1];
-      if(direccion == "n"){
+      if(direccion == "n\r"){
         direccion = "Norte";
       }
-      if(direccion == "s"){
+      else if(direccion == "s\r"){
         direccion = "Sur";
       }
-      if(direccion == "e"){
+      else if(direccion == "e\r"){
         direccion = "Este";
       }
-      if(direccion == "o"){
+      else if(direccion == "o\r"){
         direccion = "Oeste";
       }
       else{
         direccion = temp[1];
       }
     }
+    if(temp[0] == "P"){
+      presion = temp[1];
+    }
+    if(temp[0] == "V"){
+      velocidad = temp[1];
+    }
+    if(temp[0] == "HA"){
+      humedadA = temp[1];
+    }
+    
     console.log(temperatura);
 });
 
@@ -125,7 +139,7 @@ function draw() {
   text("Humedad Absoluta",1090,150);
   textSize(35);
   fill(255,255,255);
-  text("25g/m",1110,220);
+  text(humedadA+"g/m",1110,220);
   textSize(20);
   text("3",1250,190);
 
@@ -148,7 +162,7 @@ function draw() {
   text("Velocidad del Viento",200,350);
   textSize(35);
   fill(255,255,255);
-  text("25km/h",250,420);
+  text(velocidad+"km/h",250,420);
 
   //DIRECCION DEL VIENTO
   //-RECTANGULO
@@ -190,7 +204,7 @@ function draw() {
   text("Presión Barométrica",1090,350);
   textSize(35);
   fill(255,255,255);
-  text("25mmHg",1110,420);
+  text(presion+"mmHg",1110,420);
   textSize(20);
   text("3",1250,190);
 }
