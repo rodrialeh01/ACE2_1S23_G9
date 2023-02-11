@@ -12,10 +12,7 @@ let presion="";
 let direccion="";
 let velocidad="";
 
-let dataTemp = {
-  sensor: "",
-  dato: ""
-}
+let contador = 0;
 
 const enviarDatos = (datitosOk) => {
   fetch(`http://localhost:3000/datas`, {        
@@ -35,63 +32,75 @@ let arrData = [];
 socket.on('data', (data) => {
   //  console.log("hola"+data);
     // display.innerHTML = data;
+    
     txtPrueba = data;
     temp = txtPrueba.split("/");
     if(temp[0] == "T"){
-        temperatura = temp[1];
-        dataTemp.sensor = "T";
-        dataTemp.dato = temp[1];
-        arrData.push(dataTemp);
+        temperatura = temp[1].trim();
     }
     if(temp[0] == "HR"){
-        humedadR = temp[1];
-        dataTemp.sensor = "HR";
-        dataTemp.dato = temp[1];
-        arrData.push(dataTemp);
+        humedadR = temp[1].trim();
     }
     if(temp[0] == "HA"){
-      humedadA = temp[1];
-      dataTemp.sensor = "HA";
-      dataTemp.dato = temp[1];
-      arrData.push(dataTemp);
+      humedadA = temp[1].trim();
     }
     if(temp[0] == "D"){
-      direccion = temp[1];
-      dataTemp.sensor = "D";
-      dataTemp.dato = temp[1];
-      arrData.push(dataTemp);
-      if(direccion == "n\r"){
+      direccion = temp[1].trim();
+      if(direccion == "n"){
         direccion = "Norte";
       }
-      else if(direccion == "s\r"){
+      else if(direccion == "s"){
         direccion = "Sur";
       }
-      else if(direccion == "e\r"){
+      else if(direccion == "e"){
         direccion = "Este";
       }
-      else if(direccion == "o\r"){
+      else if(direccion == "o"){
         direccion = "Oeste";
       }
       else{
-        direccion = temp[1];
+        direccion = temp[1].trim();
       }
     }
     if(temp[0] == "P"){
-      presion = temp[1];
-      dataTemp.sensor = "P";
-      dataTemp.dato = temp[1];
-      arrData.push(dataTemp);
+      presion = temp[1].trim();
     }
     if(temp[0] == "V"){
-      velocidad = temp[1];
-      dataTemp.sensor = "V";
-      dataTemp.dato = temp[1];
-      arrData.push(dataTemp);
-      console.log(arrData);
-      enviarDatos(arrData);
+      velocidad = temp[1].trim();
+      let datos = [
+        {
+          "sensor": "T",
+          "dato": temperatura
+        },
+        {
+          "sensor": "HR",
+          "dato": humedadR
+        },
+        {
+          "sensor": "HA",
+          "dato": humedadA
+        },
+        {
+          "sensor": "D",
+          "dato": direccion
+        },
+        {
+          "sensor": "P",
+          "dato": presion
+        },
+        {
+          "sensor": "V",
+          "dato": velocidad
+        }
+      ]
+
+      if(temperatura != "" && humedadR != "" && humedadA != "" && direccion != "" && presion != "" && velocidad != ""){
+      enviarDatos(datos);
+      console.log(datos);
     }
+    }
+
     
-    console.log(temperatura);
 });
 
 // ACA EMPIEZA EL CODIGO DE P5.JS TUYO RAIDRI
