@@ -12,6 +12,26 @@ let presion="";
 let direccion="";
 let velocidad="";
 
+let dataTemp = {
+  sensor: "",
+  dato: ""
+}
+
+const enviarDatos = (datitosOk) => {
+  fetch(`http://localhost:3000/datas`, {        
+          method: 'POST',
+          body: JSON.stringify(datitosOk),
+          headers: {
+          'Content-Type': 'application/json',
+          'Access-Control-Allow-Origin': '*',
+          }
+      })
+          .then(res => res.json())
+          .catch(error => console.error('Error:', error));
+   }
+
+let arrData = [];
+
 socket.on('data', (data) => {
   //  console.log("hola"+data);
     // display.innerHTML = data;
@@ -19,15 +39,27 @@ socket.on('data', (data) => {
     temp = txtPrueba.split("/");
     if(temp[0] == "T"){
         temperatura = temp[1];
+        dataTemp.sensor = "T";
+        dataTemp.dato = temp[1];
+        arrData.push(dataTemp);
     }
     if(temp[0] == "HR"){
         humedadR = temp[1];
+        dataTemp.sensor = "HR";
+        dataTemp.dato = temp[1];
+        arrData.push(dataTemp);
     }
     if(temp[0] == "HA"){
-      humedadR = temp[1];
+      humedadA = temp[1];
+      dataTemp.sensor = "HA";
+      dataTemp.dato = temp[1];
+      arrData.push(dataTemp);
     }
     if(temp[0] == "D"){
       direccion = temp[1];
+      dataTemp.sensor = "D";
+      dataTemp.dato = temp[1];
+      arrData.push(dataTemp);
       if(direccion == "n\r"){
         direccion = "Norte";
       }
@@ -46,12 +78,17 @@ socket.on('data', (data) => {
     }
     if(temp[0] == "P"){
       presion = temp[1];
+      dataTemp.sensor = "P";
+      dataTemp.dato = temp[1];
+      arrData.push(dataTemp);
     }
     if(temp[0] == "V"){
       velocidad = temp[1];
-    }
-    if(temp[0] == "HA"){
-      humedadA = temp[1];
+      dataTemp.sensor = "V";
+      dataTemp.dato = temp[1];
+      arrData.push(dataTemp);
+      console.log(arrData);
+      enviarDatos(arrData);
     }
     
     console.log(temperatura);
