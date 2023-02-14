@@ -105,7 +105,7 @@ socket.on('data', (data) => {
 
 // ACA EMPIEZA EL CODIGO DE P5.JS TUYO RAIDRI
 
-let img, img2, img3, img4;
+let img, img2, img3, img4, imgprincipal;
 let button;
 function setup() {
     // put setup code here
@@ -115,14 +115,16 @@ function setup() {
     img2 = createImg('../images/humedad.png','humedad');
     img3 = createImg('../images/aire.png','aire');
     img4 = createImg('../images/presion.png','presion');
+    imgprincipal = createImg('../images/clima.png','clima');
 }
 
 function draw() {
   // TITULO PRINCIPAL
+  image(imgprincipal,50,20,50,50);
   textSize(30);
   textAlign(LEFT);
   fill(255,255,255);
-  text("Estación Meteorológica IOT - Grupo 9",50,50)
+  text("Estación Meteorológica IOT - Grupo 9",120,50)
 
   //TEMPERATURA
   //-RECTANGULO
