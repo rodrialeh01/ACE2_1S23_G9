@@ -17,7 +17,7 @@ socket.on('data', (data) => {
 
 async function getResponse() {
 	const response = await fetch(
-		`http://localhost:3000/data/V`,
+		`http://localhost:3000/data/HA`,
 		{
 			method: 'GET',
 			headers: {
@@ -83,7 +83,7 @@ function ejex(datos){
 		let mapeo = map(i,0,max(datos),0,ancho_g);
 		line(mapeo, 0, mapeo, alto_g);
 		textAlign(CENTER);
-		text(i + "km/h", mapeo, alto_g+20);
+		text(i + "g/m3", mapeo, alto_g+20);
 	}
 }
 

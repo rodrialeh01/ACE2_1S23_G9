@@ -253,29 +253,6 @@ function draw() {
   text(presion+"mmHg",1110,420);
   textSize(20);
   text("3",1250,190);
-
-  //PUNTO DE ROCIO
-  //-RECTANGULO
-  fill('#063564');
-  noStroke();
-  rect(950, 490, 400, 180, 20);
-  describe(
-    'Rectángulo de información de la humedad', 
-  );
-
-  //-IMAGEN
-  
-  image(img2,950,700,150,150);
-  
-  //-TEXTO
-  textSize(27);
-  fill(255,255,255);
-  text("Punto de Rocío",1090,550);
-  textSize(35);
-  fill(255,255,255);
-  text("g/m",1110,620);
-  textSize(20);
-  text("3",1250,190);
 }
 
 function windowResized() {

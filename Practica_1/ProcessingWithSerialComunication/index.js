@@ -11,7 +11,7 @@ const http = require('http');
 const parser = new ReadlineParser();
 
 const port = new SerialPort({
-    path: 'COM3',
+    path: 'COM4',
     baudRate: 9600,
     autoOpen: false
   })
