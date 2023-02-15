@@ -66,19 +66,22 @@ void loop() {
 
   // Reading temperature or humidity takes about 250 milliseconds!
   // Sensor readings may also be up to 2 seconds 'old' (its a very slow sensor)
-  float h = dht.readHumidity();
+  float hr = dht.readHumidity();
   // Read temperature as Celsius (the default)
   float t = dht.readTemperature();
   
 
   // Check if any reads failed and exit early (to try again).
-  if (isnan(h) || isnan(t)) {
+  if (isnan(hr) || isnan(t)) {
     Serial.println(F("Failed to read from DHT sensor!"));
     return;
   }
-
-  Serial.print("H/");
-  Serial.println(h);
+  float ha = (6.112*exp((17.67*t)/(t+243.5))*(h/100)*2.1674)/(273.15+t);
+  Serial.print("HR/");
+  Serial.println(hr);
+  delay(500);
+  Serial.print("HA/");
+  Serial.println(ha);
   delay(500);
   Serial.print("T/");
   Serial.println(t);
@@ -86,31 +89,31 @@ void loop() {
   if(digitalRead(norte) == 1)
   {
     digitalWrite(led, 1);
-    Serial.print("P/");
+    Serial.print("D/");
     Serial.println("Norte");
   }
   else if(digitalRead(sur) == 1)
   {
     digitalWrite(led, 1);
-    Serial.print("P/");
+    Serial.print("D/");
     Serial.println("Sur");
   }
   else if(digitalRead(este) == 1)
   {
     digitalWrite(led, 1);
-    Serial.print("P/");
+    Serial.print("D/");
     Serial.println("Este");
   }
   else if(digitalRead(oeste) == 1)
   {
     digitalWrite(led, 1);
-    Serial.print("P/");
+    Serial.print("D/");
     Serial.println("Oeste");
   }
   else
   {
     digitalWrite(led, 0);
-    Serial.println("P/0");
+    Serial.println("D/0");
   }
 }
 
