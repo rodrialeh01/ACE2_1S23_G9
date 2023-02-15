@@ -4,8 +4,8 @@ let puntos = [];
 let datos = []
 let labels = []
 
-let ancho_c = 1000;
-let alto_c = 800;
+let ancho_c = 1300;
+let alto_c = 15000;
 let margen = {derecha: 20, izquierda: 110, superior: 10, inferior: 40};
 let ancho_g = ancho_c - margen.derecha - margen.izquierda;
 let alto_g = alto_c - margen.superior - margen.inferior;
@@ -34,7 +34,7 @@ async function getResponse() {
 	labels = tiempoTemp;
 	console.log(datos);
 	console.log(labels);
-	createCanvas(windowWidth, windowHeight);
+	createCanvas(windowWidth, 15000);
 	background(233,157,15);	
 	push();
 	translate(margen.izquierda, margen.derecha);

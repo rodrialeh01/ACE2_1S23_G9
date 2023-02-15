@@ -109,7 +109,7 @@ let img, img2, img3, img4, imgprincipal;
 let button;
 function setup() {
     // put setup code here
-    createCanvas(windowWidth,windowHeight);
+    createCanvas(windowWidth+(windowWidth*0.25),windowHeight);
     background(0,204,204);
     img = createImg('../images/3534501.png','temperature');
     img2 = createImg('../images/humedad.png','humedad');
