@@ -62,7 +62,7 @@ socket.on('data', (data) => {
         direccion = temp[1].trim();
       }
     }
-    if(temp[0] == "P"){
+    if(temp[0] == "Pr"){
       presion = temp[1].trim();
     }
     if(temp[0] == "V"){

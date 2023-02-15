@@ -42,7 +42,7 @@ void setup() {
   pulses = 0;
   rpm = 0;
   timeold = 0;
-  Serial.println("Velocity[Km/h]");
+  //Serial.println("Velocity[Km/h]");
   digitalWrite(led, 0);
   dht.begin();
 }
@@ -53,6 +53,7 @@ void loop() {
       rpm = (60 * 1000 / pulsesperturn )/ (millis() - timeold)* pulses; // Calculamos las revoluciones por minuto
       velocity = rpm * 3.1416 * wheel_diameter * 60 / 1000000; // Cálculo de la velocidad en [Km/h] 
       timeold = millis(); // Almacenamos el tiempo actual.
+      Serial.print("V/");
       Serial.println(velocity,2); 
       pulses = 0;  // Inicializamos los pulsos.
       interrupts(); // Restart the interrupt processing // Reiniciamos la interrupción
@@ -76,7 +77,7 @@ void loop() {
     Serial.println(F("Failed to read from DHT sensor!"));
     return;
   }
-  float ha = (6.112*exp((17.67*t)/(t+243.5))*(h/100)*2.1674)/(273.15+t);
+  float ha = (6.112*exp((17.67*t)/(t+243.5))*(hr/100)*2.1674)/(273.15+t);
   Serial.print("HR/");
   Serial.println(hr);
   delay(500);
