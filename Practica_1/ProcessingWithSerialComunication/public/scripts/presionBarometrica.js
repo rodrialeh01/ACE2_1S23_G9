@@ -35,7 +35,7 @@ async function getResponse() {
 	console.log(datos);
 	console.log(labels);
 	createCanvas(windowWidth, 15000);
-	background(233,157,15);	
+	background(226,198,198);
 	push();
 	translate(margen.izquierda, margen.derecha);
 	ejex(datos);

@@ -72,7 +72,7 @@ async function getResponse() {
 	console.log(contadores_dia);
 	console.log(fechas);
 	createCanvas(windowWidth, 15000);
-	background(233,157,15);	
+	background(96,121,103);	
 	push();
 	translate(margen.izquierda, margen.derecha);
 	//ejex(datos);

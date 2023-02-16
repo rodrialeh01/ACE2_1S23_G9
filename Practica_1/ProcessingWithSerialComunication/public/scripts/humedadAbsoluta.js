@@ -28,7 +28,7 @@ async function getResponse() {
 	);
 	const data = await response.json(); // Extracting data as a JSON Object from the response
 
-    let datosTemp = data.map((item) => { return int(item.dato); });
+    let datosTemp = data.map((item) => { return Number(item.dato); });
     let tiempoTemp = data.map((item) => { return new Date(item.fecha).getDate()+"/" + (new Date(item.fecha).getMonth()+1) + "/" + new Date(item.fecha).getFullYear()+ " "+ new Date(item.fecha).getHours() + ":" + new Date(item.fecha).getMinutes() + ":" + new Date(item.fecha).getSeconds(); });
 	datos= datosTemp;
 	for(let i = 0; i < datos.length; i++){
@@ -38,7 +38,7 @@ async function getResponse() {
 	console.log(datos);
 	console.log(labels);
 	createCanvas(windowWidth, 15000);
-	background(233,157,15);	
+	background(198,222,226);
 	push();
 	translate(margen.izquierda, margen.derecha);
 	ejex(datos);
