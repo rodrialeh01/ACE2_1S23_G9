@@ -10,9 +10,9 @@ let margen = {derecha: 20, izquierda: 110, superior: 10, inferior: 40};
 let ancho_g = ancho_c - margen.derecha - margen.izquierda;
 let alto_g = alto_c - margen.superior - margen.inferior;
 let anchobanda;
-let contador_norte, contador_sur, contador_este, contador_oeste, contador_fechas = 0;
-let fecha_actual;
-let dia = 0;
+let contador_norte=0, contador_sur=0, contador_este=0, contador_oeste = 0;
+let fechas = [];
+let contadores_dia = [];
 
 socket.on('data', (data) => {
     //console.log("hola"+data);
@@ -31,23 +31,46 @@ async function getResponse() {
 	);
 	const data = await response.json(); // Extracting data as a JSON Object from the response
 
-    let datosTemp = data.map((item) => { return int(item.dato); });
+    let datosTemp = data.map((item) => { return item.dato; });
+
     let tiempoTemp = data.map((item) => { return new Date(item.fecha).getDate()+"/" + (new Date(item.fecha).getMonth()+1) + "/" + new Date(item.fecha).getFullYear()+ " "+ new Date(item.fecha).getHours() + ":" + new Date(item.fecha).getMinutes() + ":" + new Date(item.fecha).getSeconds(); });
 	let dia2 = int(data.map((item) => {return new Date(item.fecha).getDate()}))
-	if(dia != dia2){
-        dia = dia2;
-        contador_fechas++;
-    }
-    /* RECORDATORIO PERSONAL XD (Si alguien lee esto que no sea el que haya hecho el commit ignorelo sino pues equis xd) 
-    * 1. PLAN: Obtener cada fecha y guardarla en un arteglo, para luego verificar cuantas fechas hay que mostrar en el texto 
-    * 2. PARTE 2: Contar cuantas veces se repite cada punto cardinal por dia
-    * 3. Si me sale gud hago de lo de la grafica de barras o tal vez no, mejor pregunto en el grupo para asegurar
-    * 4. Si no sale entonces mejor solo copio y pego la grafica de barras de las anteriores y que ahi se quede la grafica o solo dejar el intento de la radial, igual pregunto en el grupo
-    */
+	let dia3 = data.map((item) => {return new Date(item.fecha).getDate() + "/" + (new Date(item.fecha).getMonth()+1) + "/" + new Date(item.fecha).getFullYear()})
+	for(let i = 0; i < dia2.length; i++){
+		if(i<=dia2.length){
+			if(dia2[i] != int(dia2[i+1])){
+				contadores_dia.push({norte: contador_norte, sur: contador_sur, este: contador_este, oeste: contador_oeste, fecha: dia3[i]})
+				contador_norte = 0;
+				contador_sur = 0;
+				contador_este = 0;
+				contador_oeste = 0;
+				console.log(datosTemp);
+				if(datosTemp[i] == "Norte"){
+					contador_norte++;
+				}else if(datosTemp[i] == "Sur"){
+					contador_sur++;
+				}else if(datosTemp[i] == "Este"){
+					contador_este++;
+				}else if(datosTemp[i] == "Oeste"){
+					contador_oeste++;
+				}
+			}else{
+				if(datosTemp[i] == "Norte"){
+					contador_norte++;
+				}else if(datosTemp[i] == "Sur"){
+					contador_sur++;
+				}else if(datosTemp[i] == "Este"){
+					contador_este++;
+				}else if(datosTemp[i] == "Oeste"){
+					contador_oeste++;
+				}
+			}
+		}
+	}
     datos= datosTemp;
 	labels = tiempoTemp;
-	console.log(datos);
-	console.log(labels);
+	console.log(contadores_dia);
+	console.log(fechas);
 	createCanvas(windowWidth, 15000);
 	background(233,157,15);	
 	push();
@@ -76,8 +99,8 @@ function grafico(datos){
 		let mapeo = map(datos[i], 0, max(datos), 0, ancho_g);
 		barra(anchobanda * i, mapeo);
 	}*/
-    for(let i = 0; i < 4; i++){
-        circulos(i,i);
+    for(let i = 0; i < contadores_dia.length; i++){
+        circulos(i,i,i);
     }
 }
 
@@ -92,7 +115,7 @@ function ejey(labels){
 	}
 }
 
-function circulos(x,y){
+function circulos(x,y,posicion){
     noStroke();
     fill(0);
     ellipse(500,50+(y*100),100,100);
@@ -102,9 +125,17 @@ function circulos(x,y){
     fill(255);
     textSize(20);
     text("Norte", 475, 50+(y*100));
+	text(contadores_dia[posicion].fecha,550,50+(y*100));
+	text(contadores_dia[posicion].norte,575,75+(y*100));
     text("Sur", 485, 1005-(y*100));
+	text(contadores_dia[posicion].fecha,550,1005-(y*100));
+	text(contadores_dia[posicion].sur,575,1030-(y*100));
     text("Oeste", 0+(x*100), 500);
+	text(contadores_dia[posicion].fecha,0+(x*100), 575);
+	text(contadores_dia[posicion].oeste,40+(x*100), 600);
     text("Este", 975-(x*100), 500);
+	text(contadores_dia[posicion].fecha, 975-(x*100), 575);
+	text(contadores_dia[posicion].este, 1015-(x*100), 600);
 }
 
 function ejex(datos){
@@ -120,7 +151,7 @@ function ejex(datos){
 }
 
 function draw() {
-    for(let i = 0; i < 4; i++){
+    for(let i = 0; i < contadores_dia.length; i++){
         lineas(i,i);
     }
 }
