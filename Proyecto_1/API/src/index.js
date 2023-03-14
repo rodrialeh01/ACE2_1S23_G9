@@ -14,7 +14,7 @@ app.get("/ping", async (req, res) => {
     res.send("pong");
 });
 
-app.post("/ping", async (req, res) => {
+app.post("/pong", async (req, res) => {
     console.log(req.body);
 });
 
