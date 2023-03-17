@@ -142,7 +142,7 @@ p {
 }
 
 ::selection {
-  background: #e75e8d;
+  background: #FF3333;
   color: #fff;
 }
 
@@ -159,7 +159,7 @@ p {
 .main-button a {
   font-size: 14px;
   color: #fff;
-  background-color: #e75e8d;
+  background-color: #FF706C;
   padding: 12px 30px;
   display: inline-block;
   border-radius: 25px;
@@ -214,7 +214,7 @@ section {
 }
 
 .heading-section h4 {
-  color: #ec6090;
+  color: #FF3333;
   font-size: 34px;
   text-decoration: none;
   margin-bottom: 30px;
@@ -299,7 +299,7 @@ Pre-loader Style
   height: 16px;
   top: 12px;
   left: 15px;
-  background: #e75e8d;
+  background: #a51414;
   border-radius: 50%;
   -webkit-transform: translateX(0);
   transform: translateX(0);
@@ -322,7 +322,7 @@ Pre-loader Style
   width: 16px;
   height: 16px;
   margin-left: 16px;
-  background: #e75e8d;
+  background: #a51414;
   border-radius: 50%;
 }
 
@@ -461,7 +461,7 @@ Header Style
 }
 
 .header-area .main-nav .nav li:last-child a {
-  background-color: #27292a;
+  background-color: #303030;
   padding: 8px 10px 8px 20px;
   border-radius: 23px;
 }
@@ -479,7 +479,7 @@ Header Style
 
 .header-area .main-nav .nav li:hover a,
 .header-area .main-nav .nav li a.active {
-  color: #e75e8d !important;
+  color: #FF3333 !important;
 }
 
 .header-area .main-nav .nav li:last-child:hover a,
@@ -796,7 +796,7 @@ Banner Style
 
 .main-banner h4 em {
   font-style: normal;
-  color: #ec6090;
+  color: #C1241F;
 }
 
 /* 
@@ -1733,3 +1733,4 @@ body {
     width: 16%;
   }
 }
+

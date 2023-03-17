@@ -1,0 +1,17 @@
+{
+    "short_name":"PomodoroAPP",
+    "name":"PomodoroAPP - G9",
+    "icons": [
+        {
+            "src": "/assets/images/logo2.png",
+            "sizes": "500x500",
+            "type": "image/png"
+        }
+    ],
+    "start_url": "/index.html",
+    "background_color": "#ffffff",
+    "display": "standalone",
+    "scope": "/",
+    "theme_color": "#ffffff",
+    "description": "Aplicación web hecha para medir la aplicación de la tecnica Pomodoro"
+}
