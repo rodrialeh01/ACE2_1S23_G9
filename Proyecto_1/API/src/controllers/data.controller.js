@@ -1,40 +1,33 @@
 import { pool } from "../db.js";
 
-export const getData = async (req, res) => {
-    // const [rows] = await pool.query("SELECT * FROM datos WHERE sensor = ?", [req.params.sensor]);
-    const [rows] = await pool.query("SELECT dato FROM datos WHERE sensor='?' AND fecha > '2023-02-19 : 00:00:00'", [req.params.sensor]);
-    res.send(rows);
-    console.log(rows);
-    // rows.map((item) => {
-    //     let date = new Date(item.fecha);
-    //     let fecha = `${date.getDate()}/${date.getMonth() + 1}/${date.getFullYear()}`
-    //     let hora = `${date.getHours()}:${date.getMinutes()}:${date.getSeconds()}`
-    //     console.log(fecha, hora);
-    // });
-};
+// export const getData = async (req, res) => {
+//     // const [rows] = await pool.query("SELECT * FROM datos WHERE sensor = ?", [req.params.sensor]);
+//     const [rows] = await pool.query("SELECT dato FROM datos WHERE sensor='?' AND fecha > '2023-02-19 : 00:00:00'", [req.params.sensor]);
+//     res.send(rows);
+//     console.log(rows);
+//     // rows.map((item) => {
+//     //     let date = new Date(item.fecha);
+//     //     let fecha = `${date.getDate()}/${date.getMonth() + 1}/${date.getFullYear()}`
+//     //     let hora = `${date.getHours()}:${date.getMinutes()}:${date.getSeconds()}`
+//     //     console.log(fecha, hora);
+//     // });
+// };
 
-export const getAllData = async (req, res) => {
-    const [rows] = await pool.query("SELECT * FROM datos");
-    res.send(rows);
-    console.log(rows);
-};
-
-export const createData = async (req, res) => 
+export const configurarPomodoro = async (req, res) => 
 {
-    const { sensor, dato } = req.body;
-    const [rows] = await pool.query("INSERT INTO datos (sensor, dato) VALUES (?, ?)", [sensor, dato]);
+    // INSERT INTO `configuracion` (`id_usuario`, `nombre`, `tiempo_trabajo`, `tiempo_descanso`, `tiempo_sistema`) VALUES (NULL, 'prueba', '15', '5', current_timestamp());
+    const { nombre, tiempo_trabajo, tiempo_descanso } = req.body;
+    const [rows] = await pool.query("INSERT INTO configuracion (nombre, tiempo_trabajo, tiempo_descanso) VALUES (?, ?, ?)", [nombre, tiempo_trabajo, tiempo_descanso]);
+    console.log(rows);
     res.send( { 
-        sensor,
-        dato
+        id: rows.insertId
     });
 };
 
-export const pushData = async (req, res) => 
+export const dataPomodoro = async (req, res) => 
 {
-    let temp = req.body;
-    let sensor = temp.map((item) => item.sensor);
-    let dato = temp.map((item) => item.dato);
-    console.log(sensor, dato);
-    const [rows] = await pool.query("INSERT INTO datos (sensor, dato) VALUES (?, ?), (?, ?), (?, ?), (?, ?), (?, ?), (?, ?)", [sensor[0], dato[0], sensor[1], dato[1], sensor[2], dato[2], sensor[3], dato[3], sensor[4], dato[4], sensor[5], dato[5]]);
+    // INSERT INTO `datos` (`id`, `id_usuario`, `tiempo`, `estado`, `id_pomodoro`, `fase_pomodoro`) VALUES (NULL, '2', current_timestamp(), '0', '1', '2');
+    const {id_usuario, estado, id_pomodoro, fase_pomodoro} = req.body;
+    const [rows] = await pool.query("INSERT INTO datos (id_usuario, estado, id_pomodoro, fase_pomodoro) VALUES (?, ?, ?, ?)", [id_usuario, estado, id_pomodoro, fase_pomodoro]);
     res.send("OK");
 };

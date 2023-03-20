@@ -1,15 +1,14 @@
 import { Router } from "express";
-import { getData, createData, getAllData, pushData } from "../controllers/data.controller.js";
+import { configurarPomodoro, dataPomodoro } from "../controllers/data.controller.js";
 
 const router = Router();
 
+router.post("/confPD", configurarPomodoro);
 
-router.get("/data/:sensor", getData);
+router.post("/dataPomodoro", dataPomodoro);
 
-router.get("/data", getAllData);
+// router.get("/data/:sensor", getData);
 
-router.post("/data", createData);
-
-router.post("/datas", pushData);
+// router.get("/data", getAllData);
 
 export default router;

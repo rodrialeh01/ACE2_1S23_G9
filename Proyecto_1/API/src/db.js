@@ -4,6 +4,6 @@ export const pool = createPool({
     host: 'localhost',
     user: 'root',
     password: '',
-    database: 'p1data',
+    database: 'proyecto1_g9',
     port: 3306
 });
