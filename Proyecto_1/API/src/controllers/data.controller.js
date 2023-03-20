@@ -31,3 +31,17 @@ export const dataPomodoro = async (req, res) =>
     const [rows] = await pool.query("INSERT INTO datos (id_usuario, estado, id_pomodoro, fase_pomodoro) VALUES (?, ?, ?, ?)", [id_usuario, estado, id_pomodoro, fase_pomodoro]);
     res.send("OK");
 };
+
+export const getLastId = async (req, res) =>
+{
+    const [rows] = await pool.query("SELECT MAX(id_usuario) AS actual_id_user FROM configuracion");
+    res.send(rows);
+}
+
+export const updateConfig = async (req, res) =>
+{
+    // UPDATE `configuracion` SET `tiempo_trabajo` = '4', `tiempo_descanso` = '53' WHERE `configuracion`.`id_usuario` = 4;
+    const { tiempo_trabajo, tiempo_descanso, id_usuario } = req.body;
+    const [rows] = await pool.query("UPDATE configuracion SET tiempo_trabajo = ?, tiempo_descanso = ? WHERE id_usuario = ?", [ tiempo_trabajo, tiempo_descanso, id_usuario]);
+    res.send("OK");
+}
