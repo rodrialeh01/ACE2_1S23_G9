@@ -41,6 +41,8 @@ const APP_SHELL = [
     "/vendor/jquery/jquery.slim.js",
     "/vendor/jquery/jquery.js",
     "/vendor/jquery/jquery.min.map",
+    "/assets/js/graph1.js",
+    "/assets/js/register.js",
 ];
 
 
