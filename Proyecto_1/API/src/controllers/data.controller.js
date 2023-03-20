@@ -18,9 +18,9 @@ export const configurarPomodoro = async (req, res) =>
     // INSERT INTO `configuracion` (`id_usuario`, `nombre`, `tiempo_trabajo`, `tiempo_descanso`, `tiempo_sistema`) VALUES (NULL, 'prueba', '15', '5', current_timestamp());
     const { nombre, tiempo_trabajo, tiempo_descanso } = req.body;
     const [rows] = await pool.query("INSERT INTO configuracion (nombre, tiempo_trabajo, tiempo_descanso) VALUES (?, ?, ?)", [nombre, tiempo_trabajo, tiempo_descanso]);
-    console.log(rows);
+    // console.log(rows);
     res.send( { 
-        id: rows.insertId
+        "estado": true
     });
 };
 
