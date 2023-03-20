@@ -171,6 +171,20 @@ p {
   overflow: hidden;
 }
 
+#graficas{
+  border-bottom: none;
+  padding-bottom: 0px;
+  margin-bottom: 0px;
+  width: 100vw;
+  height: 100vw;
+  display: flex;
+  align-items: stretch;
+  margin-top: 60px;
+  padding: 30px;
+  margin-bottom: 20px;
+  padding-bottom: 20px;
+}
+
 .main-button a:hover {
   background-color: #fff;
   color: #e75e8d;
