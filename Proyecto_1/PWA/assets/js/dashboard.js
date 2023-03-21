@@ -50,6 +50,14 @@ function getLastTime(){
 
 function ModificarTiempoT(){
     var trabajo = document.querySelector('#WorkTime').value
+    if(isNaN(parseInt(trabajo))){
+        alert('No se puede ingresar letras')
+        return;
+    }
+    if(parseInt(trabajo)<1 || parseInt(trabajo)>45){
+        alert('No se puede ingresar un numero menor a 1 o mayor a 45 minutos')
+        return;
+    }
     var objeto = {
         'id_usuario': idActualUser,
         'tiempo_trabajo': trabajo
@@ -81,6 +89,14 @@ setInterval(function() {
 */
 function ModificarTiempoR(){
     var descanso = document.querySelector('#RestTime').value
+    if(isNaN(parseInt(descanso))){
+        alert('No se puede ingresar letras')
+        return;
+    }
+    if(parseInt(descanso)<1 || parseInt(descanso)>45){
+        alert('No se puede ingresar un numero menor a 1 o mayor a 45 minutos')
+        return;
+    }
     var objeto = {
         'id_usuario': idActualUser,
         'tiempo_descanso': descanso
