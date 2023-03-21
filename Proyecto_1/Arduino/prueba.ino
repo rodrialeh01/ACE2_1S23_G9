@@ -16,8 +16,7 @@ const unsigned long postingInterval = 1000L; // delay between updates, in millis
 // Initialize the Ethernet client object
 WiFiEspClient client;
 void(* resetFunc) (void) = 0; //declare reset function @ address 0
-void setup()
-{
+void setup(){
   // initialize serial for debugging
   Serial.begin(115200);
   // initialize serial for ESP module

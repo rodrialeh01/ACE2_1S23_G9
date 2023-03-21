@@ -16,9 +16,9 @@ void loop(){
     char c = Serial.read();
     BT1.print(c);
   }  
-}*/
+}
 
-/*#include "WiFiEsp.h"
+#include "WiFiEsp.h"
 #ifndef HAVE_HWSERIAL1
 #include "SoftwareSerial.h"
 SoftwareSerial Serial1(3, 2); // RX, TX
@@ -129,7 +129,7 @@ void printWifiStatus()
   Serial.print("Signal strength (RSSI):");
   Serial.print(rssi);
   Serial.println(" dBm");
-}*/
+}
 
 
 /*int buzzPin = 4;
