@@ -25,6 +25,8 @@ const APP_SHELL = [
     "/assets/js/owl-carousel.js",
     "/assets/js/popup.js",
     "/assets/js/tabs.js",
+    "/assets/js/graph1.js",
+    "/assets/js/register.js",
     "/assets/webfonts/fa-brands-400.ttf",
     "/assets/webfonts/fa-brands-400.woff2",
     "/assets/webfonts/fa-regular-400.ttf",
@@ -41,8 +43,6 @@ const APP_SHELL = [
     "/vendor/jquery/jquery.slim.js",
     "/vendor/jquery/jquery.js",
     "/vendor/jquery/jquery.min.map",
-    "/assets/js/graph1.js",
-    "/assets/js/register.js",
 ];
 
 

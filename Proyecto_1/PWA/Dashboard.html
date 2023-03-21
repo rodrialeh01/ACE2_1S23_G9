@@ -84,6 +84,19 @@ https://templatemo.com/tm-579-cyborg-gaming
               <div class="row">
                 <div class="col-lg-4">
                   <div class="item">
+                    <h4>Configurar tiempos de trabajo</h4>
+                    <p>Configura cuantos minutos quieres de trabajo entre tus pomodoros.</p>
+                    <div class="container">
+                      <div class="container__item">
+                          <div class="form__group field">
+                            <input type="input" class="form__field" placeholder="Minutos" name="minutos" id='WorkTime' type="number" required />
+                            <label for="minutos" class="form__label">Minutos</label>
+                            <div class="main-button">
+                              <a type="button" onclick="ModificarTiempoT()">Guardar</a>
+                            </div>
+                          </div>
+                      </div>
+                    </div>
                     <h4>Configurar tiempos de descanso</h4>
                     <p>Configura cuantos minutos quieres de descanso entre tus pomodoros.</p>
                     <div class="container">
@@ -92,20 +105,7 @@ https://templatemo.com/tm-579-cyborg-gaming
                             <input type="input" class="form__field" placeholder="Minutos" name="minutos" id='RestTime' type="number" required />
                             <label for="minutos" class="form__label">Minutos</label>
                             <div class="main-button">
-                              <a href="./Dashboard.html">Guardar</a>
-                            </div>
-                          </div>
-                      </div>
-                    </div>
-                    <h4>Configurar tiempos de trabajo</h4>
-                    <p>Configura cuantos minutos quieres de trabajo entre tus pomodoros.</p>
-                    <div class="container">
-                      <div class="container__item">
-                          <div class="form__group field">
-                            <input type="input" class="form__field" placeholder="Minutos" name="minutos" id='RestTime' type="number" required />
-                            <label for="minutos" class="form__label">Minutos</label>
-                            <div class="main-button">
-                              <a href="./Dashboard.html">Guardar</a>
+                              <a type="button" onclick="ModificarTiempoR()">Guardar</a>
                             </div>
                           </div>
                       </div>
@@ -167,6 +167,7 @@ https://templatemo.com/tm-579-cyborg-gaming
   <script src="assets/js/tabs.js"></script>
   <script src="assets/js/popup.js"></script>
   <script src="assets/js/custom.js"></script>
+  <script src="assets/js/dashboard.js"></script>
 
 
   </body>

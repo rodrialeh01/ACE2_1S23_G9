@@ -34,14 +34,30 @@ export const dataPomodoro = async (req, res) =>
 
 export const getLastId = async (req, res) =>
 {
-    const [rows] = await pool.query("SELECT MAX(id_usuario) AS actual_id_user, tiempo_trabajo, tiempo_descanso FROM configuracion");
+    const [rows] = await pool.query("SELECT MAX(id_usuario) AS actual_id_user FROM configuracion");
+    res.send(rows);
+}
+
+export const getLastTime = async (req, res) =>
+{
+    const id = req.params.id;
+    console.log(id);
+    const [rows] = await pool.query("SELECT tiempo_trabajo, tiempo_descanso FROM configuracion WHERE id_usuario = ?", [id]);
     res.send(rows);
 }
 
 export const updateConfig = async (req, res) =>
 {
     // UPDATE `configuracion` SET `tiempo_trabajo` = '4', `tiempo_descanso` = '53' WHERE `configuracion`.`id_usuario` = 4;
-    const { tiempo_trabajo, tiempo_descanso, id_usuario } = req.body;
-    const [rows] = await pool.query("UPDATE configuracion SET tiempo_trabajo = ?, tiempo_descanso = ? WHERE id_usuario = ?", [ tiempo_trabajo, tiempo_descanso, id_usuario]);
+    const { tiempo_trabajo, id_usuario } = req.body;
+    const [rows] = await pool.query("UPDATE configuracion SET tiempo_trabajo = ? WHERE id_usuario = ?", [ tiempo_trabajo, id_usuario]);
+    res.send("OK");
+}
+
+export const updateConfig2 = async (req, res) =>
+{
+    // UPDATE `configuracion` SET `tiempo_trabajo` = '4', `tiempo_descanso` = '53' WHERE `configuracion`.`id_usuario` = 4;
+    const { tiempo_descanso, id_usuario } = req.body;
+    const [rows] = await pool.query("UPDATE configuracion SET tiempo_descanso = ? WHERE id_usuario = ?", [ tiempo_descanso, id_usuario]);
     res.send("OK");
 }

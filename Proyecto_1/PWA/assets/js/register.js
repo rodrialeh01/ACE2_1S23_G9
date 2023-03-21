@@ -17,7 +17,7 @@ function RegistrarUsuario(user){
     "tiempo_descanso": 5
   }
   console.log(objeto)
-  fetch('http://192.168.1.4:4000/confPD', {
+  fetch('http://192.168.0.2:4000/confPD', {
     method: 'POST',
     body: JSON.stringify(objeto),
     headers: {
@@ -29,7 +29,7 @@ function RegistrarUsuario(user){
     .catch(err => {
       console.error('Error:', err)
       alert(err);
-      // alert("Ocurrio un error, ver la consola")
+      //alert("Ocurrio un error, ver la consola")
     })
 }
 
