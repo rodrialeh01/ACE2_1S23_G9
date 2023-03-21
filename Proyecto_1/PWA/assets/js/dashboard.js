@@ -21,6 +21,7 @@ function getLastID(){
         console.log("id2: ", response[0])
         idActualUser = response[0].actual_id_user;
         console.log("idActualUser: ", idActualUser)
+        document.querySelector('#welcome').innerHTML = "Bienvenido " + usuario;
         getLastTime();
     })
 }
@@ -44,6 +45,8 @@ function getLastTime(){
         console.log("worktime: ", response[0].tiempo_trabajo);
         document.querySelector('#RestTime').value = response[0].tiempo_descanso;
         document.querySelector('#WorkTime').value = response[0].tiempo_trabajo;
+        document.querySelector('#trabajo').innerHTML = response[0].tiempo_trabajo;
+        document.querySelector('#descanso').innerHTML = response[0].tiempo_descanso;
     })
 }
 
@@ -76,6 +79,7 @@ function ModificarTiempoT(){
     .then(response =>{
         console.log(response);
         alert('Se modifico correctamente el tiempo')
+        location.href = './Dashboard.html'
     })
 }
 /*
@@ -115,5 +119,6 @@ function ModificarTiempoR(){
     .then(response =>{
         console.log(response);
         alert('Se modifico correctamente el tiempo')
+        location.href = './Dashboard.html'
     })
 }
