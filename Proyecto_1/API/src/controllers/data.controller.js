@@ -34,7 +34,7 @@ export const dataPomodoro = async (req, res) =>
 
 export const getLastId = async (req, res) =>
 {
-    const [rows] = await pool.query("SELECT MAX(id_usuario) AS actual_id_user FROM configuracion");
+    const [rows] = await pool.query("SELECT MAX(id_usuario) AS actual_id_user, tiempo_trabajo, tiempo_descanso FROM configuracion");
     res.send(rows);
 }
 
