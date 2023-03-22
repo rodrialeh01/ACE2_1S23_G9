@@ -80,6 +80,6 @@ export const updateLogin = async (req, res) =>
 export const getLogin = async (req, res) =>
 {
     const [rows] = await pool.query("SELECT estado FROM login WHERE id = 1");
-    res.send(rows.estado);
-    
+    res.send("{"+String(rows[0].estado)+"}");
+   // console.log(rows[0].estado);
 }
