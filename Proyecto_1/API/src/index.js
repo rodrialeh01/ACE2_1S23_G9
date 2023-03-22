@@ -11,7 +11,7 @@ app.use(morgan("dev"));
 app.use(cors());
 
 app.get("/ping", async (req, res) => {
-    res.send("pong");
+    res.send("{pong}");
 });
 
 app.post("/pong", async (req, res) => {
