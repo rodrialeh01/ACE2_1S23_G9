@@ -4,6 +4,7 @@ function validateName(){
       console.log("name: ", name);
       localStorage.setItem('name', name);
       RegistrarUsuario(name);
+      setLogueado();
       window.location.href = './Dashboard.html';
     }else{
       alert('No se puede ingresar la aplicación sin ingresar su Nombre')
@@ -29,7 +30,27 @@ function RegistrarUsuario(user){
     .catch(err => {
       console.error('Error:', err)
       alert(err);
+
       //alert("Ocurrio un error, ver la consola")
+    })
+}
+
+function setLogueado(){
+  let logueado = {
+    "estado": 1
+  }
+  fetch(`http://192.168.0.2:4000/updateLogin`, {
+    method: 'PUT',
+    body: JSON.stringify(logueado),
+    headers:{
+        'Content-Type': 'application/json',
+        'Access-Control-Allow-Origin': '*',}})
+    .then(res => res.json())
+    .catch(err => {
+        console.error('Error:', err)
+    })
+    .then(response =>{
+        console.log(response);
     })
 }
 
