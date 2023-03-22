@@ -61,3 +61,18 @@ export const updateConfig2 = async (req, res) =>
     const [rows] = await pool.query("UPDATE configuracion SET tiempo_descanso = ? WHERE id_usuario = ?", [ tiempo_descanso, id_usuario]);
     res.send("OK");
 }
+
+export const configTiempoTrabajo = async (req, res) =>
+{
+    const [rows] = await pool.query("SELECT MAX(id_usuario) AS id FROM configuracion;");
+    const id = rows[0].id;
+    const [rows2] = await pool.query("UPDATE configuracion SET tiempo_trabajo = ? WHERE id_usuario = ?", [ req.params.t, id]);
+    res.send("OK");
+}
+
+export const updateLogin = async (req, res) =>
+{
+    const { estado } = req.body;
+    const [rows] = await pool.query("UPDATE login SET estado = ? WHERE id = 1", [ estado]);
+    res.send("OK");
+}
