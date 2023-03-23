@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 22-03-2023 a las 07:14:58
+-- Tiempo de generación: 23-03-2023 a las 07:05:40
 -- Versión del servidor: 10.4.27-MariaDB
 -- Versión de PHP: 8.0.25
 
@@ -61,6 +61,35 @@ CREATE TABLE `datos` (
   `fase_pomodoro` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Volcado de datos para la tabla `datos`
+--
+
+INSERT INTO `datos` (`id`, `id_usuario`, `tiempo`, `estado`, `id_pomodoro`, `fase_pomodoro`) VALUES
+(1, 5, '2023-03-23 04:40:29', 1, 1, 1),
+(2, 5, '2023-03-23 04:40:29', 1, 1, 1),
+(3, 5, '2023-03-23 04:40:29', 1, 1, 1),
+(4, 5, '2023-03-23 04:40:29', 1, 1, 1),
+(5, 5, '2023-03-23 04:40:29', 1, 1, 1),
+(6, 5, '2023-03-23 04:40:29', 1, 1, 1),
+(7, 5, '2023-03-23 04:40:29', 1, 1, 1),
+(8, 5, '2023-03-23 04:40:29', 1, 1, 1),
+(9, 5, '2023-03-23 04:40:29', 1, 1, 1),
+(10, 5, '2023-03-23 04:40:29', 1, 1, 1),
+(11, 5, '2023-03-23 04:40:29', 1, 1, 1),
+(12, 5, '2023-03-23 04:40:29', 1, 1, 1),
+(13, 5, '2023-03-23 05:10:36', 1, 1, 2),
+(14, 5, '2023-03-23 05:10:46', 1, 1, 2),
+(15, 5, '2023-03-23 05:10:54', 1, 1, 2),
+(16, 5, '2023-03-23 05:11:01', 1, 1, 2),
+(17, 5, '2023-03-23 05:11:07', 1, 1, 2),
+(18, 5, '2023-03-23 05:11:13', 1, 1, 2),
+(19, 1, '2023-03-23 05:11:51', 1, 1, 2),
+(20, 1, '2023-03-23 05:20:03', 0, 1, 2),
+(21, 1, '2023-03-23 05:20:09', 0, 1, 2),
+(22, 1, '2023-03-23 05:20:15', 0, 1, 2),
+(23, 1, '2023-03-23 05:20:30', 0, 1, 2);
+
 -- --------------------------------------------------------
 
 --
@@ -69,15 +98,16 @@ CREATE TABLE `datos` (
 
 CREATE TABLE `login` (
   `id` int(11) NOT NULL,
-  `estado` int(11) NOT NULL
+  `estado` int(11) NOT NULL,
+  `configurar` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Volcado de datos para la tabla `login`
 --
 
-INSERT INTO `login` (`id`, `estado`) VALUES
-(1, 0);
+INSERT INTO `login` (`id`, `estado`, `configurar`) VALUES
+(1, 0, 0);
 
 --
 -- Índices para tablas volcadas
@@ -116,7 +146,7 @@ ALTER TABLE `configuracion`
 -- AUTO_INCREMENT de la tabla `datos`
 --
 ALTER TABLE `datos`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
 
 --
 -- AUTO_INCREMENT de la tabla `login`

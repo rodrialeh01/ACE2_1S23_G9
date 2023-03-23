@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { configTiempoTrabajo, configurarPomodoro, dataPomodoro, getLastId, getLastTime, updateConfig, updateConfig2, updateLogin, getLogin } from "../controllers/data.controller.js";
+import { configTiempoTrabajo, configurarPomodoro, dataPomodoro, getLastId, getLastTime, updateConfig, updateConfig2, updateLogin, getLogin, updateConfigTime, simulate } from "../controllers/data.controller.js";
 
 const router = Router();
 
@@ -20,6 +20,10 @@ router.get("/config/trabajo/:t", configTiempoTrabajo);
 router.put("/updateLogin", updateLogin);
 
 router.get("/getLogin", getLogin);
+
+router.put("/updateConfigTime", updateConfigTime);
+
+router.get("/simulate", simulate);
 // router.get("/data", getAllData);
 
 export default router;

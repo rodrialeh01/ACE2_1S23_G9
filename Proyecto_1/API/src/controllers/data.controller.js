@@ -83,3 +83,27 @@ export const getLogin = async (req, res) =>
     res.send("{"+String(rows[0].estado)+"}");
    // console.log(rows[0].estado);
 }
+
+export const updateConfigTime = async (req, res) =>
+{
+    const { estado } = req.body;
+    const [rows] = await pool.query("UPDATE login SET configurar = ? WHERE id = 1", [ estado]);
+    res.send("OK");
+}
+
+export const simulate = async (req, res) =>
+{
+    const [rows] = await pool.query("SELECT MAX(id_usuario) AS id FROM configuracion;");
+    const id = rows[0].id;
+    // const [dataUser] = await pool.query("SELECT tiempo_trabajo, tiempo_descanso FROM configuracion WHERE id_usuario = ?", [id]);
+    // const { tiempo_trabajo, tiempo_descanso } = dataUser[0];
+    const [tiemposDescanso] = await pool.query("SELECT tiempo FROM datos WHERE id_usuario = ? AND fase_pomodoro = ? and estado = 1", [id, 2]);
+    let inicio = new Date(tiemposDescanso[0].tiempo);
+    let fin = new Date(tiemposDescanso[tiemposDescanso.length - 1].tiempo);
+    let tiempoTotal = fin.getTime() - inicio.getTime();
+    let tiempoTotalSegundos = tiempoTotal / 1000;
+
+    console.log(tiempoTotalSegundos);
+
+    res.send("OK");
+}
