@@ -115,3 +115,23 @@ export const simulate = async (req, res) =>
         "penalizacion": tiempoTotalSegundos
     });
 }
+
+export const getWorkTime = async (req, res) =>
+{
+    const [rows] = await pool.query("SELECT MAX(id_usuario) AS id FROM configuracion;");
+    const id = rows[0].id;
+    const [dataUser] = await pool.query("SELECT tiempo_trabajo FROM configuracion WHERE id_usuario = ?", [id]);
+    const { tiempo_trabajo } = dataUser[0];
+
+    res.send("\{"+tiempo_trabajo+"\}");
+}
+
+export const getFreeTime = async (req, res) =>
+{
+    const [rows] = await pool.query("SELECT MAX(id_usuario) AS id FROM configuracion;");
+    const id = rows[0].id;
+    const [dataUser] = await pool.query("SELECT tiempo_descanso FROM configuracion WHERE id_usuario = ?", [id]);
+    const { tiempo_descanso } = dataUser[0];
+
+    res.send("\{"+tiempo_descanso+"\}");
+}
