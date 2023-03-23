@@ -91,6 +91,12 @@ export const updateConfigTime = async (req, res) =>
     res.send("OK");
 }
 
+export const getConfigTime = async (req, res) =>
+{
+    const [rows] = await pool.query("SELECT configurar FROM login WHERE id = 1");
+    res.send(rows);
+}
+
 export const simulate = async (req, res) =>
 {
     const [rows] = await pool.query("SELECT MAX(id_usuario) AS id FROM configuracion;");
@@ -105,5 +111,7 @@ export const simulate = async (req, res) =>
 
     console.log(tiempoTotalSegundos);
 
-    res.send("OK");
+    res.send({
+        "penalizacion": tiempoTotalSegundos
+    });
 }
