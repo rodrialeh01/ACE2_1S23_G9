@@ -1,11 +1,12 @@
 const usuario = localStorage.getItem('name');
 let idActualUser = 0;
+var state = 0;
 function setRestTime(){
     const RestTime = document.getElementById('RestTime').value;
 }
 
 function getLastID(){          
-    fetch(`http://192.168.0.7:4000/getLastId`, {
+    fetch(`http://192.168.0.2:4000/getLastId`, {
     method: 'GET',
     headers:{
         'Content-Type': 'application/json',
@@ -13,7 +14,7 @@ function getLastID(){
     .then(res => res.json())
     .catch(err => {
         console.error('Error:', err)
-        alert("Ocurrio un error, ver la consola")
+        //alert("Ocurrio un error, ver la consola")
     })
     .then(response =>{
         console.log(response);
@@ -27,9 +28,8 @@ function getLastID(){
 }
 getLastID();
 
-
-function getLastTime(){
-    fetch(`http://192.168.0.7:4000/getLastTime/${idActualUser}`, {
+function getStateConfig(){
+    fetch(`http://192.168.0.2:4000/getConfigTime`, {
     method: 'GET',
     headers:{
         'Content-Type': 'application/json',
@@ -37,7 +37,25 @@ function getLastTime(){
     .then(res => res.json())
     .catch(err => {
         console.error('Error:', err)
-        alert("Ocurrio un error, ver la consola")
+        //alert("Ocurrio un error, ver la consola")
+    })
+    .then(response =>{
+        console.log(response);
+        console.log("state: ", response[0].configurar);
+        state = response[0].configurar;
+    })
+}
+
+function getLastTime(){
+    fetch(`http://192.168.0.2:4000/getLastTime/${idActualUser}`, {
+    method: 'GET',
+    headers:{
+        'Content-Type': 'application/json',
+        'Access-Control-Allow-Origin': '*',}})
+    .then(res => res.json())
+    .catch(err => {
+        console.error('Error:', err)
+        //alert("Ocurrio un error, ver la consola")
     })
     .then(response =>{
         console.log(response);
@@ -61,12 +79,16 @@ function ModificarTiempoT(){
         alert('No se puede ingresar un numero menor a 1 o mayor a 45 minutos')
         return;
     }
+    if(state == 1){
+        alert('No se puede modificar el tiempo de trabajo, ya que el pomodoro esta en ejecucion')
+        return;
+    }
     var objeto = {
         'id_usuario': idActualUser,
         'tiempo_trabajo': trabajo
     }
     console.log(objeto)
-    fetch(`http://192.168.0.7:4000/updateConfig`, {
+    fetch(`http://192.168.0.2:4000/updateConfig`, {
     method: 'PUT',
     body: JSON.stringify(objeto),
     headers:{
@@ -82,14 +104,14 @@ function ModificarTiempoT(){
         location.href = './Dashboard.html'
     })
 }
-/*
-setInterval(function() {
-    getLastID();
-}, 1000); // 5000 = 5 segundos en milisegundos
 
 setInterval(function() {
+    getStateConfig();
+}, 1000); // 1000 = 1 segundos en milisegundos
+/*
+setInterval(function() {
     getLastTime();
-}, 1000); // 5000 = 5 segundos en milisegundos
+}, 1000); // 1000 = 1 segundos en milisegundos
 */
 function ModificarTiempoR(){
     var descanso = document.querySelector('#RestTime').value
@@ -101,12 +123,16 @@ function ModificarTiempoR(){
         alert('No se puede ingresar un numero menor a 1 o mayor a 45 minutos')
         return;
     }
+    if(state == 1){
+        alert('No se puede modificar el tiempo de trabajo, ya que el pomodoro esta en ejecucion')
+        return;
+    }
     var objeto = {
         'id_usuario': idActualUser,
         'tiempo_descanso': descanso
     }
     console.log(objeto)
-    fetch(`http://192.168.0.7:4000/updateConfig2`, {
+    fetch(`http://192.168.0.2:4000/updateConfig2`, {
     method: 'PUT',
     body: JSON.stringify(objeto),
     headers:{
@@ -118,7 +144,7 @@ function ModificarTiempoR(){
     })
     .then(response =>{
         console.log(response);
-        alert('Se modifico correctamente el tiempo')
+        //alert('Se modifico correctamente el tiempo')
         location.href = './Dashboard.html'
     })
 }
@@ -127,7 +153,7 @@ function setLogueado(){
     let logueado = {
       "estado": 0
     }
-    fetch(`http://192.168.0.7:4000/updateLogin`, {
+    fetch(`http://192.168.0.2:4000/updateLogin`, {
       method: 'PUT',
       body: JSON.stringify(logueado),
       headers:{

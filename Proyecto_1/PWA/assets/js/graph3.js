@@ -1,11 +1,10 @@
-var myCanvas = document.getElementById("grafica1");
-var graficas = document.getElementById("graficas");
-var s1 = document.getElementById("seconds1");
-myCanvas.width = graficas.offsetWidth;
-myCanvas.height = graficas.offsetHeight*5;
+var myCanvas2 = document.getElementById("grafica2");
+var graficas2 = document.getElementById("graficas2");
+var s2 = document.getElementById("seconds2");
+myCanvas2.width = graficas2.offsetWidth;
+myCanvas2.height = graficas2.offsetHeight*5;
 
-var ctx = myCanvas.getContext("2d");
-var ctx2 = myCanvas.getContext("2d");
+var ctx2 = myCanvas2.getContext("2d");
 
 function drawLine(ctx, startX, startY, endX, endY, color) {
   ctx.save();
@@ -154,19 +153,17 @@ class BarChart {
   }
 }
 
-
-var data_graph = {
-  "Fase 1": 0
+var data_graph2 = {
+  "Fase 2": 0
 }
 
-
-var myBarchart = new BarChart({
-  canvas: myCanvas,
+var myBarchart2 = new BarChart({
+  canvas: myCanvas2,
   seriesName: "Penalizacion por no sentarse a tiempo (s)",
   padding: 30,
   gridStep: 1,
   gridColor: "black",
-  data: data_graph,
+  data: data_graph2,
   colors: ["#FD2619", "#949494"],
   titleOptions: {
     align: "center",
@@ -178,41 +175,40 @@ var myBarchart = new BarChart({
     }
   }
 });
-
 setTimeout(function() {
-    addEventListener('resize', myBarchart.draw, false);
+    addEventListener('resize', myBarchart2.draw, false);
 }, 15);
 
 setInterval(function(){
-  ctx.clearRect(0, 0, myCanvas.width, myCanvas.height);
-  if(data_graph["Fase 1"] < 40){
-    var myBarchart = new BarChart({
-      canvas: myCanvas,
-      seriesName: "Penalizacion por no sentarse a tiempo (s)",
-      padding: 30,
-      gridStep: 1,
-      gridColor: "black",
-      data: data_graph,
-      colors: ["#FD2619", "#949494"],
-      titleOptions: {
-        align: "center",
-        fill: "black",
-        font: {
-          weight: "bold",
-          size: "18px",
-          family: "Lato"
-        }
+  ctx2.clearRect(0, 0, myCanvas2.width, myCanvas2.height);
+if(data_graph2["Fase 2"] < 40){
+  var myBarchart2 = new BarChart({
+    canvas: myCanvas2,
+    seriesName: "Penalizacion por no pararse a tiempo (s)",
+    padding: 30,
+    gridStep: 1,
+    gridColor: "black",
+    data: data_graph2,
+    colors: ["#FD2619", "#949494"],
+    titleOptions: {
+      align: "center",
+      fill: "black",
+      font: {
+        weight: "bold",
+        size: "18px",
+        family: "Lato"
       }
-    });
-    myBarchart.draw();
-}else if(data_graph["Fase 1"] < 300){
-  var myBarchart = new BarChart({
-    canvas: myCanvas,
-    seriesName: "Penalizacion por no sentarse a tiempo (s)",
+    }
+  });
+  myBarchart2.draw();
+}else if(data_graph2["Fase 2"] < 300){
+  var myBarchart2 = new BarChart({
+    canvas: myCanvas2,
+    seriesName: "Penalizacion por no pararse a tiempo (s)",
     padding: 30,
     gridStep: 10,
     gridColor: "black",
-    data: data_graph,
+    data: data_graph2,
     colors: ["#FD2619", "#949494"],
     titleOptions: {
       align: "center",
@@ -224,15 +220,15 @@ setInterval(function(){
       }
     }
   });
-  myBarchart.draw();
-}else if(data_graph["Fase 1"] < 1000){
-  var myBarchart = new BarChart({
-    canvas: myCanvas,
-    seriesName: "Penalizacion por no sentarse a tiempo (s)",
+  myBarchart2.draw();
+}else if(data_graph2["Fase 2"] < 1000){
+  var myBarchart2 = new BarChart({
+    canvas: myCanvas2,
+    seriesName: "Penalizacion por no pararse a tiempo (s)",
     padding: 30,
     gridStep: 50,
     gridColor: "black",
-    data: data_graph,
+    data: data_graph2,
     colors: ["#FD2619", "#949494"],
     titleOptions: {
       align: "center",
@@ -244,16 +240,16 @@ setInterval(function(){
       }
     }
   });
-  myBarchart.draw();
+  myBarchart2.draw();
 
 }else{
-  var myBarchart = new BarChart({
-    canvas: myCanvas,
-    seriesName: "Penalizacion por no sentarse a tiempo (s)",
+  var myBarchart2 = new BarChart({
+    canvas: myCanvas2,
+    seriesName: "Penalizacion por no pararse a tiempo (s)",
     padding: 30,
     gridStep: 100,
     gridColor: "black",
-    data: data_graph,
+    data: data_graph2,
     colors: ["#FD2619", "#949494"],
     titleOptions: {
       align: "center",
@@ -265,8 +261,8 @@ setInterval(function(){
       }
     }
   });
-  myBarchart.draw();
+  myBarchart2.draw();
 }
-  s1.innerHTML = data_graph["Fase 1"];
-  data_graph["Fase 1"] += 1;
+  s2.innerHTML = data_graph2["Fase 2"];
+  data_graph2["Fase 2"] += 1;
 },1000)
