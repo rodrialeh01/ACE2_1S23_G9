@@ -21,7 +21,7 @@ router.put("/updateLogin", updateLogin);
 
 router.get("/getLogin", getLogin);
 
-router.put("/updateConfigTime", updateConfigTime);
+router.post("/updateConfigTime", updateConfigTime);
 
 router.get("/getConfigTime", getConfigTime);
 
