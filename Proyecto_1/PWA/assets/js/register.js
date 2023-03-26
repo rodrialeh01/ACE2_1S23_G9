@@ -29,7 +29,7 @@ function RegistrarUsuario(user){
     .then(res => res.json())
     .catch(err => {
       console.error('Error:', err)
-      alert(err);
+    //  alert(err);
 
       //alert("Ocurrio un error, ver la consola")
     })
