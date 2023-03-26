@@ -27,10 +27,12 @@ export const configurarPomodoro = async (req, res) =>
 export const dataPomodoro = async (req, res) => 
 {
     // INSERT INTO `datos` (`id`, `id_usuario`, `tiempo`, `estado`, `id_pomodoro`, `fase_pomodoro`) VALUES (NULL, '2', current_timestamp(), '0', '1', '2');
-    const {estado, id_pomodoro, fase_pomodoro} = req.body;
+    const {estado, fase_pomodoro} = req.body;
     const [rows] = await pool.query("SELECT MAX(id_usuario) AS id FROM configuracion;");
     const id_usuario = rows[0].id;
-    const [rows2] = await pool.query("INSERT INTO datos (id_usuario, estado, id_pomodoro, fase_pomodoro) VALUES (?, ?, ?, ?)", [id_usuario, estado, id_pomodoro, fase_pomodoro]);
+    const [rows4] = await pool.query("SELECT idPomodoro FROM login WHERE id = 1;");
+    const idPomodoro = rows4[0].idPomodoro;
+    const [rows2] = await pool.query("INSERT INTO datos (id_usuario, estado, id_pomodoro, fase_pomodoro) VALUES (?, ?, ?, ?)", [id_usuario, estado, idPomodoro, fase_pomodoro]);
     const [rows3] = await pool.query("UPDATE login SET fase = ? WHERE id = 1", [fase_pomodoro]);
     res.send("OK");
 };
@@ -164,4 +166,13 @@ export const getFase = async (req, res) =>
 {
     const [rows] = await pool.query("SELECT fase FROM login WHERE id = 1");
     res.send(rows);
+}
+
+export const updateIdPomodoro = async (req, res) =>
+{
+    const [rows4] = await pool.query("SELECT idPomodoro FROM login WHERE id = 1;");
+    const idPomodoro = rows4[0].idPomodoro;
+    idPomodoro++;
+    const [rows] = await pool.query("UPDATE login SET id_pomodoro = ? WHERE id = 1", [ idPomodoro]);
+    res.send("OK");
 }
