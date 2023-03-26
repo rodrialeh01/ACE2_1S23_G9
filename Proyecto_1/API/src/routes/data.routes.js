@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { configTiempoTrabajo, configurarPomodoro, dataPomodoro, getLastId, getLastTime, updateConfig, updateConfig2, updateLogin, getLogin, updateConfigTime, simulate, getConfigTime, getWorkTime, getFreeTime } from "../controllers/data.controller.js";
+import { configTiempoTrabajo, configurarPomodoro, dataPomodoro, getLastId, getLastTime, updateConfig, updateConfig2, updateLogin, getLogin, updateConfigTime, simulate, getConfigTime, getWorkTime, getFreeTime, resetTime } from "../controllers/data.controller.js";
 
 const router = Router();
 
@@ -30,6 +30,8 @@ router.get("/simulate", simulate);
 router.get("/getWorkTime", getWorkTime);
 
 router.get("/getFreeTime", getFreeTime);
+
+router.get("/reset", resetTime);
 // router.get("/data", getAllData);
 
 export default router;

@@ -135,3 +135,11 @@ export const getFreeTime = async (req, res) =>
 
     res.send("\{"+tiempo_descanso+"\}");
 }
+
+export const resetTime = async (req, res) =>
+{
+    const [rows] = await pool.query("SELECT MAX(id_usuario) AS id FROM configuracion;");
+    const id = rows[0].id;
+    const [rows2] = await pool.query("UPDATE configuracion SET tiempo_trabajo = 25, tiempo_descanso = 5 WHERE id_usuario = ?", [id]);
+    res.send("OK");
+}
