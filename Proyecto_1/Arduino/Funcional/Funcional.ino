@@ -28,7 +28,7 @@ int verificacion_actual = 1;
 int tiempoTrabajo = 25 * 60;
 int tiempoDescanso = 5 * 60;
 int anteriorConfig = 0;
-
+int configTime = 0;
 int tiempoIngresado;
 int descansoIngresado;
 
@@ -37,6 +37,9 @@ String logueado;
 int cicloPomodoro = 0;
 int c;
 int paso = 0;
+
+int estado = 0;
+
 
 TM1637Display display(CLK, DIO);
 uint8_t position[] = { 0, 0, 0, 0 };
@@ -47,21 +50,6 @@ const uint8_t ErrL[] = {
   SEG_E | SEG_G , //r
   SEG_D | SEG_E | SEG_F, //L
 };
-
-//get usuario
-// [4] = {1,2,3,4}
-// [x] != 0
-// [4] = {0,2,3,4}
-//global Pomodoro_actual = 1;
-//posteando
-//[4] = {}
-//[4] = {-1,-1,-1,-1}
-//al iniciar siempre hacer el primer GET
-//Si el usuario retorna NULL
-//no empieza loop
-//si, se configura
-
-
 void setup() {
   display.setBrightness(10);
   pinMode(45, OUTPUT);
@@ -77,7 +65,6 @@ void setup() {
   temp_reloj += ((tiempoTrabajo % 60) / 10) * 10;
   temp_reloj += ((tiempoTrabajo % 60) % 10);
   display.showNumberDecEx(temp_reloj, 0x40, true);
-  //  display.setSegments(position);
   Serial.begin(115200);
 
   // debug:
@@ -98,70 +85,50 @@ void setup() {
 }
 
 void loop() {
-  //Serial.println(digitalRead(47));
   logueado = GETlogin();
-  // logueado = "1";
-  //Serial.println(logueado);
-  while (logueado == "1") {
 
-    // Serial.println(analogRead(A0));
-    // Serial.println(digitalRead(47));
+  while (logueado == "1") {
     if (digitalRead(22) != verificacion_actual) { //significa que manda un 0, es decir, está en ciclo
       if (verificacion_actual == 0) {
         paso++;
-        //if [0] != 0 {se agarra el primer pomodoro -> se actualiza la variable inicial (Pomodoro_actual)}
-
         String descanso = GETDescanso();
         String trabajar = GETTrabajo();
 
-        tiempoTrabajo = trabajar.toInt()*60;
-        tiempoDescanso = descanso.toInt()*60;
+        tiempoTrabajo = trabajar.toInt() * 60;
+        tiempoDescanso = descanso.toInt() * 60;
         
+        estado = 1;
+        POSTupdateConfigTime(estado);
         ciclo();
-        //ZzZzZzZzZzZzZzZzZzZzz
-        //ciclo();
         verificacion_actual = 1;
       }
       else {
         //Serial.println("config");
+        estado = 0;
+        POSTupdateConfigTime(estado);
+        Serial.println("pipipipi");
         config_pomododo();
-        //verificacion_actual = 0;
+        // verificacion_actual = 0;
       }
     }
   }
-
-  //delay(10000);
-  /* String x = "";
-    while (client.available()) {
-     char c = client.read();
-     Serial.write(c);
-     x += c;
-     // Serial.println(c);
-    }
-    Serial.println("XD");
-    Serial.println(x);
-    Serial.println("XD2");*/
-
-
-  //}
-  //else {}
-
 }
 
 void ciclo() {
   cicloPomodoro++;
   while (tiempoTrabajo >= 0) {
-    //agarra el que le toca.
-    //[x]
+    Serial.println("estoy acá");
     POSTdataPomodoro(digitalRead(22));
     //Serial2.println(digitalRead(22));
     digitalWrite(46, HIGH);
     if (digitalRead(47) == LOW) {
+      Serial.println("entré acá");
       verificacion_actual = 3;
       digitalWrite(46, LOW);
       intermitencia();
-      break;
-      verificacion_actual = 1;
+      cicloPomodoro = 4;
+      //verificacion_actual = 1;
+      return;
     }
     tiempoTrabajo--;
     delay(1000);
@@ -171,7 +138,7 @@ void ciclo() {
     temp_reloj += ((tiempoTrabajo % 60) % 10);
     display.showNumberDecEx(temp_reloj, 0x40, true);
 
-    if (tiempoTrabajo == 0) {
+  if (tiempoTrabajo == 0) {
       digitalWrite(46, LOW);
       for (int i = 0; i < 5; i++) {
         digitalWrite(buzzPin, HIGH);
@@ -186,6 +153,7 @@ void ciclo() {
       break;
     }
   }
+  
   if (cicloPomodoro == 4) {
     cicloPomodoro = 0;
     return;
@@ -196,17 +164,14 @@ void ciclo() {
 
 void descanso() {
   while (tiempoDescanso >= 0) {
-    //agarra el que le toca.
-    //[x]
     POSTdataPomodoro(digitalRead(22));
-    // Serial2.println(digitalRead(22));
     digitalWrite(38, HIGH);
     if (digitalRead(47) == LOW) {
+      tiempoDescanso = descansoIngresado;
       verificacion_actual = 3;
       digitalWrite(38, LOW);
       intermitencia();
-      verificacion_actual = 1;
-      break;
+      return;
     }
     tiempoDescanso--;
     delay(1000);
@@ -223,7 +188,7 @@ void descanso() {
         delay(100);
         digitalWrite(buzzPin, LOW);
         delay(100);
-      }
+        }
       tiempoDescanso = descansoIngresado;
       break;
     }
@@ -234,25 +199,26 @@ void descanso() {
 
 void config_pomododo() {
   //Para el display:
+  while (digitalRead(22) != HIGH) {
+    Serial.println("equisde");
+    int x = analogRead(A0);
+    //int temp = (2 * (x)) / 45;
+    tiempoTrabajo =  map(x, 0, 1023, 1, 45);
+    tiempoTrabajo = tiempoTrabajo * 60;
+    tiempoIngresado = tiempoTrabajo;
+    descansoIngresado = tiempoDescanso;
+    if (tiempoIngresado != anteriorConfig) {
+      GETupdateConfig(int(tiempoIngresado / 60));
+    }
+    anteriorConfig = tiempoIngresado;
 
-  int x = analogRead(A0);
-  //int temp = (2 * (x)) / 45;
-  tiempoTrabajo =  map(x, 0, 1023, 1, 45);
-  tiempoTrabajo = tiempoTrabajo * 60;
-  tiempoIngresado = tiempoTrabajo;
-  descansoIngresado = tiempoDescanso;
-  if (tiempoIngresado != anteriorConfig) {
-    GETupdateConfig(int(tiempoIngresado / 60));
-    delay(10);
+    int temp_reloj = ((tiempoTrabajo / 60) / 10) * 1000;
+    temp_reloj += ((tiempoTrabajo / 60) % 10) * 100;
+    temp_reloj += ((tiempoTrabajo % 60) / 10) * 10;
+    temp_reloj += ((tiempoTrabajo % 60) % 10);
+
+    display.showNumberDecEx(temp_reloj, 0x40, true);
   }
-  anteriorConfig = tiempoIngresado;
-
-  int temp_reloj = ((tiempoTrabajo / 60) / 10) * 1000;
-  temp_reloj += ((tiempoTrabajo / 60) % 10) * 100;
-  temp_reloj += ((tiempoTrabajo % 60) / 10) * 10;
-  temp_reloj += ((tiempoTrabajo % 60) % 10);
-
-  display.showNumberDecEx(temp_reloj, 0x40, true);
 
   if (digitalRead(22) == HIGH) {
     verificacion_actual = 0;
@@ -260,7 +226,11 @@ void config_pomododo() {
 }
 
 void intermitencia() {
+  cicloPomodoro = 0;
   int pot = ((int(analogRead(A0) / 23) + 1) * 60);
+  estado = 0;
+  POSTupdateConfigTime(estado);
+  
   while (verificacion_actual == 3) {
     int temp_reloj = ((tiempoIngresado / 60) / 10) * 1000;
     temp_reloj += ((tiempoIngresado / 60) % 10) * 100;
@@ -275,14 +245,16 @@ void intermitencia() {
     display.setBrightness(10, true);  // Turn off
 
     if ( digitalRead(22) == HIGH || ((int(analogRead(A0) / 23) + 1) * 60) != pot) {
+      //Serial.println("aaaaaaaaaaaaaaaaaaaaa");
       if (digitalRead(22) == HIGH) {
+        //Serial.println("VOY A CAMBIAR XD2");
         verificacion_actual = 0;
+        Serial.println("!");
         return;
       }
       else {
-        verificacion_actual = 1;
-        //config_pomododo();
-        
+        //verificacion_actual = 1;
+        config_pomododo();
         return;
       }
     }
@@ -357,6 +329,35 @@ String GETlogin() {
 
 }
 
+void POSTupdateConfigTime(int estado) {
+  String json = "{\"estado\":" + String(estado) + "}";
+
+  // Send POST request with JSON payload
+  if (client.connect(server, port)) {
+    //Serial.println("Connected to server");
+
+    client.print("POST /updateConfigTime HTTP/1.1\r\n");
+    client.print("Host: ");
+    client.print(String(server));
+    client.print("\r\n");
+    client.print("Content-Type: application/json\r\n");
+    client.print("Content-Length: ");
+    client.print(json.length());
+    client.print("\r\n\r\n");
+    client.print(json);
+
+    Serial.println("Sent estado");
+    client.stop();
+    delay(100);
+  } else {
+    Serial.println("Failed to connect to server");
+  }
+
+
+  //return;
+}
+
+
 void POSTdataPomodoro(int estado_act) {
 
   String json = "{\"id_usuario\":1,\n \"estado\": " + String(estado_act) + ",\n \"id_pomodoro\": 4, \"fase_pomodoro\":" + String(paso) + "}";
@@ -389,13 +390,19 @@ void GETupdateConfig(int tiempoTrabajo) {
   client.stop();
   if (client.connect(server, 4000)) {
     Serial.println("Connecting...");
+    Serial.println("XD");
     // send the HTTP PUT request
+    Serial.println(String(tiempoTrabajo));
     String enviar = "GET /config/trabajo/" + String(tiempoTrabajo) + " HTTP/1.1";
     client.println(enviar);
+
     //lastConnectionTime = millis();
     client.println(F("Host: 192.168.0.7:4000"));
+ 
     client.println("Connection: close");
+  
     client.println();
+    
     //Serial.println(response);
   } else {
     Serial.println("Failed to connect to server");
@@ -415,7 +422,7 @@ String GETDescanso() {
     client.println(F("Host: 192.168.0.7:4000"));
     client.println("Connection: close");
     client.println();
-    
+
     String response = "";
     bool f = client.find("{");
     if (f) {
@@ -450,7 +457,7 @@ String GETTrabajo() {
     client.println(F("Host: 192.168.0.7:4000"));
     client.println("Connection: close");
     client.println();
-    
+
     String response = "";
     bool f = client.find("{");
     if (f) {
@@ -462,10 +469,7 @@ String GETTrabajo() {
         response += (char)c;
       }
     }
-
-    //Serial.println(response);
     return response;
-    //Serial.println(response);
   } else {
     Serial.println("Failed to connect to server");
     //resetFunc();

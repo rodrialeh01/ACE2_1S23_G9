@@ -6,7 +6,7 @@ function setRestTime(){
 }
 
 function getLastID(){          
-    fetch(`http://192.168.0.2:4000/getLastId`, {
+    fetch(`http://192.168.0.7:4000/getLastId`, {
     method: 'GET',
     headers:{
         'Content-Type': 'application/json',
@@ -29,7 +29,7 @@ function getLastID(){
 getLastID();
 
 function getStateConfig(){
-    fetch(`http://192.168.0.2:4000/getConfigTime`, {
+    fetch(`http://192.168.0.7:4000/getConfigTime`, {
     method: 'GET',
     headers:{
         'Content-Type': 'application/json',
@@ -47,7 +47,7 @@ function getStateConfig(){
 }
 
 function getLastTime(){
-    fetch(`http://192.168.0.2:4000/getLastTime/${idActualUser}`, {
+    fetch(`http://192.168.0.7:4000/getLastTime/${idActualUser}`, {
     method: 'GET',
     headers:{
         'Content-Type': 'application/json',
@@ -88,7 +88,7 @@ function ModificarTiempoT(){
         'tiempo_trabajo': trabajo
     }
     console.log(objeto)
-    fetch(`http://192.168.0.2:4000/updateConfig`, {
+    fetch(`http://192.168.0.7:4000/updateConfig`, {
     method: 'PUT',
     body: JSON.stringify(objeto),
     headers:{
@@ -106,7 +106,7 @@ function ModificarTiempoT(){
 }
 
 setInterval(function() {
-    getStateConfig();
+   // getStateConfig();
 }, 1000); // 1000 = 1 segundos en milisegundos
 /*
 setInterval(function() {
@@ -132,7 +132,7 @@ function ModificarTiempoR(){
         'tiempo_descanso': descanso
     }
     console.log(objeto)
-    fetch(`http://192.168.0.2:4000/updateConfig2`, {
+    fetch(`http://192.168.0.7:4000/updateConfig2`, {
     method: 'PUT',
     body: JSON.stringify(objeto),
     headers:{
@@ -153,7 +153,7 @@ function setLogueado(){
     let logueado = {
       "estado": 0
     }
-    fetch(`http://192.168.0.2:4000/updateLogin`, {
+    fetch(`http://192.168.0.7:4000/updateLogin`, {
       method: 'PUT',
       body: JSON.stringify(logueado),
       headers:{
