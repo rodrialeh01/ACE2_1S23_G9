@@ -107,12 +107,19 @@ export const simulate = async (req, res) =>
     // const [dataUser] = await pool.query("SELECT tiempo_trabajo, tiempo_descanso FROM configuracion WHERE id_usuario = ?", [id]);
     // const { tiempo_trabajo, tiempo_descanso } = dataUser[0];
     const [tiemposDescanso] = await pool.query("SELECT tiempo FROM datos WHERE id_usuario = ? AND fase_pomodoro = ? and estado = 1", [id, 2]);
-    let inicio = new Date(tiemposDescanso[0].tiempo);
-    if (inicio == undefined || inicio == null)
+    let inicio;
+    let fin;
+    try
+    {
+        inicio = new Date(tiemposDescanso[0].tiempo);
+        fin = new Date(tiemposDescanso[tiemposDescanso.length - 1].tiempo);
+        
+    }
+    catch (error)
     {
         res.send("Mire la db mi compaa");
+        return;
     }
-    let fin = new Date(tiemposDescanso[tiemposDescanso.length - 1].tiempo);
     let tiempoTotal = fin.getTime() - inicio.getTime();
     let tiempoTotalSegundos = tiempoTotal / 1000;
 
