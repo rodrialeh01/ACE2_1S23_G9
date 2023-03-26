@@ -19,7 +19,6 @@ const APP_SHELL = [
     "/assets/images/icons8-logout-24.png",
     "/assets/images/logo.png",
     "/assets/images/logo2.png",
-    "/assets/js/custom.js",
     "/assets/js/isotope.js",
     "/assets/js/isotope.min.js",
     "/assets/js/main.js",
