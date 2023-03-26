@@ -152,3 +152,9 @@ export const resetTime = async (req, res) =>
     const [rows2] = await pool.query("UPDATE configuracion SET tiempo_trabajo = 25, tiempo_descanso = 5 WHERE id_usuario = ?", [id]);
     res.send("OK");
 }
+
+export const getFase = async (req, res) =>
+{
+    const [rows] = await pool.query("SELECT fase FROM login WHERE id = 1");
+    res.send(rows);
+}
