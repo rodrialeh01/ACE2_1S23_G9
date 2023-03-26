@@ -112,6 +112,8 @@ export const simulate = async (req, res) =>
     console.log(tiempoTotalSegundos);
 
     res.send({
+        "fecha_inicio": inicio,
+        "fecha_fin": fin,
         "penalizacion": tiempoTotalSegundos
     });
 }

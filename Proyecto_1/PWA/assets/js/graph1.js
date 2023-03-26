@@ -156,7 +156,8 @@ class BarChart {
 
 
 var data_graph = {
-  "Fase 1": 0
+  "Fase 1": 0,
+  "Fase 2": 5
 }
 
 

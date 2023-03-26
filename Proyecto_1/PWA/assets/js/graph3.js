@@ -38,6 +38,7 @@ class BarChart {
     this.colors = options.colors;
     this.titleOptions = options.titleOptions;
     this.maxValue = Math.max(...Object.values(this.options.data));
+    this.texty = options.texty;
   }
 
   drawGridLines() {
@@ -164,6 +165,7 @@ var myBarchart2 = new BarChart({
   gridStep: 1,
   gridColor: "black",
   data: data_graph2,
+  texty: "Tiempo (s)",
   colors: ["#FD2619", "#949494"],
   titleOptions: {
     align: "center",
