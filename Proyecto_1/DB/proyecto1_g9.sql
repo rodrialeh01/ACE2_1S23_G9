@@ -2,10 +2,10 @@
 -- version 5.2.0
 -- https://www.phpmyadmin.net/
 --
--- Host: 127.0.0.1
--- Generation Time: Mar 26, 2023 at 10:13 AM
--- Server version: 10.4.27-MariaDB
--- PHP Version: 8.2.0
+-- Servidor: 127.0.0.1
+-- Tiempo de generación: 27-03-2023 a las 01:35:34
+-- Versión del servidor: 10.4.27-MariaDB
+-- Versión de PHP: 8.0.25
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -18,13 +18,13 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Database: `proyecto1_g9`
+-- Base de datos: `proyecto1_g9`
 --
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `configuracion`
+-- Estructura de tabla para la tabla `configuracion`
 --
 
 CREATE TABLE `configuracion` (
@@ -36,7 +36,7 @@ CREATE TABLE `configuracion` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Dumping data for table `configuracion`
+-- Volcado de datos para la tabla `configuracion`
 --
 
 INSERT INTO `configuracion` (`id_usuario`, `nombre`, `tiempo_trabajo`, `tiempo_descanso`, `tiempo_sistema`) VALUES
@@ -46,7 +46,7 @@ INSERT INTO `configuracion` (`id_usuario`, `nombre`, `tiempo_trabajo`, `tiempo_d
 -- --------------------------------------------------------
 
 --
--- Table structure for table `datos`
+-- Estructura de tabla para la tabla `datos`
 --
 
 CREATE TABLE `datos` (
@@ -59,7 +59,7 @@ CREATE TABLE `datos` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Dumping data for table `datos`
+-- Volcado de datos para la tabla `datos`
 --
 
 INSERT INTO `datos` (`id`, `id_usuario`, `tiempo`, `estado`, `id_pomodoro`, `fase_pomodoro`) VALUES
@@ -202,79 +202,82 @@ INSERT INTO `datos` (`id`, `id_usuario`, `tiempo`, `estado`, `id_pomodoro`, `fas
 (140, 15, '2023-03-26 06:50:37', 1, 1, 3),
 (141, 15, '2023-03-26 06:50:38', 1, 1, 3),
 (142, 15, '2023-03-26 06:50:38', 1, 1, 3),
-(143, 15, '2023-03-26 06:50:41', 1, 1, 3);
+(143, 15, '2023-03-26 06:50:41', 1, 1, 3),
+(145, 16, '2023-03-26 08:27:25', 2, 4, 5),
+(146, 16, '2023-03-26 11:36:53', 45, 0, 43);
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `login`
+-- Estructura de tabla para la tabla `login`
 --
 
 CREATE TABLE `login` (
   `id` int(11) NOT NULL,
   `estado` int(11) NOT NULL,
   `configurar` int(11) NOT NULL,
-  `fase` int(11) NOT NULL
+  `fase` int(11) NOT NULL,
+  `idPomodoro` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Dumping data for table `login`
+-- Volcado de datos para la tabla `login`
 --
 
-INSERT INTO `login` (`id`, `estado`, `configurar`, `fase`) VALUES
-(1, 1, 0, 0);
+INSERT INTO `login` (`id`, `estado`, `configurar`, `fase`, `idPomodoro`) VALUES
+(1, 1, 0, 43, 0);
 
 --
--- Indexes for dumped tables
+-- Índices para tablas volcadas
 --
 
 --
--- Indexes for table `configuracion`
+-- Indices de la tabla `configuracion`
 --
 ALTER TABLE `configuracion`
   ADD PRIMARY KEY (`id_usuario`);
 
 --
--- Indexes for table `datos`
+-- Indices de la tabla `datos`
 --
 ALTER TABLE `datos`
   ADD PRIMARY KEY (`id`),
   ADD KEY `id_usuario` (`id_usuario`);
 
 --
--- Indexes for table `login`
+-- Indices de la tabla `login`
 --
 ALTER TABLE `login`
   ADD PRIMARY KEY (`id`);
 
 --
--- AUTO_INCREMENT for dumped tables
+-- AUTO_INCREMENT de las tablas volcadas
 --
 
 --
--- AUTO_INCREMENT for table `configuracion`
+-- AUTO_INCREMENT de la tabla `configuracion`
 --
 ALTER TABLE `configuracion`
-  MODIFY `id_usuario` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
+  MODIFY `id_usuario` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
 
 --
--- AUTO_INCREMENT for table `datos`
+-- AUTO_INCREMENT de la tabla `datos`
 --
 ALTER TABLE `datos`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=144;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=147;
 
 --
--- AUTO_INCREMENT for table `login`
+-- AUTO_INCREMENT de la tabla `login`
 --
 ALTER TABLE `login`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
--- Constraints for dumped tables
+-- Restricciones para tablas volcadas
 --
 
 --
--- Constraints for table `datos`
+-- Filtros para la tabla `datos`
 --
 ALTER TABLE `datos`
   ADD CONSTRAINT `datos_ibfk_1` FOREIGN KEY (`id_usuario`) REFERENCES `configuracion` (`id_usuario`) ON UPDATE CASCADE;
