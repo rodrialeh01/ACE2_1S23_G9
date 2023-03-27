@@ -168,3 +168,24 @@ function setLogueado(){
           location.href = './index.html'
       })
   }
+
+function Reset(){
+    if(state == 1){
+        alert('El reset durante el tiempo de Pomodoros unicamente funciona desde el Tomate')
+        return;
+    }
+    fetch(`http://192.168.0.6:4000/reset`, {
+    method: 'GET',
+    headers:{
+        'Content-Type': 'application/json',
+        'Access-Control-Allow-Origin': '*',}})
+    .then(res => res.json())
+    .catch(err => {
+        console.error('Error:', err)
+    })
+    .then(response =>{
+        console.log(response);
+        //alert('Se modifico correctamente el tiempo')
+        location.href = './Dashboard.html'
+    })
+}

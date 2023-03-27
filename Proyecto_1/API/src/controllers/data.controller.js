@@ -106,9 +106,9 @@ export const simulate = async (req, res) =>
 {
     const [rows] = await pool.query("SELECT MAX(id_usuario) AS id FROM configuracion;");
     const id = rows[0].id;
-    // const [dataUser] = await pool.query("SELECT tiempo_trabajo, tiempo_descanso FROM configuracion WHERE id_usuario = ?", [id]);
-    // const { tiempo_trabajo, tiempo_descanso } = dataUser[0];
-    const [tiemposDescanso] = await pool.query("SELECT tiempo FROM datos WHERE id_usuario = ? AND fase_pomodoro = ? and estado = 1", [id, 2]);
+    const [rows2] = await pool.query("SELECT fase FROM login WHERE id = 1");
+    const fase = rows2[0].fase;
+    const [tiemposDescanso] = await pool.query("SELECT tiempo FROM datos WHERE id_usuario = ? AND fase_pomodoro = ? and estado = 1", [id, fase]);
     let inicio;
     let fin;
     try
@@ -119,7 +119,12 @@ export const simulate = async (req, res) =>
     }
     catch (error)
     {
-        res.send("Mire la db mi compaa");
+        res.send({
+            "fecha_inicio": "",
+            "fecha_fin": "",
+            "penalizacion": 0,
+            "fase": 0
+        });
         return;
     }
     let tiempoTotal = fin.getTime() - inicio.getTime();
@@ -127,11 +132,68 @@ export const simulate = async (req, res) =>
 
     console.log(tiempoTotalSegundos);
 
-    res.send({
-        "fecha_inicio": inicio,
-        "fecha_fin": fin,
-        "penalizacion": tiempoTotalSegundos
-    });
+    if(fase == 2 || fase == 4 || fase == 6){
+        res.send({
+            "fecha_inicio": inicio,
+            "fecha_fin": fin,
+            "penalizacion": tiempoTotalSegundos,
+            "fase": fase
+        });
+    }else{
+        res.send({
+            "fecha_inicio": "",
+            "fecha_fin": "",
+            "penalizacion": 0,
+            "fase": 0
+        });
+    }
+}
+
+export const simulate2 = async (req, res) =>
+{
+    const [rows] = await pool.query("SELECT MAX(id_usuario) AS id FROM configuracion;");
+    const id = rows[0].id;
+    const [rows2] = await pool.query("SELECT fase FROM login WHERE id = 1");
+    const fase = rows2[0].fase;
+    const [tiemposDescanso] = await pool.query("SELECT tiempo FROM datos WHERE id_usuario = ? AND fase_pomodoro = ? and estado = 0", [id, fase]);
+    let inicio;
+    let fin;
+    try
+    {
+        inicio = new Date(tiemposDescanso[0].tiempo);
+        fin = new Date(tiemposDescanso[tiemposDescanso.length - 1].tiempo);
+        
+    }
+    catch (error)
+    {
+        res.send({
+            "fecha_inicio": "",
+            "fecha_fin": "",
+            "penalizacion": 0,
+            "fase": 0
+        });
+        return;
+    }
+    let tiempoTotal = fin.getTime() - inicio.getTime();
+    let tiempoTotalSegundos = tiempoTotal / 1000;
+
+    console.log(tiempoTotalSegundos);
+
+    if(fase == 1 || fase == 3 || fase == 5 || fase == 7){
+        res.send({
+            "fecha_inicio": inicio,
+            "fecha_fin": fin,
+            "penalizacion": tiempoTotalSegundos,
+            "fase": fase
+        });
+    }else{
+        res.send({
+            "fecha_inicio": "",
+            "fecha_fin": "",
+            "penalizacion": 0,
+            "fase": 0
+        });
+    }
 }
 
 export const getWorkTime = async (req, res) =>

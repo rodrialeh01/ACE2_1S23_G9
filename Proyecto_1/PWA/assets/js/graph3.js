@@ -1,6 +1,9 @@
 var myCanvas2 = document.getElementById("grafica2");
 var graficas2 = document.getElementById("graficas2");
 var s2 = document.getElementById("seconds2");
+var date1 = document.getElementById("fecha_i");
+var date2 = document.getElementById("fecha_f");
+var fase_p = document.getElementById("fase");
 myCanvas2.width = graficas2.offsetWidth;
 myCanvas2.height = graficas2.offsetHeight*5;
 
@@ -158,6 +161,39 @@ var data_graph2 = {
   "Fase 2": 0
 }
 
+function update_graph2(){
+  fetch(`http://192.168.0.6:4000/simulate`, {
+    method: 'GET',
+    headers:{
+        'Content-Type': 'application/json',
+        'Access-Control-Allow-Origin': '*',}})
+    .then(res => res.json())
+    .catch(err => {
+        console.error('Error:', err)
+        //alert("Ocurrio un error, ver la consola")
+    })
+    .then(response =>{
+        console.log('Success:', response)
+        data_graph2["Fase 2"] = response["penalizacion"];
+        s2.innerHTML = response["penalizacion"];
+        let d1 = new Date(response["fecha_inicio"]);
+        let d2 = new Date(response["fecha_fin"]);
+        let f1 = d1.getDate() + "/" + (d1.getMonth() + 1) + "/" + d1.getFullYear() + " - " + d1.getHours() + ":" + d1.getMinutes() + ":" + d1.getSeconds();
+        let f2 = d2.getDate() + "/" + (d2.getMonth() + 1) + "/" + d2.getFullYear() + " - " + d2.getHours() + ":" + d2.getMinutes() + ":" + d2.getSeconds();
+        date1.innerHTML = f1;
+        date2.innerHTML = f2;
+        if(response["fase"] == 2){
+          fase_p.innerHTML = "Descanso 1";
+        }else if(response["fase"] == 4){
+          fase_p.innerHTML = "Descanso 2";
+        }else if(response["fase"] == 6){
+          fase_p.innerHTML = "Descanso 3";
+        }else{
+          fase_p.innerHTML = "0";
+        }
+    })
+}
+
 var myBarchart2 = new BarChart({
   canvas: myCanvas2,
   seriesName: "Penalizacion por no sentarse a tiempo (s)",
@@ -182,6 +218,7 @@ setTimeout(function() {
 }, 15);
 
 setInterval(function(){
+  update_graph2();
   ctx2.clearRect(0, 0, myCanvas2.width, myCanvas2.height);
 if(data_graph2["Fase 2"] < 40){
   var myBarchart2 = new BarChart({
@@ -265,6 +302,4 @@ if(data_graph2["Fase 2"] < 40){
   });
   myBarchart2.draw();
 }
-  s2.innerHTML = data_graph2["Fase 2"];
-  data_graph2["Fase 2"] += 1;
 },1000)
