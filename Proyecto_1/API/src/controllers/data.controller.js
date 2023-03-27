@@ -233,9 +233,9 @@ export const getFase = async (req, res) =>
 export const updateIdPomodoro = async (req, res) =>
 {
     const [rows4] = await pool.query("SELECT idPomodoro FROM login WHERE id = 1;");
-    const idPomodoro = rows4[0].idPomodoro;
-    idPomodoro++;
-    const [rows] = await pool.query("UPDATE login SET id_pomodoro = ? WHERE id = 1", [ idPomodoro]);
+    let idPomodoro = rows4[0].idPomodoro;
+    idPomodoro = idPomodoro + 1;
+    const [rows] = await pool.query("UPDATE login SET idPomodoro = ? WHERE id = 1", [ idPomodoro]);
     res.send("OK");
 }
 
@@ -452,4 +452,64 @@ export const filtrarDataPorIdPomodoro = async (req, res) =>
     // console.log(idsPomodoros2);
 
     res.send(idsPomodoros2);
+}
+
+export const rankingIndividual = async (req, res) =>
+{
+    // SELECT tiempo, estado, fase_pomodoro, id_pomodoro FROM datos WHERE id_usuario = 16
+    const [rowsa] = await pool.query("SELECT MAX(id_usuario) AS id FROM configuracion;");
+    const id_usuario = rowsa[0].id;
+    const [rows4] = await pool.query("SELECT idPomodoro FROM login WHERE id = 1;");
+    const id_pomodoro = rows4[0].idPomodoro;
+    // console.log(id_pomodoro);
+    const [rows] = await pool.query("SELECT tiempo, estado, fase_pomodoro, id_pomodoro FROM datos WHERE id_usuario = ? AND id_pomodoro = ?", [ id_usuario, id_pomodoro]);
+    
+    let fasesPomodoro = rows.map((item) => {
+        return item.fase_pomodoro;
+    });
+
+    let fasesPomodoroReducido = fasesPomodoro.filter((item, index) => {
+        return fasesPomodoro.findIndex(obj => obj === item) === index;
+    });
+
+    
+    let listaRanking = [];
+
+        fasesPomodoroReducido.forEach(idFase => {
+            // console.log("idFase: " + idFase);
+            let fase = idFase;
+            let sentado = 0;
+            let parado = 0;
+            let data = [];
+
+            rows.forEach(element => {
+                if(element.fase_pomodoro == idFase)
+                {
+                    data.push(element);
+                    if(element.estado == 1)
+                    {
+                        sentado++;
+                    }
+                    else
+                    {
+                        parado++;
+                    }
+                }
+            });
+
+            let fecha_inicio = new Date(data[0].tiempo).toLocaleString();
+            let fecha_fin = new Date(data[data.length-1].tiempo).toLocaleString();
+            listaRanking.push({
+                id_pomodoro,
+                fase,
+                sentado,
+                parado,
+                fecha_inicio,
+                fecha_fin
+            });
+        });
+
+    // console.log(listaRanking);
+
+    res.send(listaRanking);
 }
