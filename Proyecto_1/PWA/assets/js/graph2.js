@@ -6,10 +6,7 @@ myCanvas.height = graficas.offsetHeight*5;
 var ctx = myCanvas.getContext("2d");
 
 
-setTimeout(function() {
-    addEventListener('resize', myBarchart.draw, false);
-    //addEventListener('resize', Cumplimiento.draw, false);
-}, 15)
+
 
 
 
@@ -64,7 +61,11 @@ class BarChart {
     this.ctx = this.canvas.getContext("2d");
     this.colors = options.colors;
     this.titleOptions = options.titleOptions;
-    this.maxValue = 100;
+    try {
+      this.maxValue = Math.max(...Object.values(dataRanking));
+    } catch (e) {
+      this.maxValue = 100;
+    }
   }
   drawGridLines() {
     var canvasActualHeight = this.canvas.height - this.options.padding * 2;
@@ -109,7 +110,7 @@ class BarChart {
     var values = dataRanking;
     var currentPomodoro;
     for (let val of values) {      
-      if(val.pomId != currentPomodoro ){
+      /*if(val.pomId != currentPomodoro ){
         drawLine(
           this.ctx,
           this.options.padding + barIndex * barSize,
@@ -119,7 +120,7 @@ class BarChart {
           "white"
         );
         currentPomodoro=val.pomId;
-      }
+      }*/
       var barHeight = Math.round((canvasActualHeight * val.total) / this.maxValue);
       //console.log(barHeight);
       //console.log(val);
@@ -194,9 +195,8 @@ class BarChart {
 }
 var myBarchart = new BarChart({
   canvas: myCanvas,
-  seriesName: "Porcentajes de Pomodoros:16/03/2023 - 18/03/2023",
+  seriesName: "Resultados de Pomodoros Unificados",
   padding: 50,
-  gridStep: 2.5,
   gridColor: "white",
   data: dataRanking,
   colors: ["#ffffff", "#f73232"],
@@ -211,6 +211,12 @@ var myBarchart = new BarChart({
   }
 });
 
+try {
+  myBarchart.gridStep= Math.max(...Object.values(dataRanking))/40;
+}catch(err){
+  myBarchart.gridStep = 2.5;
+}
+
 
 
 
@@ -224,25 +230,30 @@ function LeerJson(){
   .catch(error => console.error('Error:', error))
   .then(response => {
     console.log('Success:', response)
+    var tiempoTrabajo, penalizacionParado, tiempoDescanso, penalizacionSentado;
     for (let i = 0; i < response.length; i++) {
-      var totalTiempo = response[i].sentado + response[i].parado;
-      var porcentajeSentado = (response[i].sentado * 100) / totalTiempo;
-      var porcentajeParado = (response[i].parado * 100) / totalTiempo;
       if (response[i].fase % 2 != 0) {
-        dataRanking.push(
-          {name:"Trabajo", total: porcentajeSentado, init:response[i].fecha_inicio, end:response[i].fecha_fin, pomId:response[i].id_pomodoro}
-        );
-        dataRanking.push(
-          {name:"Penalización parado", total: porcentajeParado, init:response[i].fecha_inicio, end:response[i].fecha_fin, pomId:response[i].id_pomodoro}
-        );
+        tiempoTrabajo += response[i].sentado;
+        penalizacionParado = response[i].parado;
       }else{
-        dataRanking.push(
-          {name:"Descanso", total: porcentajeParado, init:response[i].fecha_inicio, end:response[i].fecha_fin, pomId:response[i].id_pomodoro}
-        );
-        dataRanking.push(
-          {name:"Penalización sentado", total: porcentajeSentado, init:response[i].fecha_inicio, end:response[i].fecha_fin, pomId:response[i].id_pomodoro}
-        );
+        tiempoDescanso += response[i].parado;
+        penalizacionSentado = response[i].sentado;
       }
+    }
+    if (response[i].fase % 2 != 0) {
+      dataRanking.push(
+        {name:"Trabajo", total: tiempoTrabajo, init:response[i].fecha_inicio, end:response[i].fecha_fin, pomId:response[i].id_pomodoro}
+      );
+      dataRanking.push(
+        {name:"Penalización parado", total: penalizacionParado, init:response[i].fecha_inicio, end:response[i].fecha_fin, pomId:response[i].id_pomodoro}
+      );
+    }else{
+      dataRanking.push(
+        {name:"Descanso", total: tiempoDescanso, init:response[i].fecha_inicio, end:response[i].fecha_fin, pomId:response[i].id_pomodoro}
+      );
+      dataRanking.push(
+        {name:"Penalización sentado", total: penalizacionSentado, init:response[i].fecha_inicio, end:response[i].fecha_fin, pomId:response[i].id_pomodoro}
+      );
     }
   })
 }
@@ -252,7 +263,10 @@ var dataRanking = [];
 LeerJson();
 myBarchart.draw();
 
-
+setTimeout(function() {
+  addEventListener('resize', myBarchart.draw, false);
+  //addEventListener('resize', Cumplimiento.draw, false);
+}, 15)
 
 
 
