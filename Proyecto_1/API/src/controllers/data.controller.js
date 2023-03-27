@@ -176,3 +176,57 @@ export const updateIdPomodoro = async (req, res) =>
     const [rows] = await pool.query("UPDATE login SET id_pomodoro = ? WHERE id = 1", [ idPomodoro]);
     res.send("OK");
 }
+
+export const filtrarUsuariosPorFecha = async (req, res) =>
+{
+    // SELECT id_usuario, nombre FROM configuracion WHERE (tiempo_sistema BETWEEN '2023-03-24:00:00:00' AND '2023-03-24:23:59:59');
+    const { fecha } = req.body;
+    let fechaInicio = fecha + ":00:00:00";
+    let fechaFin = fecha + ":23:59:59";
+    const [rows] = await pool.query("SELECT id_usuario, nombre FROM configuracion WHERE (tiempo_sistema BETWEEN ? AND ?)", [ fechaInicio, fechaFin ]);
+    res.send(rows);
+    console.log(rows);
+}
+
+export const filtrarDataPorUsuario = async (req, res) =>
+{
+    // SELECT tiempo, estado FROM datos WHERE id_usuario = 16
+    const id_usuario = req.params.id;
+    console.log(id_usuario);
+    const [rows] = await pool.query("SELECT tiempo, estado FROM datos WHERE id_usuario = ?", [ id_usuario ]);
+    // res.send(rows);
+
+    let stateInicial = rows[0].estado;
+
+    let date = new Date(rows[0].tiempo);   
+    let array = [];
+
+    let p = {
+        "fecha_inicio": date.toLocaleString(),
+        "fecha_fin": "",
+        "estado": stateInicial
+    }
+
+    rows.forEach(element => {
+        if(stateInicial != element.estado)
+        {
+            p.fecha_fin = new Date(element.tiempo).toLocaleString();
+            array.push(p);
+            stateInicial = element.estado;
+            p = {
+                "fecha_inicio": new Date(element.tiempo).toLocaleString(),
+                "fecha_fin": "",
+                "estado": stateInicial
+            }
+        }
+        // array.push(element.tiempo);
+    });
+
+    p.fecha_fin = new Date(rows[rows.length - 1].tiempo).toLocaleString();
+    p.estado = rows[rows.length - 1].estado;
+    array.push(p);
+
+    console.log(array);
+
+    res.send(array);
+}
