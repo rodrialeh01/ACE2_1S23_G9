@@ -292,3 +292,53 @@ export const filtrarDataPorUsuario = async (req, res) =>
 
     res.send(array);
 }
+
+export const totalPomodorosSinFiltro = async (req, res) =>
+{
+    // SELECT tiempo, estado, fase_pomodoro, id_pomodoro FROM datos WHERE id_usuario = 16
+    const id_usuario = req.params.id;
+    console.log(id_usuario);
+    const [rows] = await pool.query("SELECT tiempo, estado, fase_pomodoro, id_pomodoro FROM datos WHERE id_usuario = ?", [ id_usuario ]);
+    
+    let idsPomodoros = rows.filter((item, index) => {
+        return rows.findIndex(obj => obj.id_pomodoro === item.id_pomodoro) === index;
+    });
+
+    console.log(idsPomodoros);
+
+    res.send("OK");
+
+    // let stateInicial = rows[0].estado;
+
+    // let date = new Date(rows[0].tiempo);   
+    // let array = [];
+
+    // let p = {
+    //     "fecha_inicio": date.toLocaleString(),
+    //     "fecha_fin": "",
+    //     "estado": stateInicial
+    // }
+
+    // rows.forEach(element => {
+    //     if(stateInicial != element.estado)
+    //     {
+    //         p.fecha_fin = new Date(element.tiempo).toLocaleString();
+    //         array.push(p);
+    //         stateInicial = element.estado;
+    //         p = {
+    //             "fecha_inicio": new Date(element.tiempo).toLocaleString(),
+    //             "fecha_fin": "",
+    //             "estado": stateInicial
+    //         }
+    //     }
+    //     // array.push(element.tiempo);
+    // });
+
+    // p.fecha_fin = new Date(rows[rows.length - 1].tiempo).toLocaleString();
+    // p.estado = rows[rows.length - 1].estado;
+    // array.push(p);
+
+    // console.log(array);
+
+    // res.send(array);
+}
