@@ -1,4 +1,4 @@
-var myCanvas = document.getElementById("grafica4");
+var myCanvas = document.getElementById("grafica3");
 var graficas = document.getElementById("graficas");
 myCanvas.width = graficas.offsetWidth;
 myCanvas.height = graficas.offsetHeight*5;
@@ -7,7 +7,7 @@ var ctx = myCanvas.getContext("2d");
 
 
 setTimeout(function() {
-    addEventListener('resize', myBarchart.draw, false);
+    addEventListener('resize', myBarchart2.draw, false);
     //addEventListener('resize', Cumplimiento.draw, false);
 }, 15)
 
@@ -57,7 +57,7 @@ function drawBar(ctx, upperLeftCornerX, upperLeftCornerY, width, height,color, t
 }
 
 
-class BarChart {
+class BarChart2 {
   constructor(options) {
     this.options = options;
     this.canvas = options.canvas;
@@ -109,7 +109,7 @@ class BarChart {
     var values = dataRanking;
     var currentPomodoro;
     for (let val of values) {      
-      if(val.pomId != currentPomodoro ){
+      /*if(val.pomId != currentPomodoro ){
         drawLine(
           this.ctx,
           this.options.padding + barIndex * barSize,
@@ -119,7 +119,7 @@ class BarChart {
           "white"
         );
         currentPomodoro=val.pomId;
-      }
+      }*/
       var barHeight = Math.round((canvasActualHeight * val.total) / this.maxValue);
       //console.log(barHeight);
       //console.log(val);
@@ -192,7 +192,7 @@ class BarChart {
     //this.drawLegend();
   }
 }
-var myBarchart = new BarChart({
+var myBarchart2 = new BarChart2({
   canvas: myCanvas,
   seriesName: "Porcentajes de Pomodoros:16/03/2023 - 18/03/2023",
   padding: 50,
@@ -247,14 +247,6 @@ function LeerJson(){
   })
 }
 
-
 var dataRanking = [];
 LeerJson();
-myBarchart.draw();
-
-
-
-
-
-
-
+myBarchart2.draw();

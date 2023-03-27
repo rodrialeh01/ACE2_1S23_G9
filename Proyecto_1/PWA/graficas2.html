@@ -21,6 +21,8 @@
     <link rel="stylesheet" href="assets/css/owl.css">
     <link rel="stylesheet" href="assets/css/animate.css">
     <link rel="stylesheet"href="https://unpkg.com/swiper@7/swiper-bundle.min.css"/>
+    <link rel="stylesheet" href="assets/css/filter.css">
+    
 <!--
 
 TemplateMo 579 Cyborg Gaming
@@ -67,36 +69,73 @@ https://templatemo.com/tm-579-cyborg-gaming
         <div class="page-content">
           <!-- ***** Banner End ***** -->
           <div class="gaming-library profile-library">
-            <div class="col-lg-12">
+            <div class="col-lg-12" id="graficas">
               <div class="heading-section">
                 <h4><em>Validación</em> por el tiempo de trabajo y reposo a lo largo del tiempo</h4>
               </div>
-              <div>
-                <p>Grafica 1</p>
-            </div>
+               <div>
+                <canvas id="grafica1" style="background: #1f2122;"></canvas>
+                <legend for="grafica1"></legend>
+              </div>
             </div>
           </div>
 
           <div class="gaming-library profile-library">
-            <div class="col-lg-12">
+            <div class="col-lg-12" id="graficas">
+              <div class="heading-section">
+                <h4><em>Validación</em> por el tiempo de trabajo y reposo a lo largo del tiempo</h4>
+              </div>
+               <div>
+                <canvas id="grafica2" style="background: #1f2122;"></canvas>
+                <legend for="grafica2"></legend>
+              </div>
+            </div>
+          </div>
+
+          <div class="gaming-library profile-library">
+            <div class="col-lg-12" id="graficas">
               <div class="heading-section">
                 <h4><em>% de Cumplimiento</em> de los Pomodoros</h4>
               </div>
               <div>
-                <p>Grafica 2</p>
-            </div>
+                <canvas id="grafica3" style="background: #1f2122;"></canvas>
+                <legend for="grafica3"></legend>
+              </div>
             </div>
           </div>
 
           <!-- ***** Gaming Library Start ***** -->
           <div class="gaming-library profile-library">
-            <div class="col-lg-12">
+            <div class="col-lg-12" id="graficas">
               <div class="heading-section">
                 <h4><em>Resultados</em> de Cumplimiento de Pomodoros y penalizaciones</h4>
+                
               </div>
+
+              
               <div>
-                <p>Grafica 3</p>
-            </div>
+                <h4>Fecha:</h4>
+                <div class="container">
+                  <div class='input-group date' id='datefilter1'>
+                    <input type='date' class="form-control input-lg" id="date"/>
+                    <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+                  </div>
+                  <h4>Usuarios</h4>
+                  <section >
+                    <select>
+                      <option disabled>Usuarios</option>
+                    </select>
+                  </section>
+                  <h4>Id pomodoro</h4>
+                  <section >
+                    <select>
+                      <option disabled>Pomodoro</option>
+                    </select>
+                  </section>
+                </div>
+                <canvas id="grafica4" style="background: #1f2122;"></canvas>
+                <legend for="grafica4"></legend>
+              </div>
             </div>
           </div>
           <!-- ***** Gaming Library End ***** -->
@@ -118,14 +157,19 @@ https://templatemo.com/tm-579-cyborg-gaming
 
   <!-- Scripts -->
   <!-- Bootstrap core JavaScript -->
+  <script src="assets/js/date.js"></script>
   <script src="vendor/jquery/jquery.min.js"></script>
   <script src="vendor/bootstrap/js/bootstrap.min.js"></script>
+  <script type="text/javascript" src="assets/js/graph2.js"></script>
+  <script type="text/javascript" src="assets/js/graphLast.js"></script>
 
   <script src="assets/js/isotope.min.js"></script>
   <script src="assets/js/owl-carousel.js"></script>
   <script src="assets/js/tabs.js"></script>
   <script src="assets/js/popup.js"></script>
   <script src="assets/js/custom.js"></script>
+  <script src="assets/js/graph2.js"></script>
+
 
 
   </body>
