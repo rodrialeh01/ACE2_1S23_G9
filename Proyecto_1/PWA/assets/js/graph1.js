@@ -1,6 +1,9 @@
 var myCanvas = document.getElementById("grafica1");
 var graficas = document.getElementById("graficas");
 var s1 = document.getElementById("seconds1");
+var date1 = document.getElementById("fecha_i");
+var date2 = document.getElementById("fecha_f");
+var fase_p = document.getElementById("fase");
 myCanvas.width = graficas.offsetWidth;
 myCanvas.height = graficas.offsetHeight*5;
 
@@ -156,10 +159,45 @@ class BarChart {
 
 
 var data_graph = {
-  "Fase 1": 0,
-  "Fase 2": 5
+  "Fase 1": 0
 }
 
+function update_graph(){
+  fetch(`http://192.168.0.6:4000/simulate2`, {
+    method: 'GET',
+    headers:{
+        'Content-Type': 'application/json',
+        'Access-Control-Allow-Origin': '*',}})
+    .then(res => res.json())
+    .catch(err => {
+        console.error('Error:', err)
+        //alert("Ocurrio un error, ver la consola")
+    })
+    .then(response =>{
+        console.log('Success:', response)
+        data_graph["Fase 1"] = response["penalizacion"];
+        s1.innerHTML = response["penalizacion"];
+        if(response["fecha_inicio"] != "" && response["fecha_fin"] != ""){
+          let d1 = new Date(response["fecha_inicio"]);
+          let d2 = new Date(response["fecha_fin"]);
+          let f1 = d1.getDate() + "/" + (d1.getMonth() + 1) + "/" + d1.getFullYear() + " - " + d1.getHours() + ":" + d1.getMinutes() + ":" + d1.getSeconds();
+          let f2 = d2.getDate() + "/" + (d2.getMonth() + 1) + "/" + d2.getFullYear() + " - " + d2.getHours() + ":" + d2.getMinutes() + ":" + d2.getSeconds();
+          date1.innerHTML = f1;
+          date2.innerHTML = f2;
+        }
+        if(response["fase"] == 1){
+          fase_p.innerHTML = "Pomodoro 1";
+        }else if(response["fase"] == 3){
+          fase_p.innerHTML = "Pomodoro 2";
+        }else if(response["fase"] == 5){
+          fase_p.innerHTML = "Pomodoro 3";
+        }else if(respne["fase"] == 7){
+          fase_p.innerHTML = "Pomodoro 4";
+        }else{
+          fase_p.innerHTML = "0";
+        }
+    })
+}
 
 var myBarchart = new BarChart({
   canvas: myCanvas,
@@ -185,6 +223,7 @@ setTimeout(function() {
 }, 15);
 
 setInterval(function(){
+  update_graph();
   ctx.clearRect(0, 0, myCanvas.width, myCanvas.height);
   if(data_graph["Fase 1"] < 40){
     var myBarchart = new BarChart({
@@ -268,6 +307,4 @@ setInterval(function(){
   });
   myBarchart.draw();
 }
-  s1.innerHTML = data_graph["Fase 1"];
-  data_graph["Fase 1"] += 1;
 },1000)
