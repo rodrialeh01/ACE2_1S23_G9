@@ -1,15 +1,12 @@
-var myCanvas = document.getElementById("grafica3");
+var myCanvas2 = document.getElementById("grafica3");
 var graficas = document.getElementById("graficas");
-myCanvas.width = graficas.offsetWidth;
-myCanvas.height = graficas.offsetHeight*5;
+myCanvas2.width = graficas.offsetWidth;
+myCanvas2.height = graficas.offsetHeight*5;
 
-var ctx = myCanvas.getContext("2d");
+var ctx = myCanvas2.getContext("2d");
 
 
-setTimeout(function() {
-    addEventListener('resize', myBarchart2.draw, false);
-    //addEventListener('resize', Cumplimiento.draw, false);
-}, 15)
+
 
 
 
@@ -193,8 +190,8 @@ class BarChart2 {
   }
 }
 var myBarchart2 = new BarChart2({
-  canvas: myCanvas,
-  seriesName: "Porcentajes de Pomodoros:16/03/2023 - 18/03/2023",
+  canvas: myCanvas2,
+  seriesName: "Porcentajes de Pomodoros",
   padding: 50,
   gridStep: 2.5,
   gridColor: "white",
@@ -246,6 +243,11 @@ function LeerJson(){
     }
   })
 }
+
+setTimeout(function() {
+  addEventListener('resize', myBarchart2.draw, false);
+  //addEventListener('resize', Cumplimiento.draw, false);
+}, 15)
 
 var dataRanking = [];
 LeerJson();

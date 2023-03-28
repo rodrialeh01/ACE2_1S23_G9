@@ -62,7 +62,7 @@ class BarChart {
     this.colors = options.colors;
     this.titleOptions = options.titleOptions;
     try {
-      this.maxValue = Math.max(...Object.values(dataRanking));
+      this.maxValue = Math.max(...Object.values(dataUnificado));
     } catch (e) {
       this.maxValue = 100;
     }
@@ -105,9 +105,9 @@ class BarChart {
     var canvasActualHeight = this.canvas.height - this.options.padding * 2;
     var canvasActualWidth = this.canvas.width - this.options.padding * 2;
     var barIndex = 0;
-    var numberOfBars = dataRanking.length;
+    var numberOfBars = dataUnificado.length;
     var barSize = canvasActualWidth / numberOfBars;
-    var values = dataRanking;
+    var values = dataUnificado;
     var currentPomodoro;
     for (let val of values) {      
       /*if(val.pomId != currentPomodoro ){
@@ -175,7 +175,7 @@ class BarChart {
     let legend = document.querySelector("legend[for='grafica4']");
     let ul = document.createElement("ul");
     legend.append(ul);
-    for (let ctg of dataRanking) {
+    for (let ctg of dataUnificado) {
       let li = document.createElement("li");
       li.style.listStyle = "none";
       li.style.borderLeft =
@@ -198,7 +198,7 @@ var myBarchart = new BarChart({
   seriesName: "Resultados de Pomodoros Unificados",
   padding: 50,
   gridColor: "white",
-  data: dataRanking,
+  data: dataUnificado,
   colors: ["#ffffff", "#f73232"],
   titleOptions: {
     align: "center",
@@ -212,7 +212,7 @@ var myBarchart = new BarChart({
 });
 
 try {
-  myBarchart.gridStep= Math.max(...Object.values(dataRanking))/40;
+  myBarchart.gridStep= Math.max(...Object.values(dataUnificado))/40;
 }catch(err){
   myBarchart.gridStep = 2.5;
 }
@@ -230,36 +230,38 @@ function LeerJson(){
   .catch(error => console.error('Error:', error))
   .then(response => {
     console.log('Success:', response)
-    var tiempoTrabajo, penalizacionParado, tiempoDescanso, penalizacionSentado;
+    var tiempoTrabajo, penalizacionParado, tiempoDescanso, penalizacionSentado = 0;
     for (let i = 0; i < response.length; i++) {
       if (response[i].fase % 2 != 0) {
         tiempoTrabajo += response[i].sentado;
-        penalizacionParado = response[i].parado;
+        penalizacionParado += response[i].parado;
       }else{
         tiempoDescanso += response[i].parado;
-        penalizacionSentado = response[i].sentado;
+        penalizacionSentado += response[i].sentado;
       }
     }
-    if (response[i].fase % 2 != 0) {
-      dataRanking.push(
+    
+      dataUnificado.push(
         {name:"Trabajo", total: tiempoTrabajo, init:response[i].fecha_inicio, end:response[i].fecha_fin, pomId:response[i].id_pomodoro}
       );
-      dataRanking.push(
+
+      dataUnificado.push(
         {name:"Penalización parado", total: penalizacionParado, init:response[i].fecha_inicio, end:response[i].fecha_fin, pomId:response[i].id_pomodoro}
       );
-    }else{
-      dataRanking.push(
+    
+      dataUnificado.push(
         {name:"Descanso", total: tiempoDescanso, init:response[i].fecha_inicio, end:response[i].fecha_fin, pomId:response[i].id_pomodoro}
       );
-      dataRanking.push(
+
+      dataUnificado.push(
         {name:"Penalización sentado", total: penalizacionSentado, init:response[i].fecha_inicio, end:response[i].fecha_fin, pomId:response[i].id_pomodoro}
       );
-    }
+    
   })
 }
 
 
-var dataRanking = [];
+var dataUnificado = [];
 LeerJson();
 myBarchart.draw();
 

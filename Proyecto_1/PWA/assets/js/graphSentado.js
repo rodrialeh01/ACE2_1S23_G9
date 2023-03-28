@@ -1,9 +1,9 @@
-var myCanvas3 = document.getElementById("grafica2");
+var myCanvas4 = document.getElementById("grafica1");
 var graficas = document.getElementById("graficas");
-myCanvas3.width = graficas.offsetWidth;
-myCanvas3.height = graficas.offsetHeight*5;
+myCanvas4.width = graficas.offsetWidth;
+myCanvas4.height = graficas.offsetHeight*5;
 
-var ctx = myCanvas3.getContext("2d");
+var ctx = myCanvas4.getContext("2d");
 
 
 
@@ -54,7 +54,7 @@ function drawBar(ctx, upperLeftCornerX, upperLeftCornerY, width, height,color, t
 }
 
 
-class BarChart3 {
+class BarChart4 {
   constructor(options) {
     this.options = options;
     this.canvas = options.canvas;
@@ -101,9 +101,9 @@ class BarChart3 {
     var canvasActualHeight = this.canvas.height - this.options.padding * 2;
     var canvasActualWidth = this.canvas.width - this.options.padding * 2;
     var barIndex = 0;
-    var numberOfBars = dataParado.length;
+    var numberOfBars = dataSentado.length;
     var barSize = canvasActualWidth / numberOfBars;
-    var values = dataParado;
+    var values = dataSentado;
     var currentPomodoro;
     for (let val of values) {      
       /*if(val.pomId != currentPomodoro ){
@@ -171,7 +171,7 @@ class BarChart3 {
     let legend = document.querySelector("legend[for='grafica4']");
     let ul = document.createElement("ul");
     legend.append(ul);
-    for (let ctg of dataParado) {
+    for (let ctg of dataSentado) {
       let li = document.createElement("li");
       li.style.listStyle = "none";
       li.style.borderLeft =
@@ -189,13 +189,13 @@ class BarChart3 {
     //this.drawLegend();
   }
 }
-var myBarchart3 = new BarChart3({
-  canvas: myCanvas3,
-  seriesName: "Validación que el usuario no esté sentado",
+var myBarchart4 = new BarChart4({
+  canvas: myCanvas4,
+  seriesName: "Validación que el usuario esté sentado",
   padding: 50,
   gridStep: 1,
   gridColor: "white",
-  data: dataParado,
+  data: dataSentado,
   colors: ["#ffffff", "#f73232"],
   titleOptions: {
     align: "center",
@@ -222,24 +222,19 @@ function LeerJson(){
   .then(response => {
     console.log('Success:', response)
     for (let i = 0; i < response.length; i++) {
-        var estado = response[i].estado;
-        if (estado == 1){
-          estado = 0;
-        }else{
-            estado = 1;
-        }
         dataSentado.push(
-            {name:"", total: estado, init:response[i].fecha_inicio, end:response[i].fecha_fin, pomId:""}
+            {name:"", total: response[i].estado, init:response[i].fecha_inicio, end:response[i].fecha_fin, pomId:""}
             );
       }
-  })
+    })
 }
 
+
 setTimeout(function() {
-  addEventListener('resize', myBarchart3.draw, false);
+  addEventListener('resize', myBarchart4.draw, false);
   //addEventListener('resize', Cumplimiento.draw, false);
 }, 15)
 
-var dataParado = [];
+var dataSentado = [];
 LeerJson();
-myBarchart3.draw();
+myBarchart4.draw();
