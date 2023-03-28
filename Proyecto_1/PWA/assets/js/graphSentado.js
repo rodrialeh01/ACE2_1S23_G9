@@ -42,7 +42,7 @@ function ObtenerUsuarios3(fecha_f){
       usuarios_filtro3.innerHTML = insert;
       console.log("2")
       usuarios_filtro3.addEventListener("change", function(){
-        ObtenerIDS3(usuarios_filtro1.value);
+        ObtenerIDS3(usuarios_filtro3.value);
       });
   })
 }
@@ -262,7 +262,7 @@ function activarObtenerData3(){
 }
 var dataSentado = [];
 function ObtenerData3(id_pom, id_us){
-  fetch('http://192.168.0.6:4000/filtrarDataPorUsuario/36',{
+  fetch(`http://192.168.0.6:4000/filtrarDataPorUsuarioIdPm/${id_us}/${id_pom}`,{
     method: 'GET',
     headers: {
       'Content-Type': 'application/json',

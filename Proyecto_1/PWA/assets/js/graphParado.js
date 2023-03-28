@@ -41,7 +41,7 @@ function ObtenerUsuarios2(fecha_f){
       usuarios_filtro2.innerHTML = insert;
       console.log("2")
       usuarios_filtro2.addEventListener("change", function(){
-        ObtenerIDS2(usuarios_filtro1.value);
+        ObtenerIDS2(usuarios_filtro2.value);
       });
   })
 }
@@ -264,7 +264,7 @@ function activarObtenerData2(){
 
 var dataParado = [];
 function ObtenerData2(id_pom, id_us){
-  fetch('http://192.168.0.6:4000/filtrarDataPorUsuario/36',{
+  fetch(`http://192.168.0.6:4000/filtrarDataPorUsuarioIdPm/${id_us}/${id_pom}`,{
     method: 'GET',
     headers: {
       'Content-Type': 'application/json',
