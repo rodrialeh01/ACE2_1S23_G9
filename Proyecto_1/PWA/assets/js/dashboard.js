@@ -106,7 +106,7 @@ function ModificarTiempoT(){
 }
 
 setInterval(function() {
-   // getStateConfig();
+    getStateConfig();
 }, 1000); // 1000 = 1 segundos en milisegundos
 /*
 setInterval(function() {
