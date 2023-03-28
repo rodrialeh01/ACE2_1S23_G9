@@ -558,3 +558,107 @@ export const filtrarDataPorUsuarioIdPomodoro = async (req, res) =>
 
     res.send(array);
 }
+
+export const filtrarDataPorUsuarioDefault = async (req, res) =>
+{
+    const [rowsa] = await pool.query("SELECT MAX(id_usuario) AS id FROM configuracion;");
+    const id_usuario = rowsa[0].id;
+    const [rows4] = await pool.query("SELECT idPomodoro FROM login WHERE id = 1;");
+    let id_pomodoro = rows4[0].idPomodoro;
+    const [rows] = await pool.query("SELECT tiempo, estado FROM datos WHERE id_usuario = ? AND id_pomodoro = ?", [ id_usuario, id_pomodoro ]);
+    // res.send(rows);
+
+    let stateInicial = rows[0].estado;
+
+    let date = new Date(rows[0].tiempo);   
+    let array = [];
+
+    let p = {
+        "fecha_inicio": date.toLocaleString(),
+        "fecha_fin": "",
+        "estado": stateInicial
+    }
+
+    rows.forEach(element => {
+        if(stateInicial != element.estado)
+        {
+            p.fecha_fin = new Date(element.tiempo).toLocaleString();
+            array.push(p);
+            stateInicial = element.estado;
+            p = {
+                "fecha_inicio": new Date(element.tiempo).toLocaleString(),
+                "fecha_fin": "",
+                "estado": stateInicial
+            }
+        }
+        // array.push(element.tiempo);
+    });
+
+    p.fecha_fin = new Date(rows[rows.length - 1].tiempo).toLocaleString();
+    p.estado = rows[rows.length - 1].estado;
+    array.push(p);
+
+    console.log(array);
+
+    res.send(array);
+}
+
+export const totalPomodorosDefault = async (req, res) =>
+{
+    // SELECT tiempo, estado, fase_pomodoro, id_pomodoro FROM datos WHERE id_usuario = 16
+    const [rowsa] = await pool.query("SELECT MAX(id_usuario) AS id FROM configuracion;");
+    const id_usuario = rowsa[0].id;
+    const [rows4] = await pool.query("SELECT idPomodoro FROM login WHERE id = 1;");
+    const id_pomodoro = rows4[0].idPomodoro;
+    console.log(id_pomodoro);
+    const [rows] = await pool.query("SELECT tiempo, estado, fase_pomodoro, id_pomodoro FROM datos WHERE id_usuario = ? AND id_pomodoro = ?", [ id_usuario, id_pomodoro]);
+    
+    let fasesPomodoro = rows.map((item) => {
+        return item.fase_pomodoro;
+    });
+
+    let fasesPomodoroReducido = fasesPomodoro.filter((item, index) => {
+        return fasesPomodoro.findIndex(obj => obj === item) === index;
+    });
+
+    
+    let listaRanking = [];
+
+        fasesPomodoroReducido.forEach(idFase => {
+            // console.log("idFase: " + idFase);
+            let fase = idFase;
+            let sentado = 0;
+            let parado = 0;
+            let data = [];
+
+            rows.forEach(element => {
+                if(element.fase_pomodoro == idFase)
+                {
+                    data.push(element);
+                    if(element.estado == 1)
+                    {
+                        sentado++;
+                    }
+                    else
+                    {
+                        parado++;
+                    }
+                }
+            });
+
+            let fecha_inicio = new Date(data[0].tiempo).toLocaleString();
+            let fecha_fin = new Date(data[data.length-1].tiempo).toLocaleString();
+            listaRanking.push({
+                id_pomodoro,
+                fase,
+                sentado,
+                parado,
+                fecha_inicio,
+                fecha_fin
+            });
+        });
+
+    // console.log(listaRanking);
+
+    res.send(listaRanking);
+}
