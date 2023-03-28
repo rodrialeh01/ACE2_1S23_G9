@@ -74,6 +74,36 @@ https://templatemo.com/tm-579-cyborg-gaming
                 <h4><em>Validación</em> que el usuario esté sentado a lo largo del tiempo</h4>
               </div>
                <div>
+                <h4>Fecha:</h4>
+                <div class="container">
+                  <div class='input-group date' id='datefilter1'>
+                    <input type='date' class="form-control input-lg" id="date_sentado"/>
+                    <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+                  </div>
+                  <h4>Usuarios</h4>
+                  <section >
+                    <select id="usuarios_sentado" name="usuarios">
+                      <option disabled>Usuarios</option>
+                    </select>
+                  </section>
+                  <h4>Id pomodoro</h4>
+                  <section >
+                    <select id="id_pomodoro_sentado" name="id_pomodoro">
+                      <option disabled>Pomodoro</option>
+                    </select>
+                  </section>
+                  <div class="main-button">
+                    <a type="button" onclick="activarObtenerData3()">Mostrar</a>
+                  </div>
+                  <br>
+                  <br>
+                  <br>
+                  <br>
+                  <center><h5 id="titleg1"></h5></center>
+                  <br>
+                  <br>
+                  <br>
+                </div>
                 <canvas id="grafica1" style="background: #1f2122;"></canvas>
                 <legend for="grafica1"></legend>
               </div>
@@ -83,9 +113,39 @@ https://templatemo.com/tm-579-cyborg-gaming
           <div class="gaming-library profile-library">
             <div class="col-lg-12" id="graficas">
               <div class="heading-section">
-                <h4><em>Validación</em> que el usuario no esté sentado en el tiempo de descanso</h4>
+                <h4><em>Validación</em> que el usuario no esté sentado a lo largo del tiempo</h4>
               </div>
                <div>
+                <h4>Fecha:</h4>
+                <div class="container">
+                  <div class='input-group date' id='datefilter1'>
+                    <input type='date' class="form-control input-lg" id="date_parado"/>
+                    <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+                  </div>
+                  <h4>Usuarios</h4>
+                  <section >
+                    <select id="usuarios_parado" name="usuarios">
+                      <option disabled>Usuarios</option>
+                    </select>
+                  </section>
+                  <h4>Id pomodoro</h4>
+                  <section >
+                    <select id="id_pomodoro_parado" name="id_pomodoro">
+                      <option disabled>Pomodoro</option>
+                    </select>
+                  </section>
+                  <div class="main-button">
+                    <a type="button" onclick="activarObtenerData2()">Mostrar</a>
+                  </div>
+                  <br>
+                  <br>
+                  <br>
+                  <br>
+                  <center><h5 id="titleg2"></h5></center>
+                  <br>
+                  <br>
+                  <br>
+                </div>
                 <canvas id="grafica2" style="background: #1f2122;"></canvas>
                 <legend for="grafica2"></legend>
               </div>
@@ -98,6 +158,36 @@ https://templatemo.com/tm-579-cyborg-gaming
                 <h4><em>% de Cumplimiento</em> de los Pomodoros</h4>
               </div>
               <div>
+                <h4>Fecha:</h4>
+                <div class="container">
+                  <div class='input-group date' id='datefilter1'>
+                    <input type='date' class="form-control input-lg" id="date_porc"/>
+                    <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+                  </div>
+                  <h4>Usuarios</h4>
+                  <section >
+                    <select id="usuarios_porc" name="usuarios">
+                      <option disabled>Usuarios</option>
+                    </select>
+                  </section>
+                  <h4>Id pomodoro</h4>
+                  <section >
+                    <select id="id_pomodoro_porc" name="id_pomodoro">
+                      <option disabled>Pomodoro</option>
+                    </select>
+                  </section>
+                  <div class="main-button">
+                    <a type="button" onclick="activarObtenerData1()">Mostrar</a>
+                  </div>
+                  <br>
+                  <br>
+                  <br>
+                  <br>
+                  <center><h5 id="titleg3"></h5></center>
+                  <br>
+                  <br>
+                  <br>
+                </div>
                 <canvas id="grafica3" style="background: #1f2122;"></canvas>
                 <legend for="grafica3"></legend>
               </div>
@@ -117,24 +207,39 @@ https://templatemo.com/tm-579-cyborg-gaming
                 <h4>Fecha:</h4>
                 <div class="container">
                   <div class='input-group date' id='datefilter1'>
-                    <input type='date' class="form-control input-lg" id="date"/>
+                    <input type='date' class="form-control input-lg" id="date_results"/>
                     <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
                   </div>
                   <h4>Usuarios</h4>
                   <section >
-                    <select>
+                    <select id="usuarios_results" name="usuarios">
                       <option disabled>Usuarios</option>
                     </select>
                   </section>
                   <h4>Id pomodoro</h4>
                   <section >
-                    <select>
+                    <select id="id_pomodoro_results" name="id_pomodoro">
                       <option disabled>Pomodoro</option>
                     </select>
                   </section>
+                  <div class="main-button">
+                    <a type="button" onclick="activarObtenerData()">Mostrar</a>
+                  </div>
+                  <br>
+                  <br>
+                  <br>
+                  <br>
+                  <center><h5 id="titleg4"></h5></center>
+                  <br>
+                  <br>
+                  <br>
                 </div>
                 <canvas id="grafica4" style="background: #1f2122;"></canvas>
                 <legend for="grafica4"></legend>
+                <h4><em>T:</em> Trabajo</h4>
+                <h4><em>PP:</em> Penalizacion Parado</h4>
+                <h4><em>D:</em> Descanso</h4>
+                <h4><em>PS:</em> Penalizacion Sentado</h4>
               </div>
             </div>
           </div>

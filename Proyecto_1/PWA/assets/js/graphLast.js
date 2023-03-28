@@ -1,17 +1,78 @@
 var myCanvas2 = document.getElementById("grafica3");
 var graficas = document.getElementById("graficas");
 myCanvas2.width = graficas.offsetWidth;
-myCanvas2.height = graficas.offsetHeight*5;
+myCanvas2.height = graficas.offsetHeight*6;
 
-var ctx = myCanvas2.getContext("2d");
+var ctx2 = myCanvas2.getContext("2d");
 
+const fecha_filtro1 = document.getElementById("date_porc"); 
+const usuarios_filtro1 = document.getElementById("usuarios_porc");
+const pomodoros_filtro1 = document.getElementById("id_pomodoro_porc");
 
+fecha_filtro1.addEventListener("change", function(){
+  ObtenerUsuarios1(fecha_filtro1.value);
+});
 
+function ObtenerUsuarios1(fecha_f){
+  let json1={
+    "fecha": fecha_f
+  }
+  console.log(json1)
+  fetch('http://192.168.0.6:4000/filtarUsariosFecha', {
+    method: 'POST',
+    body: JSON.stringify(json1),
+    headers: {
+      'Content-Type': 'application/json',
+      'Access-Control-Allow-Origin': '*',
+    }
+  })
+    .then(res => res.json())
+    .catch(err => {
+      console.error('Error:', err)
+    //  alert(err);
 
+      //alert("Ocurrio un error, ver la consola")
+    })
+    .then(response =>{
+      let insert = "";
+      for (let i = 0; i < response.length; i++) {
+        insert += `<option value="${response[i].id_usuario}">${response[i].nombre}</option>`;
+      }
+      usuarios_filtro1.innerHTML = insert;
+      console.log("2")
+      usuarios_filtro1.addEventListener("change", function(){
+        ObtenerIDS1(usuarios_filtro1.value);
+      });
+  })
+}
 
+function ObtenerIDS1(id_usuario){
+  fetch(`http://192.168.0.6:4000/filtrarDataPorIdPomodoro/${id_usuario}`, {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json',
+      'Access-Control-Allow-Origin': '*',
+    }
+  })
+    .then(res => res.json())
+    .catch(err => {
+      console.error('Error:', err)
+    //  alert(err);
 
+      //alert("Ocurrio un error, ver la consola")
+    })
+    .then(response =>{
+      let insert = "";
+      for (let i = 0; i < response.length; i++) {
+        insert += `<option value="${response[i]}">${response[i]}</option>`;
+      }
+      pomodoros_filtro1.innerHTML = insert;
+      
+  })
+  
+}
 
-function drawLine(ctx, startX, startY, endX, endY,color){
+function drawLine2(ctx, startX, startY, endX, endY,color){
     ctx.save();
     ctx.strokeStyle = color;
     ctx.beginPath();
@@ -22,7 +83,7 @@ function drawLine(ctx, startX, startY, endX, endY,color){
 }
 
 
-function drawBar(ctx, upperLeftCornerX, upperLeftCornerY, width, height,color, text, init, end){
+function drawBar2(ctx, upperLeftCornerX, upperLeftCornerY, width, height,color, text, init, end){
     ctx.save();
     ctx.fillStyle=color;
     ctx.fillRect(upperLeftCornerX,upperLeftCornerY,width,height);
@@ -71,7 +132,7 @@ class BarChart2 {
       var gridY =
         canvasActualHeight * (1 - gridValue / this.maxValue) +
         this.options.padding;
-      drawLine(
+      drawLine2(
         this.ctx,
         20,
         gridY,
@@ -79,7 +140,7 @@ class BarChart2 {
         gridY,
         '#DAAF'
       );
-      drawLine(
+      drawLine2(
         this.ctx,
         25,
         this.options.padding / 2,
@@ -92,7 +153,7 @@ class BarChart2 {
       this.ctx.fillStyle = this.options.gridColor;
       this.ctx.textBaseline = "bottom";
       this.ctx.font = "12px Arial";
-      this.ctx.fillText(gridValue, 0, gridY - 2);
+      this.ctx.fillText(gridValue + "%", 0, gridY - 2);
       this.ctx.restore();
       gridValue += this.options.gridStep;
     }
@@ -107,7 +168,7 @@ class BarChart2 {
     var currentPomodoro;
     for (let val of values) {      
       /*if(val.pomId != currentPomodoro ){
-        drawLine(
+        drawLine2(
           this.ctx,
           this.options.padding + barIndex * barSize,
           this.options.padding,
@@ -163,7 +224,7 @@ class BarChart2 {
     if (this.titleOptions.align == "right") {
       xPos = this.canvas.width - 10;
     }
-    this.ctx.fillText(this.options.seriesName, xPos, 50);
+    this.ctx.fillText(this.options.seriesName, xPos, 10);
     this.ctx.restore();
   }
   drawLegend() {
@@ -189,30 +250,18 @@ class BarChart2 {
     //this.drawLegend();
   }
 }
-var myBarchart2 = new BarChart2({
-  canvas: myCanvas2,
-  seriesName: "Porcentajes de Pomodoros",
-  padding: 50,
-  gridStep: 2.5,
-  gridColor: "white",
-  data: dataRanking,
-  colors: ["#ffffff", "#f73232"],
-  titleOptions: {
-    align: "center",
-    fill: "white",
-    font: {
-      weight: "bold",
-      size: "18px",
-      family: "Lato"
-    }
-  }
-});
 
 
+function activarObtenerData1(){
+  ctx2.clearRect(0, 0, myCanvas2.width, myCanvas2.height);
+  ObtenerData1(pomodoros_filtro1.value, usuarios_filtro1.value);
+}
 
 
-function LeerJson(){
-  fetch('http://192.168.0.19:4000/pomodoros',{
+var dataRanking = [];
+function ObtenerData1(id_pom, id_us){
+  dataRanking = [];
+  fetch(`http://192.168.0.6:4000/ranking2/${id_us}/${id_pom}`,{
     method: 'GET',
     headers: {
       'Content-Type': 'application/json',
@@ -225,22 +274,44 @@ function LeerJson(){
       var totalTiempo = response[i].sentado + response[i].parado;
       var porcentajeSentado = (response[i].sentado * 100) / totalTiempo;
       var porcentajeParado = (response[i].parado * 100) / totalTiempo;
+      let fechacomp = response[i].fecha_inicio.split(",");
+      let fechacomp2 = response[i].fecha_fin.split(",");
       if (response[i].fase % 2 != 0) {
         dataRanking.push(
-          {name:"Trabajo", total: porcentajeSentado, init:response[i].fecha_inicio, end:response[i].fecha_fin, pomId:response[i].id_pomodoro}
+          {name:"Trabajo", total: porcentajeSentado, init:fechacomp[1], end:fechacomp2[1], pomId:response[i].id_pomodoro}
         );
         dataRanking.push(
-          {name:"Penalización parado", total: porcentajeParado, init:response[i].fecha_inicio, end:response[i].fecha_fin, pomId:response[i].id_pomodoro}
+          {name:"Penalización parado", total: porcentajeParado, init:fechacomp[1],end:fechacomp2[1], pomId:response[i].id_pomodoro}
         );
       }else{
         dataRanking.push(
-          {name:"Descanso", total: porcentajeParado, init:response[i].fecha_inicio, end:response[i].fecha_fin, pomId:response[i].id_pomodoro}
+          {name:"Descanso", total: porcentajeParado, init:fechacomp[1], end:fechacomp2[1], pomId:response[i].id_pomodoro}
         );
         dataRanking.push(
-          {name:"Penalización sentado", total: porcentajeSentado, init:response[i].fecha_inicio, end:response[i].fecha_fin, pomId:response[i].id_pomodoro}
+          {name:"Penalización sentado", total: porcentajeSentado, init:fechacomp[1], end:fechacomp2[1], pomId:response[i].id_pomodoro}
         );
       }
     }
+    var myBarchart2 = new BarChart2({
+      canvas: myCanvas2,
+      seriesName: "",
+      padding: 50,
+      gridStep: 2.5,
+      gridColor: "white",
+      data: dataRanking,
+      colors: ["#ffffff", "#f73232"],
+      titleOptions: {
+        align: "center",
+        fill: "white",
+        font: {
+          weight: "bold",
+          size: "18px",
+          family: "Lato"
+        }
+      }
+    });
+    myBarchart2.draw();
+    document.getElementById("titleg3").innerHTML = "Porcentaje de Pomodoros del " + response[0].fecha_inicio + " al " + response[response.length-1].fecha_fin;
   })
 }
 
@@ -249,6 +320,4 @@ setTimeout(function() {
   //addEventListener('resize', Cumplimiento.draw, false);
 }, 15)
 
-var dataRanking = [];
-LeerJson();
-myBarchart2.draw();
+

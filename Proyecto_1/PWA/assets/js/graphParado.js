@@ -1,11 +1,76 @@
 var myCanvas3 = document.getElementById("grafica2");
 var graficas = document.getElementById("graficas");
 myCanvas3.width = graficas.offsetWidth;
-myCanvas3.height = graficas.offsetHeight*5;
+myCanvas3.height = graficas.offsetHeight;
 
-var ctx = myCanvas3.getContext("2d");
+var ctx3 = myCanvas3.getContext("2d");
 
+const fecha_filtro2 = document.getElementById("date_parado"); 
+const usuarios_filtro2 = document.getElementById("usuarios_parado");
+const pomodoros_filtro2 = document.getElementById("id_pomodoro_parado");
 
+fecha_filtro2.addEventListener("change", function(){
+  ObtenerUsuarios2(fecha_filtro2.value);
+});
+
+function ObtenerUsuarios2(fecha_f){
+  let json1={
+    "fecha": fecha_f
+  }
+  console.log(json1)
+  fetch('http://192.168.0.6:4000/filtarUsariosFecha', {
+    method: 'POST',
+    body: JSON.stringify(json1),
+    headers: {
+      'Content-Type': 'application/json',
+      'Access-Control-Allow-Origin': '*',
+    }
+  })
+    .then(res => res.json())
+    .catch(err => {
+      console.error('Error:', err)
+    //  alert(err);
+
+      //alert("Ocurrio un error, ver la consola")
+    })
+    .then(response =>{
+      let insert = "";
+      for (let i = 0; i < response.length; i++) {
+        insert += `<option value="${response[i].id_usuario}">${response[i].nombre}</option>`;
+      }
+      usuarios_filtro2.innerHTML = insert;
+      console.log("2")
+      usuarios_filtro2.addEventListener("change", function(){
+        ObtenerIDS2(usuarios_filtro1.value);
+      });
+  })
+}
+
+function ObtenerIDS2(id_usuario){
+  fetch(`http://192.168.0.6:4000/filtrarDataPorIdPomodoro/${id_usuario}`, {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json',
+      'Access-Control-Allow-Origin': '*',
+    }
+  })
+    .then(res => res.json())
+    .catch(err => {
+      console.error('Error:', err)
+    //  alert(err);
+
+      //alert("Ocurrio un error, ver la consola")
+    })
+    .then(response =>{
+      let insert = "";
+      for (let i = 0; i < response.length; i++) {
+        insert += `<option value="${response[i]}">${response[i]}</option>`;
+      }
+      pomodoros_filtro2.innerHTML = insert;
+      
+  })
+  
+}
 
 
 
@@ -41,7 +106,7 @@ function drawBar(ctx, upperLeftCornerX, upperLeftCornerY, width, height,color, t
     ctx.rotate(-( Math.PI / 2) );
     ctx.fillStyle='white';
     ctx.textAlign = "rigth";
-    ctx.fillText( init, 0, 0 );
+    ctx.fillText( init, -10, 0 );
     ctx.restore();
     //fin
     ctx.save();
@@ -189,30 +254,17 @@ class BarChart3 {
     //this.drawLegend();
   }
 }
-var myBarchart3 = new BarChart3({
-  canvas: myCanvas3,
-  seriesName: "Validación que el usuario no esté sentado",
-  padding: 50,
-  gridStep: 1,
-  gridColor: "white",
-  data: dataParado,
-  colors: ["#ffffff", "#f73232"],
-  titleOptions: {
-    align: "center",
-    fill: "white",
-    font: {
-      weight: "bold",
-      size: "18px",
-      family: "Lato"
-    }
-  }
-});
 
 
 
+function activarObtenerData2(){
+  ctx3.clearRect(0, 0, myCanvas3.width, myCanvas3.height);
+  ObtenerData2(pomodoros_filtro2.value, usuarios_filtro2.value);
+}
 
-function LeerJson(){
-  fetch('http://192.168.0.19:4000/pomodoros',{
+var dataParado = [];
+function ObtenerData2(id_pom, id_us){
+  fetch('http://192.168.0.6:4000/filtrarDataPorUsuario/36',{
     method: 'GET',
     headers: {
       'Content-Type': 'application/json',
@@ -228,10 +280,32 @@ function LeerJson(){
         }else{
             estado = 1;
         }
-        dataSentado.push(
-            {name:"", total: estado, init:response[i].fecha_inicio, end:response[i].fecha_fin, pomId:""}
+        let fechacomp = response[i].fecha_inicio.split(",");
+        let fechacomp2 = response[i].fecha_fin.split(",");
+        dataParado.push(
+            {name:"", total: estado, init:fechacomp[1], end:fechacomp2[1], pomId:""}
             );
       }
+      var myBarchart3 = new BarChart3({
+        canvas: myCanvas3,
+        seriesName: "",
+        padding: 50,
+        gridStep: 1,
+        gridColor: "white",
+        data: dataParado,
+        colors: ["#ffffff", "#f73232"],
+        titleOptions: {
+          align: "center",
+          fill: "white",
+          font: {
+            weight: "bold",
+            size: "18px",
+            family: "Lato"
+          }
+        }
+      });
+      myBarchart3.draw();
+      document.getElementById("titleg2").innerHTML = "Validación que el usuario no esté sentado desde " + response[0].fecha_inicio + " hasta " + response[response.length-1].fecha_fin;
   })
 }
 
@@ -240,6 +314,4 @@ setTimeout(function() {
   //addEventListener('resize', Cumplimiento.draw, false);
 }, 15)
 
-var dataParado = [];
-LeerJson();
-myBarchart3.draw();
+
