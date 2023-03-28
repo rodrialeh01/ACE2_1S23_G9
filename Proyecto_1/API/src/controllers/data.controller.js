@@ -513,3 +513,48 @@ export const rankingIndividual = async (req, res) =>
 
     res.send(listaRanking);
 }
+
+export const filtrarDataPorUsuarioIdPomodoro = async (req, res) =>
+{
+    // SELECT tiempo, estado FROM datos WHERE id_usuario = 16
+    const id_usuario = req.params.id;
+    const id_pomodoro = req.params.idPm;
+    console.log(id_usuario);
+    console.log(id_pomodoro);
+    const [rows] = await pool.query("SELECT tiempo, estado FROM datos WHERE id_usuario = ? AND id_pomodoro = ?", [ id_usuario, id_pomodoro ]);
+    // res.send(rows);
+
+    let stateInicial = rows[0].estado;
+
+    let date = new Date(rows[0].tiempo);   
+    let array = [];
+
+    let p = {
+        "fecha_inicio": date.toLocaleString(),
+        "fecha_fin": "",
+        "estado": stateInicial
+    }
+
+    rows.forEach(element => {
+        if(stateInicial != element.estado)
+        {
+            p.fecha_fin = new Date(element.tiempo).toLocaleString();
+            array.push(p);
+            stateInicial = element.estado;
+            p = {
+                "fecha_inicio": new Date(element.tiempo).toLocaleString(),
+                "fecha_fin": "",
+                "estado": stateInicial
+            }
+        }
+        // array.push(element.tiempo);
+    });
+
+    p.fecha_fin = new Date(rows[rows.length - 1].tiempo).toLocaleString();
+    p.estado = rows[rows.length - 1].estado;
+    array.push(p);
+
+    console.log(array);
+
+    res.send(array);
+}
