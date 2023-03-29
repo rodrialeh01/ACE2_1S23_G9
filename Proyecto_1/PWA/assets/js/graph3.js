@@ -162,7 +162,7 @@ var data_graph2 = {
 }
 
 function update_graph2(){
-  fetch(`http://192.168.0.6:4000/simulate`, {
+  fetch(`http://192.168.0.2:4000/simulate`, {
     method: 'GET',
     headers:{
         'Content-Type': 'application/json',
