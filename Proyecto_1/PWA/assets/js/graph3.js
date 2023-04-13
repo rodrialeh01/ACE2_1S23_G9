@@ -7,6 +7,26 @@ var fase_p = document.getElementById("fase");
 myCanvas2.width = graficas2.offsetWidth;
 myCanvas2.height = graficas2.offsetHeight*5;
 
+function setLogueado(){
+  let logueado = {
+    "estado": 0
+  }
+  fetch(`http://192.168.0.6:4000/updateLogin`, {
+    method: 'PUT',
+    body: JSON.stringify(logueado),
+    headers:{
+        'Content-Type': 'application/json',
+        'Access-Control-Allow-Origin': '*',}})
+    .then(res => res.json())
+    .catch(err => {
+        console.error('Error:', err)
+    })
+    .then(response =>{
+          console.log(response);
+        location.href = './index.html'
+    })
+}
+
 var ctx2 = myCanvas2.getContext("2d");
 
 function drawLine(ctx, startX, startY, endX, endY, color) {
@@ -199,13 +219,13 @@ var myBarchart2 = new BarChart({
   seriesName: "Penalizacion por no sentarse a tiempo (s)",
   padding: 30,
   gridStep: 1,
-  gridColor: "black",
+  gridColor: "white",
   data: data_graph2,
   texty: "Tiempo (s)",
   colors: ["#FD2619", "#949494"],
   titleOptions: {
     align: "center",
-    fill: "black",
+    fill: "white",
     font: {
       weight: "bold",
       size: "18px",
@@ -226,12 +246,12 @@ if(data_graph2["Fase 2"] < 40){
     seriesName: "Penalizacion por no pararse a tiempo (s)",
     padding: 30,
     gridStep: 1,
-    gridColor: "black",
+    gridColor: "white",
     data: data_graph2,
     colors: ["#FD2619", "#949494"],
     titleOptions: {
       align: "center",
-      fill: "black",
+      fill: "white",
       font: {
         weight: "bold",
         size: "18px",
@@ -246,12 +266,12 @@ if(data_graph2["Fase 2"] < 40){
     seriesName: "Penalizacion por no pararse a tiempo (s)",
     padding: 30,
     gridStep: 10,
-    gridColor: "black",
+    gridColor: "white",
     data: data_graph2,
     colors: ["#FD2619", "#949494"],
     titleOptions: {
       align: "center",
-      fill: "black",
+      fill: "white",
       font: {
         weight: "bold",
         size: "18px",
@@ -266,12 +286,12 @@ if(data_graph2["Fase 2"] < 40){
     seriesName: "Penalizacion por no pararse a tiempo (s)",
     padding: 30,
     gridStep: 50,
-    gridColor: "black",
+    gridColor: "white",
     data: data_graph2,
     colors: ["#FD2619", "#949494"],
     titleOptions: {
       align: "center",
-      fill: "black",
+      fill: "white",
       font: {
         weight: "bold",
         size: "18px",
@@ -287,12 +307,12 @@ if(data_graph2["Fase 2"] < 40){
     seriesName: "Penalizacion por no pararse a tiempo (s)",
     padding: 30,
     gridStep: 100,
-    gridColor: "black",
+    gridColor: "white",
     data: data_graph2,
     colors: ["#FD2619", "#949494"],
     titleOptions: {
       align: "center",
-      fill: "black",
+      fill: "white",
       font: {
         weight: "bold",
         size: "18px",

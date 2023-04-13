@@ -35,6 +35,7 @@ const APP_SHELL = [
     "/assets/js/graphLastjs",
     "/assets/js/graphParado.js",
     "/assets/js/graphSentado.js",
+    "/assets/js/funcg2.js",
     "/assets/webfonts/fa-brands-400.ttf",
     "/assets/webfonts/fa-brands-400.woff2",
     "/assets/webfonts/fa-regular-400.ttf",

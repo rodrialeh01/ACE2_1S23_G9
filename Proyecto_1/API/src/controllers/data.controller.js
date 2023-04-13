@@ -567,7 +567,7 @@ export const filtrarDataPorUsuarioDefault = async (req, res) =>
     let id_pomodoro = rows4[0].idPomodoro;
     const [rows] = await pool.query("SELECT tiempo, estado FROM datos WHERE id_usuario = ? AND id_pomodoro = ?", [ id_usuario, id_pomodoro ]);
     // res.send(rows);
-
+    try{
     let stateInicial = rows[0].estado;
 
     let date = new Date(rows[0].tiempo);   
@@ -601,6 +601,9 @@ export const filtrarDataPorUsuarioDefault = async (req, res) =>
     console.log(array);
 
     res.send(array);
+    }catch(err){
+        res.send([])
+    }
 }
 
 export const totalPomodorosDefault = async (req, res) =>
@@ -612,7 +615,7 @@ export const totalPomodorosDefault = async (req, res) =>
     const id_pomodoro = rows4[0].idPomodoro;
     console.log(id_pomodoro);
     const [rows] = await pool.query("SELECT tiempo, estado, fase_pomodoro, id_pomodoro FROM datos WHERE id_usuario = ? AND id_pomodoro = ?", [ id_usuario, id_pomodoro]);
-    
+    try{
     let fasesPomodoro = rows.map((item) => {
         return item.fase_pomodoro;
     });
@@ -661,4 +664,7 @@ export const totalPomodorosDefault = async (req, res) =>
     // console.log(listaRanking);
 
     res.send(listaRanking);
+    }catch(err){
+        res.send([]);
+    }
 }

@@ -10,6 +10,26 @@ myCanvas.height = graficas.offsetHeight*5;
 var ctx = myCanvas.getContext("2d");
 var ctx2 = myCanvas.getContext("2d");
 
+function setLogueado(){
+  let logueado = {
+    "estado": 0
+  }
+  fetch(`http://192.168.0.6:4000/updateLogin`, {
+    method: 'PUT',
+    body: JSON.stringify(logueado),
+    headers:{
+        'Content-Type': 'application/json',
+        'Access-Control-Allow-Origin': '*',}})
+    .then(res => res.json())
+    .catch(err => {
+        console.error('Error:', err)
+    })
+    .then(response =>{
+          console.log(response);
+        location.href = './index.html'
+    })
+}
+
 function drawLine(ctx, startX, startY, endX, endY, color) {
   ctx.save();
   ctx.strokeStyle = color;
@@ -204,12 +224,12 @@ var myBarchart = new BarChart({
   seriesName: "Penalizacion por no sentarse a tiempo (s)",
   padding: 30,
   gridStep: 1,
-  gridColor: "black",
+  gridColor: "white",
   data: data_graph,
   colors: ["#FD2619", "#949494"],
   titleOptions: {
     align: "center",
-    fill: "black",
+    fill: "white",
     font: {
       weight: "bold",
       size: "18px",
@@ -231,12 +251,12 @@ setInterval(function(){
       seriesName: "Penalizacion por no sentarse a tiempo (s)",
       padding: 30,
       gridStep: 1,
-      gridColor: "black",
+      gridColor: "white",
       data: data_graph,
       colors: ["#FD2619", "#949494"],
       titleOptions: {
         align: "center",
-        fill: "black",
+        fill: "white",
         font: {
           weight: "bold",
           size: "18px",
@@ -251,12 +271,12 @@ setInterval(function(){
     seriesName: "Penalizacion por no sentarse a tiempo (s)",
     padding: 30,
     gridStep: 10,
-    gridColor: "black",
+    gridColor: "white",
     data: data_graph,
     colors: ["#FD2619", "#949494"],
     titleOptions: {
       align: "center",
-      fill: "black",
+      fill: "white",
       font: {
         weight: "bold",
         size: "18px",
@@ -271,12 +291,12 @@ setInterval(function(){
     seriesName: "Penalizacion por no sentarse a tiempo (s)",
     padding: 30,
     gridStep: 50,
-    gridColor: "black",
+    gridColor: "white",
     data: data_graph,
     colors: ["#FD2619", "#949494"],
     titleOptions: {
       align: "center",
-      fill: "black",
+      fill: "white",
       font: {
         weight: "bold",
         size: "18px",
@@ -292,12 +312,12 @@ setInterval(function(){
     seriesName: "Penalizacion por no sentarse a tiempo (s)",
     padding: 30,
     gridStep: 100,
-    gridColor: "black",
+    gridColor: "white",
     data: data_graph,
     colors: ["#FD2619", "#949494"],
     titleOptions: {
       align: "center",
-      fill: "black",
+      fill: "white",
       font: {
         weight: "bold",
         size: "18px",

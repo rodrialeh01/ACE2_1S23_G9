@@ -72,6 +72,32 @@ function ObtenerIDS(id_usuario){
   })
   
 }
+/*
+function default1(){
+  fetch(`http://192.168.0.6:4000/filtrarDataPorIdPomodoro/${id_usuario}`, {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json',
+      'Access-Control-Allow-Origin': '*',
+    }
+  })
+    .then(res => res.json())
+    .catch(err => {
+      console.error('Error:', err)
+    //  alert(err);
+
+      //alert("Ocurrio un error, ver la consola")
+    })
+    .then(response =>{
+      let insert = "";
+      for (let i = 0; i < response.length; i++) {
+        insert += `<option value="${response[i]}">${response[i]}</option>`;
+      }
+      pomodoros_filtro.innerHTML = insert;
+      
+  })
+}
+*/
 
 function drawLine1(ctx, startX, startY, endX, endY,color){
     ctx.save();
