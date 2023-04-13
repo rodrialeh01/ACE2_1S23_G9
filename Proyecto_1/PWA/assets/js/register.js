@@ -18,7 +18,7 @@ function RegistrarUsuario(user){
     "tiempo_descanso": 5
   }
   console.log(objeto)
-  fetch('http://192.168.0.6:4000/confPD', {
+  fetch('http://192.168.0.2:4000/confPD', {
     method: 'POST',
     body: JSON.stringify(objeto),
     headers: {
@@ -39,7 +39,7 @@ function setLogueado(){
   let logueado = {
     "estado": 1
   }
-  fetch(`http://192.168.0.6:4000/updateLogin`, {
+  fetch(`http://192.168.0.2:4000/updateLogin`, {
     method: 'PUT',
     body: JSON.stringify(logueado),
     headers:{

@@ -10,7 +10,7 @@ SoftwareSerial Serial1(18, 19); // RX, TX
 char ssid[] = "TIGO-A923";
 char password[] = "2D9657302612";
 
-IPAddress server(192, 168, 0, 7);
+IPAddress server(192, 168, 0, 2);
 int port = 4000;
 int status = WL_IDLE_STATUS;
 
@@ -89,16 +89,17 @@ void setup() {
 
 void loop() {
   logueado = GETlogin();
-
+  
   while (logueado == "1") {
     //paso=0;
-    
+
     if (digitalRead(22) != verificacion_actual) { //significa que manda un 0, es decir, está en ciclo
       // cicloPomodoro = 0;
       terminadoT = false;
       terminadoD = false;
       if (verificacion_actual == 0) {
         cicloPomodoro = 0;
+        paso = 0;
         GETupdateIdPomodoro();
         String descanso = GETDescanso();
         String trabajar = GETTrabajo();
@@ -109,7 +110,9 @@ void loop() {
         // tiempoTrabajo = 3;
         // tiempoDescanso = 3;
         // tiempoIngresado = 3;
-         descansoIngresado = tiempoIngresado;
+        // descansoIngresado = 3;
+        tiempoIngresado = tiempoTrabajo;
+        descansoIngresado = tiempoDescanso;
 
         estado = 1;
         POSTupdateConfigTime(estado);
@@ -130,18 +133,22 @@ void ciclo() {
   int contador = 0;
   if (paso == 7) {
     paso = 0;
+     digitalWrite(buzzPin, HIGH);
+     delay(3000);
+     digitalWrite(buzzPin, LOW);
+    
   }
-  
+
   cicloPomodoro++;
   paso++;
   while (tiempoTrabajo >= 0) {
 
-    if(contador < 5 && terminadoD){
+    if (contador < 5 && terminadoD) {
       digitalWrite(buzzPin, HIGH);
       delay(50);
       digitalWrite(buzzPin, LOW);
     }
-  
+
     //Serial.println(cicloPomodoro);
     POSTdataPomodoro(digitalRead(22));
     //Serial2.println(digitalRead(22));
@@ -156,14 +163,14 @@ void ciclo() {
     }
     tiempoTrabajo--;
 
-    if(contador < 5){
-        delay(300);
-        contador++;
+    if (contador < 5) {
+      delay(300);
+      contador++;
     }
-    else{
-        delay(350);
+    else {
+      delay(350);
     }
-    
+
     int temp_reloj = ((tiempoTrabajo / 60) / 10) * 1000;
     temp_reloj += ((tiempoTrabajo / 60) % 10) * 100;
     temp_reloj += ((tiempoTrabajo % 60) / 10) * 10;
@@ -189,6 +196,11 @@ void ciclo() {
 
   if (cicloPomodoro == 4) {
     cicloPomodoro = 0;
+    paso = 0;
+    digitalWrite(buzzPin, HIGH);
+    delay(3000);
+    digitalWrite(buzzPin, LOW);
+
     return;
   }
   tiempoTrabajo = tiempoIngresado;
@@ -200,6 +212,10 @@ void descanso() {
   int contador = 0;
   if (paso == 7) {
     paso = 0;
+     digitalWrite(buzzPin, HIGH);
+     delay(3000);
+     digitalWrite(buzzPin, LOW);
+    
   }
   paso++;
   while (tiempoDescanso >= 0 && terminadoT) {
@@ -208,7 +224,7 @@ void descanso() {
       delay(120);
       digitalWrite(buzzPin, LOW);
     }
-  
+
     POSTdataPomodoro(digitalRead(22));
     digitalWrite(38, HIGH);
     if (digitalRead(47) == LOW) {
@@ -224,10 +240,10 @@ void descanso() {
       delay(230);
       contador++;
     }
-    else{
+    else {
       delay(350);
     }
-    
+
     // tiempoDescanso = 5;
     int temp_desc = ((tiempoDescanso / 60) / 10) * 1000;
     temp_desc += ((tiempoDescanso / 60) % 10) * 100;
@@ -243,7 +259,7 @@ void descanso() {
         delay(100);
         digitalWrite(buzzPin, LOW);
         delay(100);
-      }*/
+        }*/
       tiempoDescanso = descansoIngresado;
       break;
     }
@@ -314,12 +330,21 @@ void intermitencia() {
 
       terminadoT = false;
       terminadoD = false;
-    
+
       if (digitalRead(22) == HIGH) {
         verificacion_actual = 0;
         GETupdateIdPomodoro();
+        delay(10);
+        GETReset();
+
+        String descanso = GETDescanso();
+        String trabajar = GETTrabajo();
+
+        tiempoTrabajo = trabajar.toInt() * 60;
+        tiempoDescanso = descanso.toInt() * 60;
+
         ciclo();
-        //Serial.println("!");
+
         return;
       }
       else {
@@ -340,7 +365,7 @@ String GETlogin() {
     Serial.println("Connecting...");
     // send the HTTP PUT request
     client.println(F("GET /getLogin HTTP/1.1"));
-    client.println(F("Host: 192.168.0.7:4000"));
+    client.println(F("Host: 192.168.0.2:4000"));
     client.println("Connection: close");
     client.println();
 
@@ -388,6 +413,25 @@ void POSTupdateConfigTime(int estado) {
   //return;
 }
 
+void GETReset() {
+  delay(100);
+  client.stop();
+  if (client.connect(server, 4000)) {
+    // send the HTTP PUT request
+    String enviar = "GET /reset HTTP/1.1";
+    client.println(enviar);
+    //lastConnectionTime = millis();
+    client.println(F("Host: 192.168.0.2:4000"));
+    client.println("Connection: close");
+    client.println();
+
+  } else {
+    Serial.println("Failed to connect to server");
+    //resetFunc();
+  }
+}
+
+
 
 void POSTdataPomodoro(int estado_act) {
 
@@ -422,7 +466,7 @@ void GETupdateConfig(int tiempoTrabajo) {
     client.println(enviar);
 
     //lastConnectionTime = millis();
-    client.println(F("Host: 192.168.0.7:4000"));
+    client.println(F("Host: 192.168.0.2:4000"));
 
     client.println("Connection: close");
 
@@ -435,6 +479,9 @@ void GETupdateConfig(int tiempoTrabajo) {
   }
 }
 
+
+
+
 String GETDescanso() {
   delay(100);
   client.stop();
@@ -443,7 +490,7 @@ String GETDescanso() {
     String enviar = "GET /getFreeTime HTTP/1.1";
     client.println(enviar);
     //lastConnectionTime = millis();
-    client.println(F("Host: 192.168.0.7:4000"));
+    client.println(F("Host: 192.168.0.2:4000"));
     client.println("Connection: close");
     client.println();
 
@@ -470,7 +517,7 @@ void GETupdateIdPomodoro() {
   if (client.connect(server, 4000)) {
     String enviar = "GET /updateIdPomodoro HTTP/1.1";
     client.println(enviar);
-    client.println(F("Host: 192.168.0.7:4000"));
+    client.println(F("Host: 192.168.0.2:4000"));
     client.println("Connection: close");
     client.println();
   } else {
@@ -486,7 +533,7 @@ String GETTrabajo() {
   if (client.connect(server, 4000)) {
     String enviar = "GET /getWorkTime HTTP/1.1";
     client.println(enviar);
-    client.println(F("Host: 192.168.0.7:4000"));
+    client.println(F("Host: 192.168.0.2:4000"));
     client.println("Connection: close");
     client.println();
 

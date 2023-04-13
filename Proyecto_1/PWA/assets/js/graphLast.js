@@ -18,7 +18,7 @@ function ObtenerUsuarios1(fecha_f){
     "fecha": fecha_f
   }
   console.log(json1)
-  fetch('http://192.168.0.6:4000/filtarUsariosFecha', {
+  fetch('http://192.168.0.2:4000/filtarUsariosFecha', {
     method: 'POST',
     body: JSON.stringify(json1),
     headers: {
@@ -47,7 +47,7 @@ function ObtenerUsuarios1(fecha_f){
 }
 
 function ObtenerIDS1(id_usuario){
-  fetch(`http://192.168.0.6:4000/filtrarDataPorIdPomodoro/${id_usuario}`, {
+  fetch(`http://192.168.0.2:4000/filtrarDataPorIdPomodoro/${id_usuario}`, {
     method: 'GET',
     headers: {
       'Content-Type': 'application/json',
@@ -261,7 +261,7 @@ function activarObtenerData1(){
 var dataRanking = [];
 function ObtenerData1(id_pom, id_us){
   dataRanking = [];
-  fetch(`http://192.168.0.6:4000/ranking2/${id_us}/${id_pom}`,{
+  fetch(`http://192.168.0.2:4000/ranking2/${id_us}/${id_pom}`,{
     method: 'GET',
     headers: {
       'Content-Type': 'application/json',
