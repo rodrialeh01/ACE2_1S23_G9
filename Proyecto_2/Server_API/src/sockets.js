@@ -5,7 +5,8 @@ export default (io) => {
         console.log('New client connected');
         
         const emitValues = async () => {
-            const [data] = await pool.query('SELECT * FROM sensores');
+            const [rowsa] = await pool.query("SELECT MAX(id) AS id FROM sensores;");
+            const [data] = await pool.query('SELECT humedad, tmp_int, tmp_ext FROM sensores WHERE id = ?', [rowsa[0].id]);
             io.emit('values', data);
         }
 
