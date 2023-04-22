@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 18-04-2023 a las 09:08:50
+-- Tiempo de generación: 22-04-2023 a las 20:33:21
 -- Versión del servidor: 10.4.27-MariaDB
 -- Versión de PHP: 8.0.25
 
@@ -24,6 +24,27 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
+-- Estructura de tabla para la tabla `control`
+--
+
+CREATE TABLE `control` (
+  `id` int(11) NOT NULL,
+  `est_bomba` int(11) NOT NULL,
+  `tmp_conf` int(11) NOT NULL,
+  `tmp_act` int(11) NOT NULL,
+  `alerta` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Volcado de datos para la tabla `control`
+--
+
+INSERT INTO `control` (`id`, `est_bomba`, `tmp_conf`, `tmp_act`, `alerta`) VALUES
+(1, 0, 0, 0, 0);
+
+-- --------------------------------------------------------
+
+--
 -- Estructura de tabla para la tabla `sensores`
 --
 
@@ -32,6 +53,8 @@ CREATE TABLE `sensores` (
   `humedad` int(11) NOT NULL,
   `tmp_int` int(11) NOT NULL,
   `tmp_ext` int(11) NOT NULL,
+  `pr_agua` int(11) NOT NULL,
+  `est_bomba` int(11) NOT NULL,
   `tiempo` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
@@ -39,12 +62,18 @@ CREATE TABLE `sensores` (
 -- Volcado de datos para la tabla `sensores`
 --
 
-INSERT INTO `sensores` (`id`, `humedad`, `tmp_int`, `tmp_ext`, `tiempo`) VALUES
-(1, 5, 10, 15, '2023-04-18 07:01:49');
+INSERT INTO `sensores` (`id`, `humedad`, `tmp_int`, `tmp_ext`, `pr_agua`, `est_bomba`, `tiempo`) VALUES
+(1, 10, 20, 15, 2, 1, '2023-04-22 18:27:25');
 
 --
 -- Índices para tablas volcadas
 --
+
+--
+-- Indices de la tabla `control`
+--
+ALTER TABLE `control`
+  ADD PRIMARY KEY (`id`);
 
 --
 -- Indices de la tabla `sensores`
@@ -57,10 +86,16 @@ ALTER TABLE `sensores`
 --
 
 --
+-- AUTO_INCREMENT de la tabla `control`
+--
+ALTER TABLE `control`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
 -- AUTO_INCREMENT de la tabla `sensores`
 --
 ALTER TABLE `sensores`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
