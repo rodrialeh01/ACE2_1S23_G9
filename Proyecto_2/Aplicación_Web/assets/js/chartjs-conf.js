@@ -25,7 +25,7 @@ var Script = function () {
 
     ];
     var lineChartData = {
-        labels : ["","","","","","",""],
+        labels : ["22/4/2023 00:00","23/4/2023 11:00","24/4/2023 15:00","25/4/2023 10:00","26/4/2023 06:00","27/4/2023 20:00","28/4/2023 17:30"],
         datasets : [
             {
                 fillColor : "rgba(220,220,220,0.5)",
@@ -53,17 +53,12 @@ var Script = function () {
 
     ];
     var barChartData = {
-        labels : ["January","February","March","April","May","June","July"],
+        labels : ["22/4/2023 00:00","23/4/2023 11:00","24/4/2023 15:00","25/4/2023 10:00","26/4/2023 06:00","27/4/2023 20:00","28/4/2023 17:30"],
         datasets : [
             {
                 fillColor : "rgba(220,220,220,0.5)",
                 strokeColor : "rgba(220,220,220,1)",
-                data : [1,1,1,1,1,1,1]
-            },
-            {
-                fillColor : "rgba(151,187,205,0.5)",
-                strokeColor : "rgba(151,187,205,1)",
-                data : [0,0,0,0,0,0,0]
+                data : [1,0,1,0,1,0,1]
             }
         ]
 
