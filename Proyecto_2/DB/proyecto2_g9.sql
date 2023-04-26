@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.2.0
+-- version 5.2.1
 -- https://www.phpmyadmin.net/
 --
--- Servidor: 127.0.0.1
--- Tiempo de generación: 22-04-2023 a las 20:33:21
--- Versión del servidor: 10.4.27-MariaDB
--- Versión de PHP: 8.0.25
+-- Servidor: localhost
+-- Tiempo de generación: 26-04-2023 a las 03:20:03
+-- Versión del servidor: 10.4.28-MariaDB
+-- Versión de PHP: 8.2.4
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -50,10 +50,10 @@ INSERT INTO `control` (`id`, `est_bomba`, `tmp_conf`, `tmp_act`, `alerta`) VALUE
 
 CREATE TABLE `sensores` (
   `id` int(11) NOT NULL,
-  `humedad` int(11) NOT NULL,
-  `tmp_int` int(11) NOT NULL,
-  `tmp_ext` int(11) NOT NULL,
-  `pr_agua` int(11) NOT NULL,
+  `humedad` float NOT NULL,
+  `tmp_int` float NOT NULL,
+  `tmp_ext` float NOT NULL,
+  `pr_agua` float NOT NULL,
   `est_bomba` int(11) NOT NULL,
   `tiempo` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
