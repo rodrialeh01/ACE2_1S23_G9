@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.2.1
+-- version 5.2.0
 -- https://www.phpmyadmin.net/
 --
--- Servidor: localhost
--- Tiempo de generación: 26-04-2023 a las 03:20:03
--- Versión del servidor: 10.4.28-MariaDB
--- Versión de PHP: 8.2.4
+-- Servidor: 127.0.0.1
+-- Tiempo de generación: 26-04-2023 a las 05:03:42
+-- Versión del servidor: 10.4.27-MariaDB
+-- Versión de PHP: 8.0.25
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -32,15 +32,16 @@ CREATE TABLE `control` (
   `est_bomba` int(11) NOT NULL,
   `tmp_conf` int(11) NOT NULL,
   `tmp_act` int(11) NOT NULL,
-  `alerta` int(11) NOT NULL
+  `alerta` int(11) NOT NULL,
+  `humedad` float NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Volcado de datos para la tabla `control`
 --
 
-INSERT INTO `control` (`id`, `est_bomba`, `tmp_conf`, `tmp_act`, `alerta`) VALUES
-(1, 0, 0, 0, 0);
+INSERT INTO `control` (`id`, `est_bomba`, `tmp_conf`, `tmp_act`, `alerta`, `humedad`) VALUES
+(1, 1, 0, 0, 0, 10);
 
 -- --------------------------------------------------------
 
@@ -63,7 +64,10 @@ CREATE TABLE `sensores` (
 --
 
 INSERT INTO `sensores` (`id`, `humedad`, `tmp_int`, `tmp_ext`, `pr_agua`, `est_bomba`, `tiempo`) VALUES
-(1, 10, 20, 15, 2, 1, '2023-04-22 18:27:25');
+(1, 10, 20, 15, 2, 1, '2023-04-22 18:27:25'),
+(2, 32, 23, 23, 23, 23, '2023-04-26 01:42:24'),
+(3, 23, 232, 2, 2, 2, '2023-04-26 01:42:24'),
+(4, 10, 20, 15, 2, 1, '2023-04-26 01:56:39');
 
 --
 -- Índices para tablas volcadas
@@ -95,7 +99,7 @@ ALTER TABLE `control`
 -- AUTO_INCREMENT de la tabla `sensores`
 --
 ALTER TABLE `sensores`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
