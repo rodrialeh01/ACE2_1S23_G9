@@ -24,7 +24,7 @@ function Filtrar5(){
         "fechaInicio": fecha_i,
         "fechaFinal": fecha_f
     }
-    /*fetch('http://localhost:4001/filtroTmpExt', {
+    fetch('http://localhost:4001/filtrarEstBomba', {
         method: 'POST',
         body: JSON.stringify(filtro),
         headers: {
@@ -42,18 +42,18 @@ function Filtrar5(){
             let time = new Date(response[i].tiempo);
             let tiempo =  time.getDate() + "/" + (time.getMonth() + 1) + "/" + time.getFullYear() + " - " + time.getHours() + ":" + time.getMinutes() + ":" + time.getSeconds();
             labels_fecha.push(tiempo);
-            values_te.push(response[i].tmp_ext);
+            values_bomba.push(response[i].est_bomba);
         }
-    })*/
+    })
 }
 
 new Chart(ctx5, {
     type: 'line',
     data: {
-        labels: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio'],
+        labels: labels_fecha,
         datasets: [{
             label: 'Señal',
-            data: [0, 1, 1, 0, 0, 1],
+            data: values_bomba,
             borderColor: 'rgba(255, 99, 132, 1)',
             backgroundColor: 'rgba(255, 99, 132, 0.2)',
             pointBackgroundColor: 'rgba(255, 99, 132, 1)',

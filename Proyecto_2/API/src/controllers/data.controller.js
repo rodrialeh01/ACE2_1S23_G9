@@ -47,6 +47,12 @@ export const getHumedad = async (req, res) => {
     res.send(rows);
 }
 
+export const filtrarEstBomba = async (req, res) => {
+    const { fechaInicio, fechaFinal } = req.body;
+    const [rows] = await pool.query("SELECT est_bomba, tiempo FROM sensores WHERE (tiempo BETWEEN ? AND ?)", [ fechaInicio, fechaFinal ]);
+    res.send(rows);
+}
+
 export const manipularBomba = async (req, res) => {
     const { tmp_conf, tmp_act, est_bomba } = req.body;
     const [rows] = await pool.query("UPDATE control SET tmp_conf = ?, est_bomba = ? WHERE id = 1", [tmp_conf, est_bomba]);
