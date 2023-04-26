@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 26-04-2023 a las 05:03:42
+-- Tiempo de generación: 26-04-2023 a las 06:27:33
 -- Versión del servidor: 10.4.27-MariaDB
 -- Versión de PHP: 8.0.25
 
@@ -32,7 +32,6 @@ CREATE TABLE `control` (
   `est_bomba` int(11) NOT NULL,
   `tmp_conf` int(11) NOT NULL,
   `tmp_act` int(11) NOT NULL,
-  `alerta` int(11) NOT NULL,
   `humedad` float NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
@@ -40,8 +39,8 @@ CREATE TABLE `control` (
 -- Volcado de datos para la tabla `control`
 --
 
-INSERT INTO `control` (`id`, `est_bomba`, `tmp_conf`, `tmp_act`, `alerta`, `humedad`) VALUES
-(1, 1, 0, 0, 0, 10);
+INSERT INTO `control` (`id`, `est_bomba`, `tmp_conf`, `tmp_act`, `humedad`) VALUES
+(1, 1, 0, 0, 10);
 
 -- --------------------------------------------------------
 

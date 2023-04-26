@@ -12,37 +12,42 @@ export const filtarTmpInt = async (req, res) =>
 {
     // SELECT id_usuario, nombre FROM configuracion WHERE (tiempo_sistema BETWEEN '2023-03-24:00:00:00' AND '2023-03-24:23:59:59');
     const { fechaInicio, fechaFinal } = req.body;
-    const [rows] = await pool.query("SELECT tmp_int FROM sensores WHERE (tiempo BETWEEN ? AND ?)", [ fechaInicio, fechaFinal ]);
+    const [rows] = await pool.query("SELECT tmp_int, tiempo FROM sensores WHERE (tiempo BETWEEN ? AND ?)", [ fechaInicio, fechaFinal ]);
     res.send(rows);
 }
 
 export const filtarTmpExt = async (req, res) =>
 {
     const { fechaInicio, fechaFinal } = req.body;
-    const [rows] = await pool.query("SELECT tmp_ext FROM sensores WHERE (tiempo BETWEEN ? AND ?)", [ fechaInicio, fechaFinal ]);
+    const [rows] = await pool.query("SELECT tmp_ext, tiempo FROM sensores WHERE (tiempo BETWEEN ? AND ?)", [ fechaInicio, fechaFinal ]);
     res.send(rows);
 }
 
 export const filtarHumedad = async (req, res) =>
 {
     const { fechaInicio, fechaFinal } = req.body;
-    const [rows] = await pool.query("SELECT humedad FROM sensores WHERE (tiempo BETWEEN ? AND ?)", [ fechaInicio, fechaFinal ]);
+    const [rows] = await pool.query("SELECT humedad, tiempo FROM sensores WHERE (tiempo BETWEEN ? AND ?)", [ fechaInicio, fechaFinal ]);
     res.send(rows);
 }
 
 export const filtarAgua = async (req, res) =>
 {
     const { fechaInicio, fechaFinal } = req.body;
-    const [rows] = await pool.query("SELECT pr_agua FROM sensores WHERE (tiempo BETWEEN ? AND ?)", [ fechaInicio, fechaFinal ]);
+    const [rows] = await pool.query("SELECT pr_agua, tiempo FROM sensores WHERE (tiempo BETWEEN ? AND ?)", [ fechaInicio, fechaFinal ]);
     res.send(rows);
 }
 
-export const getControl = async (req, res) => {
-    const [rows] = await pool.query("SELECT est_bomba, tmp_conf, tmp_act, alerta, humedad FROM control WHERE id = 1");
+export const getControlArduino = async (req, res) => {
+    const [rows] = await pool.query("SELECT est_bomba, tmp_conf, tmp_act FROM control WHERE id = 1");
     res.send(rows);
 }
 
-export const setControlApk = async (req, res) => {
+export const getHumedad = async (req, res) => {
+    const [rows] = await pool.query("SELECT humedad FROM control WHERE id = 1");
+    res.send(rows);
+}
+
+export const manipularBomba = async (req, res) => {
     const { tmp_conf, tmp_act, est_bomba } = req.body;
     const [rows] = await pool.query("UPDATE control SET tmp_conf = ?, tmp_act = ?, est_bomba = ? WHERE id = 1", [tmp_conf, tmp_act, est_bomba]);
     res.send("OK");
