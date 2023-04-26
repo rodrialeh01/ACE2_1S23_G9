@@ -1,16 +1,17 @@
-const ctx4 = document.getElementById('grafica4');
+const ctx3 = document.getElementById('myChart3').getContext('2d');
 let labels_fecha = []
-let values_agua = []
-function Filtrar4(){
-    const fi = document.getElementById('fecha_inicio4');
-    const ff = document.getElementById('fecha_fin4');
-    const hi = document.getElementById('hora_inicio4');
-    const hf = document.getElementById('hora_fin4');
+let values_humedad = []
+function Filtrar3(){
+    const fi = document.getElementById('fecha_inicio3');
+    const ff = document.getElementById('fecha_fin3');
+    const hi = document.getElementById('hora_inicio3');
+    const hf = document.getElementById('hora_fin3');
 
     console.log(fi.value);
     console.log(ff.value);
     console.log(hi.value);
     console.log(hf.value);
+
     if(fi.value == "" || ff.value == "" || hi.value == "" || hf.value == ""){
         alert("Faltan campos por llenar para realizar el filtro y mostrar la grafica");
         return;
@@ -23,7 +24,7 @@ function Filtrar4(){
         "fechaInicio": fecha_i,
         "fechaFinal": fecha_f
     }
-    fetch('http://localhost:4001/filtarAgua', {
+    fetch('http://localhost:4001/filtrarHumedad', {
         method: 'POST',
         body: JSON.stringify(filtro),
         headers: {
@@ -41,19 +42,18 @@ function Filtrar4(){
             let time = new Date(response[i].tiempo);
             let tiempo =  time.getDate() + "/" + (time.getMonth() + 1) + "/" + time.getFullYear() + " - " + time.getHours() + ":" + time.getMinutes() + ":" + time.getSeconds();
             labels_fecha.push(tiempo);
-            values_agua.push(response[i].pr_agua);
+            values_humedad.push(response[i].humedad);
         }
     })
 }
 
-
-new Chart(ctx4, {
+new Chart(ctx3, {
     type: 'line',
     data: {
         labels: labels_fecha,
         datasets: [{
             label: '%',
-            data: values_agua,
+            data: values_humedad,
             backgroundColor: 'rgba(255, 99, 132, 0.2)',
             borderColor: 'rgba(255, 99, 132, 1)',
             borderWidth: 1

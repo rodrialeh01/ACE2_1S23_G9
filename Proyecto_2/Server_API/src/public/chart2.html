@@ -93,109 +93,43 @@
                     <form class="form-inline" role="form">
                         <div class="form-group">
                             <label class="sr-only" for="exampleInputEmail2">Fecha Inicio</label>
-                            <input type="date" class="form-control" id="exampleInputEmail2"
+                            <input type="date" class="form-control" id="fecha_inicio2"
                                 placeholder="Fecha Inicio">
                         </div>
                         <div class="form-group">
                             <label class="sr-only" for="exampleInputEmail2">Fecha Fin</label>
-                            <input type="date" class="form-control" id="exampleInputEmail2"
+                            <input type="date" class="form-control" id="fecha_fin2"
                                 placeholder="Fecha Fin">
                         </div>
                         <div class="form-group">
                             <label class="sr-only" for="exampleInputEmail2">Hora Inicio</label>
-                            <input type="time" class="form-control" id="exampleInputEmail2"
+                            <input type="time" class="form-control" id="hora_inicio2"
                                 placeholder="Hora Inicio">
                         </div>
                         <div class="form-group">
                             <label class="sr-only" for="exampleInputEmail2">Hora Fin</label>
-                            <input type="time" class="form-control" id="exampleInputEmail2"
+                            <input type="time" class="form-control" id="hora_fin2"
                                 placeholder="Hora Fin">
                         </div>
-                        <button type="submit" class="btn btn-theme">Filtrar</button>
+                        <button type="button" class="btn btn-theme" onclick="Filtrar2()">Filtrar</button>
                     </form>
                     <div class="tab-pane" id="chartjs">
                         <h4><i class="fa fa-angle-right"></i> Gráfica</h4>
                         <div class="panel-body text-center">
-                            <canvas id="line" height="600" width="800"></canvas>
+                            <canvas id="grafica2" height="600" width="800"></canvas>
                         </div>
                     </div>
                 </div><!-- /form-panel -->
             </div><!-- /col-lg-12 -->
         </div><!-- /row -->
-              <!-- page start-->
-              <div class="tab-pane" id="chartjs">
-                  <div class="row mt">
-                      <div class="col-lg-6">
-                          <div class="content-panel">
-							  <h4><i class="fa fa-angle-right"></i> Doughnut</h4>
-                              <div class="panel-body text-center">
-                                  <canvas id="doughnut" height="300" width="400"></canvas>
-                              </div>
-                          </div>
-                      </div>
-                      <div class="col-lg-6">
-                          <div class="content-panel">
-							  <h4><i class="fa fa-angle-right"></i> Line</h4>
-                              <div class="panel-body text-center">
-                                  <canvas id="line" height="300" width="400"></canvas>
-                              </div>
-                          </div>
-                      </div>
-                  </div>
-                  <div class="row mt">
-                      <div class="col-lg-6">
-                          <div class="content-panel">
-							  <h4><i class="fa fa-angle-right"></i> Radar</h4>
-                              <div class="panel-body text-center">
-                                  <canvas id="radar" height="300" width="400"></canvas>
-                              </div>
-                          </div>
-                      </div>
-                      <div class="col-lg-6">
-                          <div class="content-panel">
-							  <h4><i class="fa fa-angle-right"></i> Polar Area</h4>
-                              <div class="panel-body text-center">
-                                  <canvas id="polarArea" height="300" width="400"></canvas>
-                              </div>
-                          </div>
-                      </div>
-                  </div>
-                  <div class="row mt">
-                      <div class="col-lg-6">
-                          <div class="content-panel">
-							  <h4><i class="fa fa-angle-right"></i> Bar</h4>
-                              <div class="panel-body text-center">
-                                  <canvas id="bar" height="300" width="400"></canvas>
-                              </div>
-                          </div>
-                      </div>
-                      <div class="col-lg-6">
-                          <div class="content-panel">
-							  <h4><i class="fa fa-angle-right"></i> Pie</h4>
-                              <div class="panel-body text-center">
-                                  <canvas id="pie" height="300" width="400"></canvas>
-                              </div>
-                          </div>
-                      </div>
-                  </div>
-              </div>
-              <!-- page end-->
           </section>          
       </section><!-- /MAIN CONTENT -->
 
-      <!--main content end-->
-      <!--footer start-->
-      <footer class="site-footer">
-          <div class="text-center">
-               Distributed By: <a class="" href="https://htmltemplates.co" target="_blank">HTMLtemplates.co</a>
-              <a href="chartjs.html#" class="go-top">
-                  <i class="fa fa-angle-up"></i>
-              </a>
-          </div>
-      </footer>
       <!--footer end-->
   </section>
 
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="scripts/chart2.js"></script>
     <!-- js placed at the end of the document so the pages load faster -->
     <script src="assets/js/jquery.js"></script>
     <script src="assets/js/bootstrap.min.js"></script>
