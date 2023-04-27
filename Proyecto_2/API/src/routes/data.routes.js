@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { filtarAgua, filtarHumedad, filtarTmpExt, filtarTmpInt, getControlArduino, getHumedad, filtrarEstBomba, manipularBomba, setSensors } from "../controllers/data.controller.js";
+import { filtarAgua, filtarHumedad, filtarTmpExt, filtarTmpInt, getControlArduino, getHumedad, filtrarEstBomba, manipularBomba, setSensors, onOffBomba } from "../controllers/data.controller.js";
 
 const router = Router();
 
@@ -20,5 +20,7 @@ router.get("/getHumedad", getHumedad)
 router.post("/manipularBomba", manipularBomba);
 
 router.post("/filtrarEstBomba", filtrarEstBomba)
+
+router.post("/onOffBomba", onOffBomba);
 
 export default router;

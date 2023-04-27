@@ -44,7 +44,8 @@ export const getControlArduino = async (req, res) => {
 
 export const getHumedad = async (req, res) => {
     const [rows] = await pool.query("SELECT humedad FROM control WHERE id = 1");
-    res.send(rows);
+    // console.log(rows[0].humedad);
+    res.json(rows[0].humedad);
 }
 
 export const filtrarEstBomba = async (req, res) => {
@@ -56,5 +57,11 @@ export const filtrarEstBomba = async (req, res) => {
 export const manipularBomba = async (req, res) => {
     const { tmp_conf, est_bomba } = req.body;
     const [rows] = await pool.query("UPDATE control SET tmp_conf = ?, est_bomba = ? WHERE id = 1", [tmp_conf, est_bomba]);
+    res.send("OK");
+}
+
+export const onOffBomba = async (req, res) => {
+    const {est_bomba } = req.body;
+    const [rows] = await pool.query("UPDATE control SET est_bomba = ? WHERE id = 1", [est_bomba]);
     res.send("OK");
 }
