@@ -45,6 +45,7 @@ int tiempo_trabajando = 0;
 const float VelSon = 34000.0;
 //obtener response:
 int c;
+
 //PARA MANEJAR ESTADOS:
 enum Manejo {
   Apagado,
@@ -61,6 +62,9 @@ Estado estadoActual;
 Manejo manejoActual;
 
 void estadoS0() {
+  if (manejoActual == Manejo::Apagado) {
+    cambio(Estado::S0);
+  }
   if (manejoActual == Manejo::Encendido) {
     cambio(Estado::S1);
   }
@@ -70,12 +74,29 @@ void estadoS1() {
   if (manejoActual == Manejo::Apagado) {
     cambio(Estado::S0);
   }
+
+  if (manejoActual == Manejo::Encendido) {
+    cambio(Estado::S1);
+  }
 }
 
 void updateState() {
   switch (estadoActual) {
-    case Estado::S0: PumpOff(); break;
-    case Estado::S1: PumpWork(tiempo_trabajando); break;
+    case S0: estadoS0(); break;
+    case S1: estadoS1(); break;
+  }
+}
+
+void readState() {
+  manejoActual = Manejo::Apagado;
+
+  if (estado_bomba == 1 || estado_bomba == 0) {
+    int inc = estado_bomba;
+    switch (inc) {
+      case 0: manejoActual = Manejo::Apagado; break;
+      case 1: manejoActual = Manejo::Encendido; break;
+      default: break;
+    }
   }
 }
 
@@ -85,7 +106,6 @@ void cambio(int nuevoEstado) {
   switch (estadoActual) {
     case Estado::S0: PumpOff(); break;
     case Estado::S1: PumpWork(tiempo_trabajando); break;
-
     default: break;
   }
 }
@@ -114,6 +134,9 @@ void setup() {
     Serial.println("BMP280 no encontrado !"); // texto y detener flujo del programa
     while (1);          // mediante bucle infinito
   }
+
+  estadoActual = S0;
+  PumpOff();
 }
 
 //LOOP
@@ -123,34 +146,15 @@ void loop() {
 
   readState();
   updateState();
-  // startUS();
-  // obtDistancia();
-  //obtTempInterna();
-  //obtTempExterna();
-  //humedadSuelo();
-}
-
-void readState() {
-  manejoActual = Manejo::Unknown;
-
-  if (Serial.available()) {
-    char inc = (char)estado_bomba;
-
-    switch (inc) {
-      case '0': manejoActual = Manejo::Apagado; break;
-      case '1': manejoActual = Manejo::Encendido; break;
-      default: break;
-    }
-  }
 }
 
 //SI SE ENCIENDE:
 void PumpWork(int seconds) {
-  Serial.println("PUMP WORK");
-  if (seconds > 0&& estado_bomba == 1) {
-    digitalWrite(13, HIGH);
+  unsigned long startTime = millis();
+  if (seconds > 0 && estado_bomba == 1) {
+    digitalWrite(bomba, HIGH);
   }
-  while (seconds > 0 && estado_bomba == 1) {
+  while (millis() - startTime < seconds*1000 && estado_bomba == 1) {
     GETDatos();
     POSTDatos();
     if (estado_bomba == 0) {
@@ -163,14 +167,16 @@ void PumpWork(int seconds) {
     obtTempExterna();
     humedadSuelo();
     /*Funcionamiento Bomba*/
-    delay(800);
-    seconds--;
+    delay(200);
   }
-  digitalWrite(13, LOW);
+  estado_bomba = 0;
+  digitalWrite(bomba, LOW);
+  POSTDatos();
+  POSTDatos2();
 }
+
 //SI ESTÁ APAGADA:
 void PumpOff() {
-  Serial.println("PUMP OFF");
   startUS();
   obtDistancia();
   obtTempInterna();
@@ -185,7 +191,14 @@ String postJSON() {
   exit += "\"tmp_int\":" + String(tmp_int) + ",";
   exit += "\"tmp_ext\":" + String(tmp_ext) + ",";
   exit += "\"pr_agua\":" + String(pr_agua) + ",";
-  exit += "\"estado_bomba\":" + String(estado_bomba);
+  exit += "\"est_bomba\":" + String(estado_bomba);
+  exit += "}";
+  return exit;
+}
+
+String postJSONControl() {
+  String exit = "{";
+  exit += "\"est_bomba\":" + String(estado_bomba);
   exit += "}";
   return exit;
 }
@@ -193,19 +206,43 @@ String postJSON() {
 //POST PARA API
 void POSTDatos() {
   String json = postJSON();
-  client.print("POST /setValues HTTP/1.1\r\n");
-  client.print("Host: ");
-  client.print(String(server));
-  client.print("\r\n");
-  client.print("Content-Type: application/json\r\n");
-  client.print("Content-Length: ");
-  client.print(json.length());
-  client.print("\r\n\r\n");
-  client.print(json);
-  client.stop();
-  delay(100);
 
-  Serial.println(json);
+  if (client.connect(server, port)) {
+    client.print("POST /setValues HTTP/1.1\r\n");
+    client.print("Host: ");
+    client.print(String(server));
+    client.print("\r\n");
+    client.print("Content-Type: application/json\r\n");
+    client.print("Content-Length: ");
+    client.print(json.length());
+    client.print("\r\n\r\n");
+    client.print(json);
+    client.stop();
+    delay(100);
+
+    Serial.println(json);
+  }
+
+}
+
+//POST PARA API
+void POSTDatos2() {
+  String json = postJSONControl();
+
+  if (client.connect(server, port)) {
+    client.print("POST /onOffBomba HTTP/1.1\r\n");
+    client.print("Host: ");
+    client.print(String(server));
+    client.print("\r\n");
+    client.print("Content-Type: application/json\r\n");
+    client.print("Content-Length: ");
+    client.print(json.length());
+    client.print("\r\n\r\n");
+    client.print(json);
+    client.stop();
+    delay(100);
+  }
+
 }
 
 void GETDatos() {
@@ -293,7 +330,6 @@ void obtDistancia() {
   }
   float porcentaje = getPor(distance);
   pr_agua = porcentaje;
-  delay(500);
 }
 
 float getPor(float dis) {
