@@ -37,6 +37,7 @@ function Filtrar4(){
 
     })
     .then(response =>{
+        console.log(response);
         for(let i = 0; i < response.length; i++){
             let time = new Date(response[i].tiempo);
             let tiempo =  time.getDate() + "/" + (time.getMonth() + 1) + "/" + time.getFullYear() + " - " + time.getHours() + ":" + time.getMinutes() + ":" + time.getSeconds();
