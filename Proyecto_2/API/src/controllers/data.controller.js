@@ -45,7 +45,7 @@ export const getControlArduino = async (req, res) => {
 export const getHumedad = async (req, res) => {
     const [rows] = await pool.query("SELECT humedad FROM control WHERE id = 1");
     // console.log(rows[0].humedad);
-    res.json(rows[0].humedad);
+    res.json(rows[0]);
 }
 
 export const filtrarEstBomba = async (req, res) => {
