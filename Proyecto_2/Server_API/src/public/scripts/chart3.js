@@ -3,7 +3,7 @@ let labels_fecha = []
 let values_humedad = []
 
 let ch3 = new Chart(ctx3, {
-    type: 'bar',
+    type: 'line',
     data: {
         labels: labels_fecha,
         datasets: [{

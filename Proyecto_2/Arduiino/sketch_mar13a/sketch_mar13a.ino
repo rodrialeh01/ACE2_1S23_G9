@@ -280,9 +280,12 @@ void GETDatos() {
       return;
     }
 
-    estado_bomba = doc[0]["est_bomba"];
-    tiempo_trabajando = doc[0]["tmp_conf"];
-    int tmp_act = doc[0]["tmp_act"];
+    if (int(doc[0]["est_bomba"]) != estado_bomba) {
+        estado_bomba = int(doc[0]["est_bomba"]); 
+    }
+    
+    tiempo_trabajando = int(doc[0]["tmp_conf"]);
+    int tmp_act = int(doc[0]["tmp_act"]);
     delay(100);
   } else {
     client.println("Failed to connect to server");

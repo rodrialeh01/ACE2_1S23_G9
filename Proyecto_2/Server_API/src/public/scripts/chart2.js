@@ -3,7 +3,7 @@ let labels_fecha2 = []
 let values_ti = []
 
 let ch2 = new Chart(ctx2, {
-    type: 'bar',
+    type: 'line',
     data: {
         labels: labels_fecha2,
         datasets: [{

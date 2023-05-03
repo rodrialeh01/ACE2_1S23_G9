@@ -3,7 +3,7 @@ const ctx = document.getElementById('grafica1');
 let labels_fecha = []
 let values_te = []
 let ch1 = new Chart(ctx, {
-    type: 'bar',
+    type: 'line',
     data: {
         labels: labels_fecha,
         datasets: [{

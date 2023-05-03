@@ -3,7 +3,7 @@ let labels_fecha = []
 let values_agua = []
 
 let ch4 = new Chart(ctx4, {
-    type: 'bar',
+    type: 'line',
     data: {
         labels: labels_fecha,
         datasets: [{
