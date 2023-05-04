@@ -4,7 +4,7 @@ export const setSensors = async (req, res) =>
 {
     const { humedad, tmp_int, tmp_ext, pr_agua, est_bomba } = req.body;
     const [rows] = await pool.query("INSERT INTO sensores (humedad, tmp_int, tmp_ext, pr_agua, est_bomba) VALUES (?, ?, ?, ?, ?)", [humedad, tmp_int, tmp_ext, pr_agua, est_bomba]);
-    const [rows2] = await pool.query("UPDATE control SET humedad = ? WHERE id = 1", [humedad]);
+    const [rows2] = await pool.query("UPDATE control SET humedad = ?, pr_agua = ? WHERE id = 1", [humedad, pr_agua]);
     res.send("OK");
 };
 
@@ -43,7 +43,7 @@ export const getControlArduino = async (req, res) => {
 }
 
 export const getHumedad = async (req, res) => {
-    const [rows] = await pool.query("SELECT humedad FROM control WHERE id = 1");
+    const [rows] = await pool.query("SELECT humedad, pr_agua FROM control WHERE id = 1");
     // console.log(rows[0].humedad);
     res.json(rows[0]);
 }
