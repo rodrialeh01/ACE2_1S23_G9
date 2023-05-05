@@ -2,9 +2,53 @@
 const ctx = document.getElementById('grafica1');
 let labels_fecha = []
 let values_te = []
+let ch1 = new Chart(ctx, {
+    type: 'bar',
+    data: {
+        labels: labels_fecha,
+        datasets: [{
+            label: '°C',
+            data: values_te,
+            backgroundColor: 'rgba(255, 99, 132, 0.2)',
+            borderColor: 'rgba(255, 99, 132, 1)',
+            borderWidth: 1
+        }]
+    },
+    options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        scales: {
+            yAxes: [{
+                ticks: {
+                    beginAtZero: true
+                }
+            }]
+        },
+        scales: {
+            y: {
+                ticks: {
+                    callback: function(value, index, values) {
+                        var numValue = parseFloat(value);
+                        return numValue.toFixed(1) + '°C';
+                    }
+                },
+                title: {
+                    display: true,
+                    text: 'Temperatura (°C)'
+                }
+            },
+            x: {
+                title: {
+                    display: true,
+                    text: 'Tiempo'
+                }
+            }
+        }
+    }
+});
 function Filtrar(){
-    labels_fecha = []
-    values_te = []
+    labels_fecha.splice(0, labels_fecha.length);
+    values_te.splice(0, values_te.length);
     const fi = document.getElementById('fecha_inicio');
     const ff = document.getElementById('fecha_fin');
     const hi = document.getElementById('hora_inicio');
@@ -47,31 +91,8 @@ function Filtrar(){
             labels_fecha.push(tiempo);
             values_te.push(response[i].tmp_ext);
         }
+        console.log(labels_fecha);
+        console.log(values_te);
+        ch1.update();
     })
 }
-
-
-new Chart(ctx, {
-    type: 'line',
-    data: {
-        labels: labels_fecha,
-        datasets: [{
-            label: '°C',
-            data: values_te,
-            backgroundColor: 'rgba(255, 99, 132, 0.2)',
-            borderColor: 'rgba(255, 99, 132, 1)',
-            borderWidth: 1
-        }]
-    },
-    options: {
-        responsive: true,
-        maintainAspectRatio: false,
-        scales: {
-            yAxes: [{
-                ticks: {
-                    beginAtZero: true
-                }
-            }]
-        }
-    }
-});

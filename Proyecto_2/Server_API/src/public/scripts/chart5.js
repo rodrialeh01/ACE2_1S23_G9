@@ -2,9 +2,51 @@ const ctx5 = document.getElementById('grafica5').getContext('2d');
 let labels_fecha = []
 let values_bomba = []
 
+let ch5 = new Chart(ctx5, {
+    type: 'line',
+    data: {
+        labels: labels_fecha,
+        datasets: [{
+            label: 'Señal',
+            data: values_bomba,
+            borderColor: 'rgba(51, 2, 94, 1)',
+            backgroundColor: 'rgba(51, 2, 94, 0.2)',
+            pointBackgroundColor: 'rgba(51, 2, 94, 1)',
+            pointBorderColor: '#fff',
+            pointRadius: 5,
+            pointHoverRadius: 7,
+            lineTension: 0.1,
+            stepped: true
+        }]
+    },
+    options: {
+        scales: {
+            y: {
+                ticks: {
+                    stepSize: 1,
+                    callback: function(value, index, values) {
+                        return value == 1 ? 'ON' : 'OFF';
+                    }
+                },
+                title: {
+                    display: true,
+                    text: 'Estado de la bomba'
+                }
+            },
+            x: {
+                title: {
+                    display: true,
+                    text: 'Tiempo'
+                }
+            }
+        }
+    }
+});
+
+
 function Filtrar5(){
-    labels_fecha = []
-    values_bomba = []
+    labels_fecha.splice(0, labels_fecha.length);
+    values_bomba.splice(0, values_bomba.length);
     const fi = document.getElementById('fecha_inicio5');
     const ff = document.getElementById('fecha_fin5');
     const hi = document.getElementById('hora_inicio5');
@@ -46,38 +88,7 @@ function Filtrar5(){
             labels_fecha.push(tiempo);
             values_bomba.push(response[i].est_bomba);
         }
+        ch5.update();
     })
 }
-
-new Chart(ctx5, {
-    type: 'line',
-    data: {
-        labels: labels_fecha,
-        datasets: [{
-            label: 'Señal',
-            data: values_bomba,
-            borderColor: 'rgba(255, 99, 132, 1)',
-            backgroundColor: 'rgba(255, 99, 132, 0.2)',
-            pointBackgroundColor: 'rgba(255, 99, 132, 1)',
-            pointBorderColor: '#fff',
-            pointRadius: 5,
-            pointHoverRadius: 7,
-            lineTension: 0.1,
-            stepped: true
-        }]
-    },
-    options: {
-        scales: {
-            y: {
-                ticks: {
-                    stepSize: 1,
-                    callback: function(value, index, values) {
-                        return value == 1 ? 'ON' : 'OFF';
-                    }
-                }
-            }
-        }
-    }
-});
-
 

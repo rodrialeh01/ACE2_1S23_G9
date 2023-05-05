@@ -1,9 +1,48 @@
 const ctx4 = document.getElementById('grafica4');
 let labels_fecha = []
 let values_agua = []
+
+let ch4 = new Chart(ctx4, {
+    type: 'bar',
+    data: {
+        labels: labels_fecha,
+        datasets: [{
+            label: '%',
+            data: values_agua,
+            backgroundColor: 'rgba(0, 65, 97, 0.2)',
+            borderColor: 'rgba(0, 65, 97, 1)',
+            borderWidth: 1
+        }]
+    },
+    options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        scales: {
+            y: {
+                ticks: {
+                    callback: function(value, index, values) {
+                        var numValue = parseFloat(value);
+                        return numValue.toFixed(1) + '%';
+                    }
+                },
+                title: {
+                    display: true,
+                    text: 'Porcentaje de agua (%)'
+                }
+            },
+            x: {
+                title: {
+                    display: true,
+                    text: 'Tiempo'
+                }
+            }
+        }
+    }
+});
+
 function Filtrar4(){
-    labels_fecha = []
-    values_agua = []
+    labels_fecha.splice(0, labels_fecha.length);
+    values_agua.splice(0, values_agua.length);
     const fi = document.getElementById('fecha_inicio4');
     const ff = document.getElementById('fecha_fin4');
     const hi = document.getElementById('hora_inicio4');
@@ -46,31 +85,6 @@ function Filtrar4(){
             labels_fecha.push(tiempo);
             values_agua.push(response[i].pr_agua);
         }
+        ch4.update();
     })
 }
-
-
-new Chart(ctx4, {
-    type: 'line',
-    data: {
-        labels: labels_fecha,
-        datasets: [{
-            label: '%',
-            data: values_agua,
-            backgroundColor: 'rgba(255, 99, 132, 0.2)',
-            borderColor: 'rgba(255, 99, 132, 1)',
-            borderWidth: 1
-        }]
-    },
-    options: {
-        responsive: true,
-        maintainAspectRatio: false,
-        scales: {
-            yAxes: [{
-                ticks: {
-                    beginAtZero: true
-                }
-            }]
-        }
-    }
-});

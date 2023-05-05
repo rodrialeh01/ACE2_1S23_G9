@@ -1,9 +1,48 @@
 const ctx3 = document.getElementById('grafica3').getContext('2d');
 let labels_fecha = []
 let values_humedad = []
+
+let ch3 = new Chart(ctx3, {
+    type: 'bar',
+    data: {
+        labels: labels_fecha,
+        datasets: [{
+            label: '% de humedad',
+            data: values_humedad,
+            backgroundColor: 'rgba(92, 23, 0, 0.2)',
+            borderColor: 'rgba(92, 23, 0, 1)',
+            borderWidth: 1
+        }]
+    },
+    options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        scales: {
+            y: {
+                ticks: {
+                    callback: function(value, index, values) {
+                        var numValue = parseFloat(value);
+                        return numValue.toFixed(1) + '%';
+                    }
+                },
+                title: {
+                    display: true,
+                    text: 'Porcentaje de humedad (%)'
+                }
+            },
+            x: {
+                title: {
+                    display: true,
+                    text: 'Tiempo'
+                }
+            }
+        }
+    }
+});
+
 function Filtrar3(){
-    labels_fecha = []
-    values_humedad = []
+    labels_fecha.splice(0, labels_fecha.length);
+    values_humedad.splice(0, values_humedad.length);
     const fi = document.getElementById('fecha_inicio3');
     const ff = document.getElementById('fecha_fin3');
     const hi = document.getElementById('hora_inicio3');
@@ -26,7 +65,7 @@ function Filtrar3(){
         "fechaInicio": fecha_i,
         "fechaFinal": fecha_f
     }
-    fetch('http://localhost:4001/filtrarHumedad', {
+    fetch('http://localhost:4001/filtarHumedad', {
         method: 'POST',
         body: JSON.stringify(filtro),
         headers: {
@@ -47,30 +86,6 @@ function Filtrar3(){
             labels_fecha.push(tiempo);
             values_humedad.push(response[i].humedad);
         }
+        ch3.update();
     })
 }
-
-new Chart(ctx3, {
-    type: 'line',
-    data: {
-        labels: labels_fecha,
-        datasets: [{
-            label: '%',
-            data: values_humedad,
-            backgroundColor: 'rgba(255, 99, 132, 0.2)',
-            borderColor: 'rgba(255, 99, 132, 1)',
-            borderWidth: 1
-        }]
-    },
-    options: {
-        responsive: true,
-        maintainAspectRatio: false,
-        scales: {
-            yAxes: [{
-                ticks: {
-                    beginAtZero: true
-                }
-            }]
-        }
-    }
-});

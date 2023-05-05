@@ -1,9 +1,48 @@
 const ctx2 = document.getElementById('grafica2').getContext('2d');
 let labels_fecha2 = []
 let values_ti = []
+
+let ch2 = new Chart(ctx2, {
+    type: 'bar',
+    data: {
+        labels: labels_fecha2,
+        datasets: [{
+            label: '°C',
+            data: values_ti,
+            backgroundColor: 'rgba(28, 133, 214, 0.2)',
+            borderColor: 'rgba(28, 133, 214, 1)',
+            borderWidth: 1
+        }]
+    },
+    options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        scales: {
+            y: {
+                ticks: {
+                    callback: function(value, index, values) {
+                        var numValue = parseFloat(value);
+                        return numValue.toFixed(1) + '°C';
+                    }
+                },
+                title: {
+                    display: true,
+                    text: 'Temperatura (°C)'
+                }
+            },
+            x: {
+                title: {
+                    display: true,
+                    text: 'Tiempo'
+                }
+            }
+        }
+    }
+});
+
 function Filtrar2(){
-    labels_fecha2 = []
-    values_ti = []
+    labels_fecha2.splice(0, labels_fecha2.length);
+    values_ti.splice(0, values_ti.length);
     const fi = document.getElementById('fecha_inicio2');
     const ff = document.getElementById('fecha_fin2');
     const hi = document.getElementById('hora_inicio2');
@@ -47,30 +86,6 @@ function Filtrar2(){
             labels_fecha2.push(tiempo);
             values_ti.push(response[i].tmp_int);
         }
+        ch2.update();
     })
 }
-
-new Chart(ctx2, {
-    type: 'line',
-    data: {
-        labels: labels_fecha2,
-        datasets: [{
-            label: '°C',
-            data: values_ti,
-            backgroundColor: 'rgba(255, 99, 132, 0.2)',
-            borderColor: 'rgba(255, 99, 132, 1)',
-            borderWidth: 1
-        }]
-    },
-    options: {
-        responsive: true,
-        maintainAspectRatio: false,
-        scales: {
-            yAxes: [{
-                ticks: {
-                    beginAtZero: true
-                }
-            }]
-        }
-    }
-});
