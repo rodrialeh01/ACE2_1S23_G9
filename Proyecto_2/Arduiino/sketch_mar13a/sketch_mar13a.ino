@@ -23,7 +23,7 @@ SoftwareSerial Serial1(18, 19); // RX, TX
 // ------------------------- PARA ESP
 char ssid[] = "TIGO-A923";
 char password[] = "2D9657302612";
-IPAddress server(192, 168, 0, 2);
+IPAddress server(192, 168, 0, 3);
 int port = 4001;
 int status = WL_IDLE_STATUS;
 WiFiEspClient client;
@@ -206,7 +206,7 @@ String postJSONControl() {
 //POST PARA API
 void POSTDatos() {
   String json = postJSON();
-
+delay(100);
   if (client.connect(server, port)) {
     client.print("POST /setValues HTTP/1.1\r\n");
     client.print("Host: ");
@@ -228,7 +228,8 @@ void POSTDatos() {
 //POST PARA API
 void POSTDatos2() {
   String json = postJSONControl();
-
+  delay(100);
+  Serial.println("HOLA----------------------");
   if (client.connect(server, port)) {
     client.print("POST /onOffBomba HTTP/1.1\r\n");
     client.print("Host: ");
@@ -252,7 +253,7 @@ void GETDatos() {
   if (client.connect(server, port)) {
     String env = "GET /getControlArduino HTTP/1.1";
     client.println(env);
-    client.println(F("Host: 192.168.0.2:4001"));
+    client.println(F("Host: 192.168.0.3:4001"));
     client.println("Connection: close");
     client.println();
 
@@ -282,7 +283,7 @@ void GETDatos() {
     estado_bomba = doc[0]["est_bomba"];
     tiempo_trabajando = doc[0]["tmp_conf"];
     int tmp_act = doc[0]["tmp_act"];
-
+    delay(100);
   } else {
     client.println("Failed to connect to server");
   }
