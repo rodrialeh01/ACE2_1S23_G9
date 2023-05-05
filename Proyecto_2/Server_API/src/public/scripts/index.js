@@ -16,32 +16,75 @@ socket.on('values', (data) => {
 
     // Grafica de HUMEDAD
     let restante= 100 -Number(data[0].humedad);
-    var doughnutData2 = [
-        {
-            value: Number(data[0].humedad),
-            color:"#68dff0"
-        },
-        {
-            value : Number(restante),
-            color : "#444c57"
-        }
-    ];
-    var myDoughnut = new Chart(document.getElementById("serverstatus02").getContext("2d")).Doughnut(doughnutData2);
-    humedad_por.innerHTML = data[0].humedad + ' %  Humedad'
+    let data1 = [];
+    data1.push(data[0].humedad);
+    data1.push(restante);
+    let restante2 = 100 - Number(data[0].pr_agua);
+    let data2 = [];
+    data2.push(data[0].pr_agua);
+    data2.push(restante2);
 
-    //GRAFICA DE PORCENTAJE DE AGUA
-    let restante1= 100 -Number(data[0].pr_agua);
-    var doughnutData = [
-        {
-            value: Number(data[0].pr_agua),
-            color:"#68dff0"
+    let ghum = document.getElementById('serverstatus02');
+    new Chart(ghum, {
+        type: 'pie',
+        data: {
+            labels: ['%Humedad de la tierra', '%Restante'],
+            datasets: [{
+                label: '% de Humedad',
+                data: data1,
+                backgroundColor: [
+                    'rgba(54, 162, 235, 0.2)',
+                    'rgba(255, 99, 132, 0.2)',                    
+                    'rgba(255, 206, 86, 0.2)'
+                ],
+                borderWidth: 1
+            }]
         },
-        {
-            value : Number(restante1),
-            color : "#444c57"
+        options: {
+            responsive: true,
+            plugins: {
+                legend: {
+                    position: 'top',
+                },
+                title: {
+                    display: true,
+                    text: 'Gráfica de % de Humedad de la tierra'
+                }
+            },
+            animation: false 
         }
-    ];
-    var myDoughnut = new Chart(document.getElementById("serverstatus03").getContext("2d")).Doughnut(doughnutData);
+    });
+    humedad_por.innerHTML = data[0].humedad + ' %  Humedad'
+    let pagua = document.getElementById('serverstatus03');
+    new Chart(pagua, {
+        type: 'pie',
+        data: {
+            labels: ['% de agua', '%Restante'],
+            datasets: [{
+                label: '% de agua',
+                data: data2,
+                backgroundColor: [
+                    'rgba(54, 162, 235, 0.2)',
+                    'rgba(255, 99, 132, 0.2)',                    
+                    'rgba(255, 206, 86, 0.2)'
+                ],
+                borderWidth: 1
+            }]
+        },
+        options: {
+            responsive: true,
+            plugins: {
+                legend: {
+                    position: 'top',
+                },
+                title: {
+                    display: true,
+                    text: 'Gráfica de % de Agua'
+                }
+            },
+            animation: false 
+        }
+    });
     agua_por.innerHTML = data[0].pr_agua + ' %  Agua'
 
     //GRAFICA DE TEMPERATURA EXTERNA

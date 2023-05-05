@@ -2,6 +2,8 @@ const ctx4 = document.getElementById('grafica4');
 let labels_fecha = []
 let values_agua = []
 function Filtrar4(){
+    labels_fecha = []
+    values_agua = []
     const fi = document.getElementById('fecha_inicio4');
     const ff = document.getElementById('fecha_fin4');
     const hi = document.getElementById('hora_inicio4');

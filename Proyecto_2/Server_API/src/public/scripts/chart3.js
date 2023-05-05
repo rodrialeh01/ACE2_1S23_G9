@@ -1,7 +1,9 @@
-const ctx3 = document.getElementById('myChart3').getContext('2d');
+const ctx3 = document.getElementById('grafica3').getContext('2d');
 let labels_fecha = []
 let values_humedad = []
 function Filtrar3(){
+    labels_fecha = []
+    values_humedad = []
     const fi = document.getElementById('fecha_inicio3');
     const ff = document.getElementById('fecha_fin3');
     const hi = document.getElementById('hora_inicio3');

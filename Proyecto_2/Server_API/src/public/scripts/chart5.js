@@ -3,6 +3,8 @@ let labels_fecha = []
 let values_bomba = []
 
 function Filtrar5(){
+    labels_fecha = []
+    values_bomba = []
     const fi = document.getElementById('fecha_inicio5');
     const ff = document.getElementById('fecha_fin5');
     const hi = document.getElementById('hora_inicio5');

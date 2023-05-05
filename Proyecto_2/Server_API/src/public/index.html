@@ -141,11 +141,11 @@
                         <div class="showback col-md-6 mb" style="padding-right: 10%;">
                             <h4><i class="fa fa-angle-right"></i> Temperatura Externa</h4>
                             <div class="darkblue-header">
-                                <h5 id="te">20°C</h5>
+                                <h5 id="te">0°C</h5>
                             </div>
                             <div class="progress progress-striped active">
                             <div id="progressbar1" class="progress-bar"  role="progressbar" aria-valuenow="20" aria-valuemin="0" aria-valuemax="100" style="width: 20%">
-                                <span class="sr-only">20% Complete</span>
+                                <span class="sr-only">0% Complete</span>
                             </div>
                             </div>
                         </div><!-- /showback -->
@@ -153,42 +153,39 @@
 						<div class="showback col-md-6 mb">
                             <h4><i class="fa fa-angle-right"></i> Temperatura Interna</h4>
                             <div class="darkblue-header">
-                                <h5 id="ti">30°C</h5>
+                                <h5 id="ti">0°C</h5>
                             </div>
                             <div class="progress progress-striped active">
                             <div id="progressbar2" class="progress-bar"  role="progressbar" aria-valuenow="30" aria-valuemin="0" aria-valuemax="100" style="width: 30%">
-                                <span class="sr-only">30% Complete</span>
+                                <span class="sr-only">0% Complete</span>
                             </div>
                             </div>
                         </div><!-- /showback -->
 						
-                       <!-- <div class="col-md-6 mb">
-                            <div class="darkblue-panel pn">
+                       <div class="col-md-6 mb" height="100">
                                 <div class="darkblue-header">
                                     <h5>PORCENTAJE DE HUMEDAD</h5>
                                 </div>
-                              <canvas id="serverstatus02" height="120" width="120"></canvas>
+                              <canvas id="serverstatus02" height="50" width="50"></canvas>
                               <footer>
                                   <div class="pull-right">
                                       <h5 id="data_g_hum">0% Humedad</h5>
                                   </div>
                               </footer>
-                            </div> 
-                      </div>--><!-- /col-md-4 -->
+                      </div><!-- /col-md-4 -->
 
-						<!--<div class="col-md-6 mb">
-                            <div class="darkblue-panel pn">
+						<div class="col-md-6 mb">
+
                                 <div class="darkblue-header">
                                     <h5>PORCENTAJE DE AGUA</h5>
                                 </div>
-                              <canvas id="serverstatus03" height="120" width="120"></canvas>
+                              <canvas id="serverstatus03" height="50" width="50"></canvas>
                               <footer>
                                   <div class="pull-right">
                                       <h5 id="data_g_agua">0% Agua</h5>
                                   </div>
                               </footer>
-                            </div>
-                      </div>-->
+                      </div>
 					
                   </div><!-- /col-lg-9 END SECTION MIDDLE -->
 
@@ -197,6 +194,7 @@
       </section>
 
   </section>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="/socket.io/socket.io.js"></script>
     <script src="./scripts/index.js"></script>
     <!-- js placed at the end of the document so the pages load faster -->

@@ -3,6 +3,8 @@ const ctx = document.getElementById('grafica1');
 let labels_fecha = []
 let values_te = []
 function Filtrar(){
+    labels_fecha = []
+    values_te = []
     const fi = document.getElementById('fecha_inicio');
     const ff = document.getElementById('fecha_fin');
     const hi = document.getElementById('hora_inicio');

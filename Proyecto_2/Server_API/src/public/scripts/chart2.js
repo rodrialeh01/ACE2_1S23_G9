@@ -2,6 +2,8 @@ const ctx2 = document.getElementById('grafica2').getContext('2d');
 let labels_fecha2 = []
 let values_ti = []
 function Filtrar2(){
+    labels_fecha2 = []
+    values_ti = []
     const fi = document.getElementById('fecha_inicio2');
     const ff = document.getElementById('fecha_fin2');
     const hi = document.getElementById('hora_inicio2');
